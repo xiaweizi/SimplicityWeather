@@ -6,6 +6,8 @@
 
 作为 flutter 实战项目，包含状态管理、网络请求、数据缓存、自定义 view、自定义动画，三方统计，事件管理等技术点，实用且丰富。
 
+如果图片看不到，请前往 [『Flutter』一款风格简约功能丰富的天气](http://xiaweizi.cn/article/f7f8/)
+
 ### 体验
 
 点击[下载链接](http://xiaweizi.top/relase.apk)下载
