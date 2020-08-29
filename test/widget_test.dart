@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_dynamic_weather/main.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_dynamic_weather/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(FlutterApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
