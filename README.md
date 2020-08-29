@@ -31,9 +31,9 @@
 
 ![第一组](/images/weather_one.png)
 
-![第二组](http://xiaweizi.top/weather_two.png)
+![第二组](/images/weather_two.png)
 
-![第三组](http://xiaweizi.top/weather_three.png)
+![第三组](/images/weather_three.png)
 
 #### 一键换天
 
@@ -45,7 +45,7 @@
 
 目前支持多达 **12** 种不同的天气类型，其中包括：晴、多云、阴天、小中大雨、小中大雪、雾、霾、浮尘，为了更好，在关于页面有上角添加切换天气类型的入口，实时查看不同气象下不同的背景效果。下面用一种 GIF 图展示效果，鉴于 GIF 本身的局限，可能会模糊低帧，请下载 apk 自行体验。
 
-![一键换天](http://xiaweizi.top/changeWeather.gif)
+![一键换天](/images/changeWeather.gif)
 
 ### 技术介绍
 
