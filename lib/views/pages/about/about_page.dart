@@ -155,7 +155,7 @@ class _AboutPageState extends State<AboutPage> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    const url = 'https://github.com/xiaweizi';
+                                    const url = 'https://github.com/xiaweizi/SimplicityWeather';
                                     if (await canLaunch(url)) {
                                       await launch(url);
                                     }
