@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/views/pages/about/about_page.dart';
 import 'package:flutter_dynamic_weather/views/pages/manager/manager_page.dart';
@@ -12,6 +13,7 @@ class AppAnalysis extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route.settings.name != null) {
       weatherPrint("AppAnalysis didPush: ${route.settings.name}");
+      UmengAnalyticsPlugin.event(AnalyticsConstant.pageShow, label: "${route.settings.name}");
       UmengAnalyticsPlugin.pageStart(route.settings.name);
     }
   }

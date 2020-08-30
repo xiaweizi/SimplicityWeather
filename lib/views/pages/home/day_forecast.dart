@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/time_util.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/day_forecast_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class DayForecastView extends StatelessWidget {
   final WeatherModelResultDaily resultDaily;
@@ -93,80 +96,83 @@ class DayForecastView extends StatelessWidget {
         2;
     return GestureDetector(
       onTap: () {
+        UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "多日");
         showMaterialModalBottomSheet(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           ),
-          backgroundColor: WeatherUtil.getColor(WeatherUtil.convertWeatherType(
-              modelEntity?.result?.realtime?.skycon))[0],
+          backgroundColor: Colors.transparent,
           context: context,
-          builder: (context, scrollController) => Container(
-            height: 0.5.hp,
-            child: DayForecastDetail(
-              resultDaily: modelEntity?.result?.daily,
+          builder: (context, scrollController) => BlurRectWidget(
+            color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(
+                    modelEntity?.result?.realtime?.skycon))[0]
+                .withAlpha(60),
+            child: Container(
+              height: 0.5.hp,
+              child: DayForecastDetail(
+                resultDaily: modelEntity?.result?.daily,
+              ),
             ),
           ),
         );
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 13),
-        width: itemWidth,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-          color: ColorUtils.parse("#33ffffff"),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 50,
-                  child: Text(_getWeatherDayDesc(index),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1)),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Text("${_getWeatherDesc(index)}",
-                        textAlign: TextAlign.end,
+      child: BlurRectWidget(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 13),
+          width: itemWidth,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(_getWeatherDayDesc(index),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1)),
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    child: Text("${_getTemperatureDesc(index)}",
+                  Expanded(
+                    child: Container(
+                      child: Text("${_getWeatherDesc(index)}",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1)),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: Text("${_getTemperatureDesc(index)}",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 19,
+                              letterSpacing: 0.2,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    child: Text(_getAqiDesc(index),
+                        textAlign: TextAlign.end,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 19,
-                            letterSpacing: 0.2,
-                            fontWeight: FontWeight.w600)),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800)),
                   ),
-                ),
-                Container(
-                  width: 60,
-                  child: Text(_getAqiDesc(index),
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w800)),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

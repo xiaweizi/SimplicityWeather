@@ -10,11 +10,11 @@
 
 ### 体验
 
-点击[下载链接](http://xiaweizi.top/relase.apk)下载
+点击[下载链接](http://xiaweizi.top/SimplicityWeather-1_7.apk)下载
 
 或者直接扫描二维码抢先体验
 
-![二维码](http://xiaweizi.top/apk_qrcode.png)
+![第三组](/images/qrcode.png)
 
 ### 功能介绍
 
@@ -26,16 +26,17 @@
 - [x] 24小时&多日预报
 - [x] 丰富的生活指数
 - [x] 台风路径
+- [x] 背景高斯模糊
 - [x] 丰富多样的天气背景效果
 - [x] **一键换天**，做天气之子
 
 接下来多图警告
 
-![第一组](/images/weather_one.png)
+![第一组](/images/weather1.png)
 
-![第二组](/images/weather_two.png)
+![第二组](/images/weather2.png)
 
-![第三组](/images/weather_three.png)
+![第三组](/images/weather3.png)
 
 #### 一键换天
 
@@ -47,7 +48,9 @@
 
 目前支持多达 **12** 种不同的天气类型，其中包括：晴、多云、阴天、小中大雨、小中大雪、雾、霾、浮尘，为了更好，在关于页面有上角添加切换天气类型的入口，实时查看不同气象下不同的背景效果。下面用一种 GIF 图展示效果，鉴于 GIF 本身的局限，可能会模糊低帧，请下载 apk 自行体验。
 
-![一键换天](/images/changeWeather.gif)
+![一键换天1](/images/weather4.gif)
+![一键换天2](/images/weather5.gif)
+![一键换天3](/images/weather6.gif)
 
 ### 技术介绍
 
@@ -88,6 +91,7 @@ Fluter 为什么目前这么火热，以及开发的效率如此之高，除了�
 | [modal_bottom_sheet](https://pub.flutter-io.cn/packages/modal_bottom_sheet) | 底部弹窗                                                     |
 | [path_drawing](https://pub.flutter-io.cn/packages/path_drawing) | 绘制虚线 path 用到                                           |
 | [url_launcher](https://pub.flutter-io.cn/packages/url_launcher) | 通用跳转工具                                                 |
+| [package_info](https://pub.flutter-io.cn/packages/package_info) | 获取包相关信息                                               |
 
 ### 总结
 

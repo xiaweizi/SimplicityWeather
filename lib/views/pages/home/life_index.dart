@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
@@ -6,8 +7,10 @@ import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/time_util.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/app/res/common_extension.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LifeIndexView extends StatelessWidget {
@@ -129,20 +132,24 @@ class LifeIndexView extends StatelessWidget {
       ),
       onTap: () {
         if (detail.type != LifeIndexType.typhoon) {
+          UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "生活指数");
           showMaterialModalBottomSheet(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             ),
-            backgroundColor:
-            WeatherUtil.getColor(WeatherUtil.convertWeatherType(skycon))[0],
+            backgroundColor: Colors.transparent,
             context: context,
-            builder: (context, scrollController) => Container(
-              height: 0.5.hp,
-              child: _buildSheetWidget(context, detail.type),
+            builder: (context, scrollController) => BlurRectWidget(
+              color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(skycon))[0].withAlpha(60),
+              child: Container(
+                height: 0.5.hp,
+                child: _buildSheetWidget(context, detail.type),
+              ),
             ),
           );
         } else {
+          UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "台风路径");
           _launchURL();
         }
       },
@@ -213,19 +220,17 @@ class LifeIndexView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var itemWidth = (1.wp - DimenConstant.mainMarginStartEnd * 2) / 3 * 5 / 4;
-    return Container(
-      height: itemWidth * (1 + 1),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-        color: ColorUtils.parse("#33ffffff"),
-      ),
-      child: GridView.count(
-        childAspectRatio: 4.0 / 5,
-        physics: NeverScrollableScrollPhysics(),
-        crossAxisCount: 3,
-        children: lifeIndexDetail
-            .map((e) => _buildLifeIndexItem(context, e))
-            .toList(),
+    return BlurRectWidget(
+      child: Container(
+        height: itemWidth * (1 + 1),
+        child: GridView.count(
+          childAspectRatio: 4.0 / 5,
+          physics: NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          children: lifeIndexDetail
+              .map((e) => _buildLifeIndexItem(context, e))
+              .toList(),
+        ),
       ),
     );
   }

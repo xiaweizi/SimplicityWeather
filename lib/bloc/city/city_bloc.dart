@@ -41,6 +41,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       weatherPrint("定位结束: $location");
       CityModel cityModel = convert(location);
       cityModel.displayedName = WeatherUtil.getCityName(cityModel);
+      UmengAnalyticsPlugin.event(AnalyticsConstant.locatedCityName, label: "${cityModel.displayedName}");
       List<CityModel> cityModels = [];
       if (cityModel.latitude != 0.0 && cityModel.longitude != 0.0) {
         cityModels = await insertCityMode(cityModel);

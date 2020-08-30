@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/sun_rise_set.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,13 +28,22 @@ class RealTimeDetailView extends StatelessWidget {
       width: width,
       height: width / 2,
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: TextStyle(color: Color(0x99ffffff), fontSize: 14),),
-        SizedBox(height: 8,),
-        Text(desc, style: TextStyle(color: Color(0xffffffff), fontSize: 18),)
-      ],
-    ),);
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(color: Color(0x99ffffff), fontSize: 14),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            desc,
+            style: TextStyle(color: Color(0xffffffff), fontSize: 18),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildBottomWidget() {
@@ -44,7 +54,9 @@ class RealTimeDetailView extends StatelessWidget {
     String wind = defaultStr;
     String pm25 = defaultStr;
     String ultraviolet = defaultStr;
-    if (entity != null && entity.result != null && entity.result.realtime != null) {
+    if (entity != null &&
+        entity.result != null &&
+        entity.result.realtime != null) {
       var realtime = entity.result.realtime;
       if (realtime.apparentTemperature != null) {
         apparentTemp = "${realtime.apparentTemperature.toInt()}°";
@@ -61,7 +73,8 @@ class RealTimeDetailView extends StatelessWidget {
       if (realtime.airQuality != null && realtime.airQuality.pm25 != null) {
         pm25 = "${realtime.airQuality.pm25}";
       }
-      if (realtime.lifeIndex != null && realtime.lifeIndex.ultraviolet != null) {
+      if (realtime.lifeIndex != null &&
+          realtime.lifeIndex.ultraviolet != null) {
         ultraviolet = "${realtime.lifeIndex.ultraviolet.index}";
       }
     }
@@ -95,15 +108,13 @@ class RealTimeDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-        color: ColorUtils.parse("#33ffffff"),
-      ),
-      child: Column(
-        children: [
-          _buildSunSetRiseWidget(),
-          _buildBottomWidget(),
-        ],
+      child: BlurRectWidget(
+        child: Column(
+          children: [
+            _buildSunSetRiseWidget(),
+            _buildBottomWidget(),
+          ],
+        ),
       ),
     );
   }

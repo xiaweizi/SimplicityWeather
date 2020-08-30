@@ -8,6 +8,7 @@ import 'package:flutter_dynamic_weather/app/res/common_extension.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 
 class HourForecastView extends StatelessWidget {
   final WeatherModelResultHourly resultHourly;
@@ -61,10 +62,7 @@ class HourForecastView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-        color: ColorUtils.parse("#33ffffff"),
-      ),
+        child: BlurRectWidget(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: CustomPaint(
@@ -73,7 +71,7 @@ class HourForecastView extends StatelessWidget {
         ),
         scrollDirection: Axis.horizontal,
       ),
-    );
+    ));
   }
 }
 
@@ -180,8 +178,13 @@ class MyPaint extends CustomPainter {
       var showTimeParagraph = getParagraph("${element.showTime}");
       canvas.drawParagraph(
           showTimeParagraph,
-          Offset(x - showTimeParagraph.width / 2,
-              startY + itemHeight + showTimeMarginTop + iconHeight + iconMargin * 2));
+          Offset(
+              x - showTimeParagraph.width / 2,
+              startY +
+                  itemHeight +
+                  showTimeMarginTop +
+                  iconHeight +
+                  iconMargin * 2));
 
       // 添加背景点
     });
@@ -198,8 +201,11 @@ class MyPaint extends CustomPainter {
     weatherPrint("_weatherTypes.keys: ${_weatherTypes.keys}");
     bool flag = true;
     int lastIndex;
-    double bottomY =
-        temTextSize + temTextMarginBottom * 2 + itemHeight + iconHeight + iconMargin * 2;
+    double bottomY = temTextSize +
+        temTextMarginBottom * 2 +
+        itemHeight +
+        iconHeight +
+        iconMargin * 2;
     _bgPaint.style = PaintingStyle.fill;
     _weatherTypes.forEach((index, hourData) {
       if (lastIndex != null) {
@@ -217,19 +223,27 @@ class MyPaint extends CustomPainter {
           }
         });
         double middleX = (offsets.first.dx + offsets.last.dx) / 2;
-        double middleY = temTextSize + temTextMarginBottom * 2 + itemHeight + iconMargin;
+        double middleY =
+            temTextSize + temTextMarginBottom * 2 + itemHeight + iconMargin;
         var image = weatherImages[hourData.weatherType];
         canvas.save();
         double scale = iconHeight / image.height;
         canvas.scale(scale);
-        var iconOffset = Offset(middleX / scale - image.width / 2 * scale, middleY / scale);
+        var iconOffset =
+            Offset(middleX / scale - image.width / 2 * scale, middleY / scale);
         canvas.drawImage(image, iconOffset, _paint);
         canvas.restore();
 
         flag = !flag;
         var gradient = ui.Gradient.linear(
           Offset(0, temTextSize + temTextMarginBottom * 2),
-          Offset(0, temTextSize + temTextMarginBottom * 2 + itemHeight + iconHeight + iconMargin * 3),
+          Offset(
+              0,
+              temTextSize +
+                  temTextMarginBottom * 2 +
+                  itemHeight +
+                  iconHeight +
+                  iconMargin * 3),
           <Color>[
             flag ? const Color(0xFFffffff) : const Color(0x88FFffff),
             const Color(0x00FFFFFF)

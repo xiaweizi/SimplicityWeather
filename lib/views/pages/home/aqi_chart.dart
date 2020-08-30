@@ -5,6 +5,7 @@ import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui' as ui;
 
@@ -26,35 +27,31 @@ class AqiChartView extends StatelessWidget {
     int aqiValue = entity?.result?.realtime?.airQuality?.aqi?.chn;
     String aqiValueStr = aqiValue == null ? "0" : "$aqiValue";
     double aqiRatio = aqiValue == null ? 0 : aqiValue.toDouble() / 500;
-    double humidityValue = entity?.result?.realtime?.humidity??0;
+    double humidityValue = entity?.result?.realtime?.humidity ?? 0;
     String humidityStr = "${(humidityValue * 100).toInt()}%";
 
     return Row(
       children: [
-        Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-            color: ColorUtils.parse("#33ffffff"),
-          ),
-          child: CustomPaint(
-            painter: AqiChartPainter(aqiRatio, aqiValueStr,
-                entity?.result?.realtime?.airQuality?.description?.chn),
+        BlurRectWidget(
+          child: Container(
+            width: width,
+            height: height,
+            child: CustomPaint(
+              painter: AqiChartPainter(aqiRatio, aqiValueStr,
+                  entity?.result?.realtime?.airQuality?.description?.chn),
+            ),
           ),
         ),
         SizedBox(
           width: DimenConstant.dayMiddleMargin,
         ),
-        Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimenConstant.cardRadius),
-            color: ColorUtils.parse("#33ffffff"),
-          ),
-          child: CustomPaint(
-            painter: AqiChartPainter(humidityValue, humidityStr, "体感"),
+        BlurRectWidget(
+          child: Container(
+            width: width,
+            height: height,
+            child: CustomPaint(
+              painter: AqiChartPainter(humidityValue, humidityStr, "体感"),
+            ),
           ),
         ),
       ],
