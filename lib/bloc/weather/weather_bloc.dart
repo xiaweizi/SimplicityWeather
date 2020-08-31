@@ -58,7 +58,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           }
         });
         if (needRemoveKey != "") {
-          print('需要先移除定位城市 key: $needRemoveKey');
+          weatherPrint('需要先移除定位城市 key: $needRemoveKey');
           allWeatherData.remove(needRemoveKey);
         }
       }

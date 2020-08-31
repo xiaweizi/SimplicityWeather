@@ -10,7 +10,7 @@
 
 ### 体验
 
-点击[下载链接](http://xiaweizi.top/SimplicityWeather-1_7.apk)下载
+点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_0.apk)下载
 
 或者直接扫描二维码抢先体验
 

@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
+import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class RealtimeView extends StatelessWidget {
   final WeatherModelEntity entity;
@@ -29,6 +31,7 @@ class RealtimeView extends StatelessWidget {
     if (entity != null &&
         entity.result != null &&
         entity.result.realtime != null) {
+      UmengAnalyticsPlugin.event(AnalyticsConstant.weatherType, label: WeatherUtil.convertDesc(entity.result.realtime.skycon));
       child = Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,

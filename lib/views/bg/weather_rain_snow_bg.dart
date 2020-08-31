@@ -23,9 +23,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
   List<RainSnowParams> _rainSnows = [];
   double width = 0;
   double height = 0;
-  double scale = 0.0;
   int count = 0;
-  double speed = 0;
   double baseSpeed = 5;
 
   Future<void> fetchImages() async {
@@ -40,51 +38,35 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
 
   Future<void> initParams() async {
     if (width != 0 && height != 0 && _rainSnows.isEmpty) {
-      weatherPrint("开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget
-          .weatherType}, isRainy: ${WeatherUtil.isRainy(widget.weatherType)}");
+      weatherPrint(
+          "开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget.weatherType}, isRainy: ${WeatherUtil.isRainy(widget.weatherType)}");
       if (WeatherUtil.isSnowRain(widget.weatherType)) {
         if (widget.weatherType == WeatherType.lightRainy) {
-          scale = 0.1;
           count = 50;
-          speed = 10;
           baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.middleRainy) {
-          scale = 0.1;
-          count = 100;
-          speed = 20;
+          count = 80;
           baseSpeed = 80;
-        }  else if (widget.weatherType == WeatherType.heavyRainy) {
-          scale = 0.1;
-          count = 200;
-          speed = 40;
+        } else if (widget.weatherType == WeatherType.heavyRainy) {
+          count = 160;
           baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.lightSnow) {
-          scale = 0.5;
           count = 30;
-          speed = 10;
         } else if (widget.weatherType == WeatherType.middleSnow) {
-          scale = 0.5;
           count = 100;
-          speed = 15;
-        }  else if (widget.weatherType == WeatherType.heavySnow) {
-          scale = 0.6;
+        } else if (widget.weatherType == WeatherType.heavySnow) {
           count = 200;
-          speed = 15;
         }
         for (int i = 0; i < count; i++) {
-          double x = Random().nextInt(width ~/ scale).toDouble();
-          double y = Random().nextInt(height ~/ scale).toDouble();
-          _rainSnows.add(RainSnowParams(x, y, baseSpeed + Random().nextInt(speed.toInt()).toDouble()));
+          var rainSnow = RainSnowParams(width, height, widget.weatherType);
+          rainSnow.init();
+          _rainSnows.add(rainSnow);
         }
         weatherPrint("初始化雨参数成功 ${_rainSnows.length}");
-        setState(() {
-
-        });
+        setState(() {});
       }
     }
   }
-
-
 
   @override
   void initState() {
@@ -102,6 +84,12 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     _controller.forward();
     fetchImages();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -131,46 +119,69 @@ class RainSnowPainter extends CustomPainter {
   }
 
   void drawRain(Canvas canvas, Size size) {
-    weatherPrint("开始绘制雨层 image:${_state._images?.length}, rains:${_state._rainSnows?.length}");
+    weatherPrint(
+        "开始绘制雨层 image:${_state._images?.length}, rains:${_state._rainSnows?.length}");
     if (_state._images != null && _state._images.length > 1) {
       ui.Image image = _state._images[0];
-      canvas.save();
-      canvas.scale(_state.scale, _state.scale);
       if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
+          canvas.save();
+          canvas.scale(element.scale, element.scale);
+          var identity = ColorFilter.matrix(<double>[
+            1, 0, 0, 0, 0,
+            0, 1, 0, 0, 0,
+            0, 0, 1, 0, 0,
+            0, 0, 0, element.alpha, 0,
+          ]);
+          _paint.colorFilter = identity;
           canvas.drawImage(image, offset, _paint);
+          canvas.restore();
         });
       }
-      canvas.restore();
     }
   }
 
   void move(RainSnowParams params) {
     params.y = params.y + params.speed;
-    if (params.y > 800 / _state.scale) {
+    if (WeatherUtil.isSnow(_state.widget.weatherType)) {
+      double offsetX = sin(params.y / (300 + 50 * params.alpha)) * (1 + 0.5 * params.alpha);
+      params.x += offsetX;
+    }
+    if (params.y > 800 / params.scale) {
       params.y = 0;
-      if (WeatherUtil.isRainy(_state.widget.weatherType) && _state._images.isNotEmpty && _state._images[0] != null) {
+      if (WeatherUtil.isRainy(_state.widget.weatherType) &&
+          _state._images.isNotEmpty &&
+          _state._images[0] != null) {
         params.y = -_state._images[0].height.toDouble();
       }
+      params.reset();
     }
   }
 
   void drawSnow(Canvas canvas, Size size) {
-    weatherPrint("开始绘制雪层 image:${_state._images?.length}, rains:${_state._rainSnows?.length}");
+    weatherPrint(
+        "开始绘制雪层 image:${_state._images?.length}, rains:${_state._rainSnows?.length}");
     if (_state._images != null && _state._images.length > 1) {
       ui.Image image = _state._images[1];
-      canvas.save();
-      canvas.scale(_state.scale, _state.scale);
       if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
+          canvas.save();
+          canvas.scale(element.scale, element.scale);
+          var identity = ColorFilter.matrix(<double>[
+            1, 0, 0, 0, 0,
+            0, 1, 0, 0, 0,
+            0, 0, 1, 0, 0,
+            0, 0, 0, element.alpha, 0,
+          ]);
+          _paint.colorFilter = identity;
           canvas.drawImage(image, offset, _paint);
+          canvas.restore();
         });
       }
-      canvas.restore();
     }
   }
 
@@ -184,6 +195,60 @@ class RainSnowParams {
   double x;
   double y;
   double speed;
+  double scale;
+  double width;
+  double height;
+  double alpha;
+  WeatherType weatherType;
 
-  RainSnowParams(this.x, this.y, this.speed);
+  RainSnowParams(this.width, this.height, this.weatherType);
+
+  void init() {
+// 雨 0.1 雪 0.5
+    reset();
+    y = Random().nextInt(height ~/ scale).toDouble();
+  }
+
+  void reset() {
+    double initScale = 0.1;
+    double gapScale = 0.2;
+    double initSpeed = 40;
+    double gapSpeed = 40;
+    if (weatherType == WeatherType.lightRainy) {
+      initScale = 1.05;
+      gapScale = 0.1;
+      initSpeed = 15;
+      gapSpeed = 10;
+    } else if (weatherType == WeatherType.middleRainy) {
+      initScale = 1.07;
+      gapScale = 0.12;
+      initSpeed = 20;
+      gapSpeed = 20;
+    } else if (weatherType == WeatherType.heavyRainy) {
+      initScale = 1.09;
+      gapScale = 0.15;
+      initSpeed = 22;
+      gapSpeed = 20;
+    } else if (weatherType == WeatherType.lightSnow) {
+      initScale = 0.45;
+      gapScale = 0.05;
+      initSpeed = 2;
+      gapSpeed = 3;
+    } else if (weatherType == WeatherType.middleSnow) {
+      initScale = 0.4;
+      gapScale = 0.15;
+      initSpeed = 3;
+      gapSpeed = 6;
+    } else if (weatherType == WeatherType.heavySnow) {
+      initScale = 0.45;
+      gapScale = 0.2;
+      initSpeed = 4;
+      gapSpeed = 7;
+    }
+    double random = Random().nextDouble();
+    this.scale = initScale + gapScale * random;
+    this.speed = initSpeed + gapSpeed * (1 - random);
+    this.alpha = 0.1 + 0.9 * random;
+    x = Random().nextInt(width * 1.2 ~/ scale).toDouble() - width * 0.1 ~/ scale;
+  }
 }

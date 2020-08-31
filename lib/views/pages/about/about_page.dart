@@ -200,7 +200,7 @@ class _AboutPageState extends State<AboutPage> {
                               child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(_appName,
+                                    Text(_appName == null ? "" : _appName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,

@@ -1,10 +1,14 @@
-
 import 'package:flutter/widgets.dart';
 
-typedef WeatherPrint = void Function(String message, { int wrapWidth, String tag});
+typedef WeatherPrint = void Function(String message,
+    {int wrapWidth, String tag});
+
+const DEBUG = false;
 
 WeatherPrint weatherPrint = debugPrintThrottled;
 
-void debugPrintThrottled(String message, { int wrapWidth, String tag}) {
-  debugPrint("flutter-weather: $tag: $message", wrapWidth: wrapWidth);
+void debugPrintThrottled(String message, {int wrapWidth, String tag}) {
+  if (DEBUG) {
+    debugPrint("flutter-weather: $tag: $message", wrapWidth: wrapWidth);
+  }
 }
