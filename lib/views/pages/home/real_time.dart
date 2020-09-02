@@ -6,7 +6,11 @@ import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
+import 'package:flutter_dynamic_weather/views/pages/home/rain_detail.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RealtimeView extends StatelessWidget {
   final WeatherModelEntity entity;
@@ -75,7 +79,21 @@ class RealtimeView extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              weatherPrint("展示降雨图");
+              showMaterialModalBottomSheet(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                ),
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context, scrollController) => BlurRectWidget(
+                  color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(entity.result.realtime.skycon))[0].withAlpha(60),
+                  child: Container(
+                    height: 0.5.hp,
+                    child: RainDetailView(),
+                  ),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.only(left: 20),

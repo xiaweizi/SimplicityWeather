@@ -18,13 +18,15 @@ PODS:
     - Flutter
   - "location_permissions (3.0.0+1)":
     - Flutter
+  - package_info (0.0.1):
+    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - umeng_analytics_plugin (0.0.1):
     - Flutter
     - UMengAnalytics-NO-IDFA
   - UMengAnalytics-NO-IDFA (4.2.5)
-  - webview_flutter (0.0.1):
+  - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
@@ -34,9 +36,10 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - foundation_fluttify (from `.symlinks/plugins/foundation_fluttify/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - umeng_analytics_plugin (from `.symlinks/plugins/umeng_analytics_plugin/ios`)
-  - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
@@ -57,12 +60,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/foundation_fluttify/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   umeng_analytics_plugin:
     :path: ".symlinks/plugins/umeng_analytics_plugin/ios"
-  webview_flutter:
-    :path: ".symlinks/plugins/webview_flutter/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   amap_core_fluttify: bc2e4245c6a6d869727ed16b009a9fa3dbefcf4a
@@ -73,10 +78,11 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   foundation_fluttify: 0c45145e3fad1fb99188e4979daed5b24cd9b278
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   umeng_analytics_plugin: 7035dfb8c5636e50429ab935125e5a3f0d23e72e
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
-  webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

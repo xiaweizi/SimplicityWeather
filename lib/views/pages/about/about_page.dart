@@ -300,7 +300,7 @@ class _AboutPageState extends State<AboutPage> {
       recognizer: TapGestureRecognizer()
         ..onTap = () async {
           if (await canLaunch(url)) {
-            UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: show);
+            UmengAnalyticsPlugin.event(AnalyticsConstant.aboutClick, label: show);
             await launch(url);
           }
         },

@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
       });
     } else {
       if (result.districts != null && result.districts.isNotEmpty) {
-        UmengAnalyticsPlugin.event(AnalyticsConstant.cityTotalCount, label: "$keywords");
+        UmengAnalyticsPlugin.event(AnalyticsConstant.searchCityName, label: "$keywords");
         result.districts.forEach((element) {
           if (element.level == CityData.cityLevel ||
               element.level == CityData.districtLevel) {
