@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/router.dart';
+import 'package:flutter_dynamic_weather/app/utils/ota_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/shared_preference_util.dart';
 import 'package:flutter_dynamic_weather/app/utils/toast.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   void initState() {
     weatherPrint("umeng init event ${Platform.operatingSystem}");
     init();
+    OTAUtils.initOTA();
     super.initState();
   }
 

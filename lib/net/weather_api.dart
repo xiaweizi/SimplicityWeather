@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_weather/model/district_model_entity.dart';
 import 'package:flutter_dynamic_weather/net/net_manager.dart';
 
@@ -34,6 +35,14 @@ class WeatherApi {
   Future<dynamic> reGeo(String location) async {
     // WeatherModelEntity data = await WeatherApi.loadWeatherData("121.6544","25.1552");
     var res = await NetManager.getInstance().baseUrl(geoBaseUrl).get("$location");
+    if (res != null && res.status) {
+      return res.data;
+    }
+    return null;
+  }
+
+  Future<dynamic> getOTA() async {
+    var res = await NetManager.getInstance().baseUrl(otaBaseUrl).get("");
     if (res != null && res.status) {
       return res.data;
     }

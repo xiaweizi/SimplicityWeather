@@ -104,10 +104,11 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     );
   }
 }
-double thunderAlpha = 0.0;
+double thunderAlpha = 0.2;
 bool isShow = false;
-bool needShow = false;
+bool needShow = true;
 int timeCount = 0;
+int timeMacCount = Random().nextInt(200);
 
 class RainSnowPainter extends CustomPainter {
   var _paint = Paint();
@@ -172,6 +173,7 @@ class RainSnowPainter extends CustomPainter {
         isShow = false;
         needShow = false;
         timeCount = 0;
+        timeMacCount = 100 + Random().nextInt(200);
       }
       if (isShow == false) {
         thunderAlpha += 0.06;
@@ -180,7 +182,7 @@ class RainSnowPainter extends CustomPainter {
       }
     }
     timeCount += 1;
-    if (timeCount >= (250 + Random().nextInt(200))) {
+    if (timeCount >= timeMacCount) {
       needShow = true;
     }
   }

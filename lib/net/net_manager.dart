@@ -5,6 +5,7 @@ import 'package:flutter_dynamic_weather/net/response_interceptor.dart';
 const String weatherBaseUrl = "https://api.caiyunapp.com/v2.5/sas9gfwyRX2NVehl/";
 const String cityBaseUrl = "https://restapi.amap.com/v3/config/district?subdistrict=1&key=ac9de7774d497989173a1b16dc0290ae&keywords=";
 const String geoBaseUrl = "https://restapi.amap.com/v3/geocode/regeo?key=ac9de7774d497989173a1b16dc0290ae&location=";
+const String otaBaseUrl = "http://xiaweizi.online/config/ota/";
 const int _kReceiveTimeout = 15000;
 const int _kSendTimeout = 15000;
 const int _kConnectTimeout = 15000;
