@@ -33,7 +33,7 @@ class _RainDetailViewState extends State<RainDetailView> with SingleTickerProvid
         setState(() {
           _precipitation = precipitation;
         });
-        Future.delayed(Duration(milliseconds: 100)).then((value) => {
+        Future.delayed(Duration(milliseconds: 200)).then((value) => {
           _controller.forward()
         });
       }
