@@ -114,10 +114,10 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildSearchContent() {
     weatherPrint("创建搜索内容 state: $_state");
     if (_state == WidgetState.loading) {
-      return StateView(isDark: true);
+      return StateView();
     } else if (_state == WidgetState.error) {
       return Container(
-        child: StateView(isDark: true, weatherState: ViewState.error,),
+        child: StateView(weatherState: ViewState.error,),
       );
     } else {
       return SearchListView(

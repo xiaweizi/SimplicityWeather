@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
+import 'package:flutter_dynamic_weather/app/utils/ui_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_drawing/path_drawing.dart';
@@ -124,21 +125,9 @@ class SunSetRisePainter extends CustomPainter {
 
     var now = DateTime.now();
     String nowTimeStr = "${now.hour}:${now.minute}";
-    var nowTimePara = getParagraph(nowTimeStr, 14);
+    var nowTimePara = UiUtils.getParagraph(nowTimeStr, 14);
     canvas.drawParagraph(nowTimePara,
         Offset(sunOffset.dx - nowTimePara.width / 2, sunOffset.dy + 10));
-  }
-
-  ui.Paragraph getParagraph(String text, double textSize,
-      {Color color = Colors.white}) {
-    var pb = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.center, //居中
-      fontSize: textSize, //大小
-    ));
-    pb.addText(text);
-    pb.pushStyle(ui.TextStyle(color: color));
-    var paragraph = pb.build()..layout(ui.ParagraphConstraints(width: 100));
-    return paragraph;
   }
 
   @override

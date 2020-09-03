@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 
 enum ViewState { loading, error, empty }
 
 class StateView extends StatelessWidget {
   final ViewState weatherState;
-  final bool isDark;
 
   StateView(
-      {Key key, this.weatherState = ViewState.loading, this.isDark = false})
+      {Key key, this.weatherState = ViewState.loading})
       : super(key: key);
 
   String _getDesc() {
@@ -24,14 +24,14 @@ class StateView extends StatelessWidget {
     if (weatherState == ViewState.empty) {
       return Image.asset(
         "assets/images/empty.png",
-        color: isDark == true ? Color(0xffffffff) : Color(0xff000000),
+        color: Color(0xffffffff),
         width: 60,
         height: 60,
       );
     } else if (weatherState == ViewState.error) {
       return Image.asset(
         "assets/images/error.png",
-        color: isDark == true ? Color(0xffffffff) : Color(0xff000000),
+        color: Color(0xffffffff),
         width: 60,
         height: 60,
       );
@@ -48,33 +48,35 @@ class StateView extends StatelessWidget {
         child: new SizedBox(
           width: 120.0,
           height: 120.0,
-          child: new Container(
-            decoration: ShapeDecoration(
-              color: isDark == true ? Color(0xff000000) : Color(0xffffffff),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
+          child: BlurRectWidget(
+            color: Colors.black.withAlpha(100),
+            child: new Container(
+              width: 120.0,
+              height: 120.0,
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
                 ),
               ),
-            ),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _getWidget(),
-                new Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20.0,
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _getWidget(),
+                  new Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20.0,
+                    ),
+                    child: new Text(
+                      _getDesc(),
+                      style: TextStyle(
+                          color: Color(0xffffffff),
+                    ),
                   ),
-                  child: new Text(
-                    _getDesc(),
-                    style: TextStyle(
-                        color: isDark == true
-                            ? Color(0xffffffff)
-                            : Color(0xff000000)),
-                  ),
-                ),
-              ],
+                  )],
+              ),
             ),
           ),
         ),

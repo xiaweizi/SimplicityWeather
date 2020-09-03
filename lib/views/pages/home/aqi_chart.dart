@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
+import 'package:flutter_dynamic_weather/app/utils/ui_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,29 +90,17 @@ class AqiChartPainter extends CustomPainter {
     _paint.color = Colors.white;
     canvas.drawPath(_path, _paint);
 
-    var valuePara = getParagraph(value, 30);
+    var valuePara = UiUtils.getParagraph(value, 30);
     canvas.drawParagraph(
         valuePara,
         Offset(centerOffset.dx - valuePara.width / 2,
             centerOffset.dy - valuePara.height / 2));
 
-    var descPara = getParagraph("$desc", 15);
+    var descPara = UiUtils.getParagraph("$desc", 15);
     canvas.drawParagraph(
         descPara,
         Offset(centerOffset.dx - valuePara.width / 2,
             centerOffset.dy + valuePara.height / 2));
-  }
-
-  ui.Paragraph getParagraph(String text, double textSize,
-      {Color color = Colors.white}) {
-    var pb = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.center, //居中
-      fontSize: textSize, //大小
-    ));
-    pb.addText(text);
-    pb.pushStyle(ui.TextStyle(color: color));
-    var paragraph = pb.build()..layout(ui.ParagraphConstraints(width: 100));
-    return paragraph;
   }
 
   @override

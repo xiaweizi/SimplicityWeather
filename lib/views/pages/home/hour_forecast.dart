@@ -3,6 +3,7 @@ import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
+import 'package:flutter_dynamic_weather/app/utils/ui_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/app/res/common_extension.dart';
 import 'dart:ui' as ui;
@@ -129,18 +130,6 @@ class MyPaint extends CustomPainter {
     }
   }
 
-  ui.Paragraph getParagraph(String text) {
-    var pb = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.center, //居中
-      fontSize: temTextSize, //大小
-    ));
-    pb.addText(text);
-    pb.pushStyle(ui.TextStyle(color: Colors.white));
-    var paragraph = pb.build()
-      ..layout(ui.ParagraphConstraints(width: itemWidth));
-    return paragraph;
-  }
-
   @override
   void paint(Canvas canvas, Size size) {
     setMinMax();
@@ -158,7 +147,7 @@ class MyPaint extends CustomPainter {
       double y =
           startY + itemHeight - (element.temperature - minTem) * gapHeight;
 
-      var temperatureParagraph = getParagraph("${element.temperature}°");
+      var temperatureParagraph = UiUtils.getParagraph("${element.temperature}°", temTextSize, itemWidth: itemWidth);
       canvas.drawParagraph(
           temperatureParagraph,
           Offset(x - temperatureParagraph.width / 2,
@@ -175,7 +164,7 @@ class MyPaint extends CustomPainter {
       _bgOffset.add(offset);
 
       // 绘制展示时间
-      var showTimeParagraph = getParagraph("${element.showTime}");
+      var showTimeParagraph = UiUtils.getParagraph("${element.showTime}", temTextSize, itemWidth: itemWidth);
       canvas.drawParagraph(
           showTimeParagraph,
           Offset(

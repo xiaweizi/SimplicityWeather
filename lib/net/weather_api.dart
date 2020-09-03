@@ -11,6 +11,16 @@ class WeatherApi {
     }
     return null;
   }
+  // https://api.caiyunapp.com/v2.5/sas9gfwyRX2NVehl/121.6544,25.1552/minutely.json
+  Future<dynamic> loadMinuteData(String longitude, String latitude) async {
+    // WeatherModelEntity data = await WeatherApi.loadWeatherData("121.6544","25.1552");
+    var res =
+    await NetManager.getInstance().baseUrl(weatherBaseUrl).get("$longitude,$latitude/minutely.json");
+    if (res != null && res.status) {
+      return res.data;
+    }
+    return null;
+  }
 
   Future<DistrictModelEntity> searchCity(String keywords) async {
     // WeatherModelEntity data = await WeatherApi.loadWeatherData("121.6544","25.1552");

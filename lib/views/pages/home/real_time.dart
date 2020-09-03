@@ -79,6 +79,7 @@ class RealtimeView extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
+              UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "降雨卡片");
               showMaterialModalBottomSheet(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -89,8 +90,8 @@ class RealtimeView extends StatelessWidget {
                 builder: (context, scrollController) => BlurRectWidget(
                   color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(entity.result.realtime.skycon))[0].withAlpha(60),
                   child: Container(
-                    height: 0.5.hp,
-                    child: RainDetailView(),
+                    height: 0.3.hp,
+                    child: RainDetailView(location: entity.location, title: "${entity.result.forecastKeypoint}",),
                   ),
                 ),
               );

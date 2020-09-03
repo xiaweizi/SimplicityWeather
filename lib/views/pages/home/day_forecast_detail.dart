@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/time_util.dart';
+import 'package:flutter_dynamic_weather/app/utils/ui_utils.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/app/res/common_extension.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
@@ -118,19 +119,6 @@ class DayPainter extends CustomPainter {
     weatherPrint("setMinMax2== min: $bottomMinTemp, max: $bottomMaxTemp");
   }
 
-  ui.Paragraph getParagraph(String text, double textSize,
-      {Color color = Colors.white}) {
-    var pb = ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.center, //居中
-      fontSize: textSize, //大小
-    ));
-    pb.addText(text);
-    pb.pushStyle(ui.TextStyle(color: color));
-    var paragraph = pb.build()
-      ..layout(ui.ParagraphConstraints(width: itemWith));
-    return paragraph;
-  }
-
   DayPainter(this._data) {
     setMinMax();
     lineHeight = (0.5.hp -
@@ -162,11 +150,11 @@ class DayPainter extends CustomPainter {
     _bottomPath.reset();
     _data.forEach((element) {
       int index = _data.indexOf(element);
-      var timePara = getParagraph(element.time, mainTextSize);
+      var timePara = UiUtils.getParagraph(element.time, mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           timePara, Offset(startX - timePara.width / 2, startY));
       double time1Y = startY + margin1 + mainTextSize;
-      var time1Para = getParagraph(element.time1, subTextSize);
+      var time1Para = UiUtils.getParagraph(element.time1, subTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           time1Para, Offset(startX - time1Para.width / 2, time1Y));
 
@@ -181,8 +169,8 @@ class DayPainter extends CustomPainter {
       canvas.restore();
 
       var dayDescY = dayIconY + iconSize + margin2;
-      var dayPara = getParagraph(
-          WeatherUtil.convertDesc(element.daySkycon), mainTextSize);
+      var dayPara = UiUtils.getParagraph(
+          WeatherUtil.convertDesc(element.daySkycon), mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           dayPara, Offset(startX - dayPara.width / 2, dayDescY));
 
@@ -196,8 +184,8 @@ class DayPainter extends CustomPainter {
       canvas.restore();
 
       var nightDescY = nightIconY + iconSize + margin2;
-      var nightPara = getParagraph(
-          WeatherUtil.convertDesc(element.nightSkycon), mainTextSize);
+      var nightPara = UiUtils.getParagraph(
+          WeatherUtil.convertDesc(element.nightSkycon), mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           nightPara, Offset(startX - nightPara.width / 2, nightDescY));
 
@@ -212,10 +200,10 @@ class DayPainter extends CustomPainter {
       canvas.drawCircle(topOffset, 3, _paint);
       canvas.drawCircle(bottomOffset, 3, _paint);
 
-      var topTempPara = getParagraph("${element.dayTemp}°", mainTextSize);
+      var topTempPara = UiUtils.getParagraph("${element.dayTemp}°", mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           topTempPara, Offset(topOffset.dx - topTempPara.width / 2, topOffset.dy - topTempPara.height - 5));
-      var bottomTempPara = getParagraph("${element.dayTemp}°", mainTextSize);
+      var bottomTempPara = UiUtils.getParagraph("${element.dayTemp}°", mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           bottomTempPara, Offset(bottomOffset.dx - bottomTempPara.width / 2, bottomOffset.dy + 5));
 
