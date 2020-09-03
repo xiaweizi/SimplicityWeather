@@ -65,8 +65,8 @@ class _AboutPageState extends State<AboutPage> {
           children: [
             _buildBg(),
             BlurRectWidget(
-              sigmaX: 2,
-              sigmaY: 2,
+              sigmaX: 0,
+              sigmaY: 0,
               child: Container(
                 padding: EdgeInsets.only(
                     top: MediaQueryData.fromWindow(

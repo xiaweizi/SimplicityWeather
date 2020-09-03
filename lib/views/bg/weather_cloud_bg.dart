@@ -80,6 +80,7 @@ class BgPainter extends CustomPainter {
           drawMiddleRainy(canvas, size);
           break;
         case WeatherType.heavyRainy:
+        case WeatherType.thunder:
           drawHeavyRainy(canvas, size);
           break;
         case WeatherType.hazy:

@@ -30,8 +30,10 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     weatherPrint("开始获取雨雪图片");
     var image1 = await ImageUtils.getImage('assets/images/rain1.png');
     var image2 = await ImageUtils.getImage('assets/images/snow1.png');
+    var image3 = await ImageUtils.getImage('assets/images/thunder.webp');
     _images.add(image1);
     _images.add(image2);
+    _images.add(image3);
     weatherPrint("获取雨雪图片成功： ${_images?.length}");
     setState(() {});
   }
@@ -47,7 +49,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
         } else if (widget.weatherType == WeatherType.middleRainy) {
           count = 80;
           baseSpeed = 80;
-        } else if (widget.weatherType == WeatherType.heavyRainy) {
+        } else if (widget.weatherType == WeatherType.heavyRainy || widget.weatherType == WeatherType.thunder) {
           count = 160;
           baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.lightSnow) {
@@ -102,6 +104,10 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     );
   }
 }
+double thunderAlpha = 0.0;
+bool isShow = false;
+bool needShow = false;
+int timeCount = 0;
 
 class RainSnowPainter extends CustomPainter {
   var _paint = Paint();
@@ -124,6 +130,7 @@ class RainSnowPainter extends CustomPainter {
     if (_state._images != null && _state._images.length > 1) {
       ui.Image image = _state._images[0];
       if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
+        drawThunder(canvas, size);
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -141,6 +148,50 @@ class RainSnowPainter extends CustomPainter {
         });
       }
     }
+  }
+
+  void drawThunder(Canvas canvas, Size size) {
+    if (_state.widget.weatherType != WeatherType.thunder) {
+      return;
+    }
+    ui.Image image = _state._images[2];
+    if (image != null && needShow == true) {
+      ui.Offset offset = ui.Offset(0, 0);
+      double alpha = isShow == true ? transformDecelerate(thunderAlpha) : transformAccelerate(thunderAlpha);
+      var identity = ColorFilter.matrix(<double>[
+        1, 0, 0, 0, 0,
+        0, 1, 0, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 0, alpha, 0,
+      ]);
+      _paint.colorFilter = identity;
+      canvas.drawImage(image, offset, _paint);
+      if (thunderAlpha >= 1.0) {
+        isShow = true;
+      } else if (thunderAlpha <= 0.0){
+        isShow = false;
+        needShow = false;
+        timeCount = 0;
+      }
+      if (isShow == false) {
+        thunderAlpha += 0.06;
+      } else {
+        thunderAlpha -=  0.06;
+      }
+    }
+    timeCount += 1;
+    if (timeCount >= (250 + Random().nextInt(200))) {
+      needShow = true;
+    }
+  }
+
+  double transformAccelerate(double t) {
+    return t * t;
+  }
+
+  double transformDecelerate(double t) {
+    t = 1.0 - t;
+    return 1.0 - t * t;
   }
 
   void move(RainSnowParams params) {
@@ -224,7 +275,7 @@ class RainSnowParams {
       gapScale = 0.12;
       initSpeed = 20;
       gapSpeed = 20;
-    } else if (weatherType == WeatherType.heavyRainy) {
+    } else if (weatherType == WeatherType.heavyRainy || weatherType == WeatherType.thunder) {
       initScale = 1.09;
       gapScale = 0.15;
       initSpeed = 22;

@@ -9,6 +9,7 @@ enum WeatherType {
   lightRainy,
   middleRainy,
   heavyRainy,
+  thunder,
   hazy, // 霾
   foggy, // 雾
   lightSnow,
@@ -57,7 +58,7 @@ class WeatherUtil {
     "LIGHT_RAIN": WeatherType.lightRainy,
     "MODERATE_RAIN": WeatherType.middleRainy,
     "HEAVY_RAIN": WeatherType.heavyRainy,
-    "STORM_RAIN": WeatherType.heavyRainy,
+    "STORM_RAIN": WeatherType.thunder,
     "FOG": WeatherType.foggy,
     "LIGHT_SNOW": WeatherType.lightSnow,
     "MODERATE_SNOW": WeatherType.middleSnow,
@@ -81,6 +82,7 @@ class WeatherUtil {
       case WeatherType.middleRainy:
         return [Color(0xFF3A4B65), Color(0xFF495764)];
       case WeatherType.heavyRainy:
+      case WeatherType.thunder:
         return [Color(0xFF3B434E), Color(0xFF565D66)];
       case WeatherType.hazy:
         return [Color(0xFF989898), Color(0xFF4B4B4B)];
@@ -176,7 +178,8 @@ class WeatherUtil {
   static bool isRainy(WeatherType weatherType) {
     return weatherType == WeatherType.lightRainy ||
         weatherType == WeatherType.middleRainy ||
-        weatherType == WeatherType.heavyRainy;
+        weatherType == WeatherType.heavyRainy ||
+        weatherType == WeatherType.thunder;
   }
 
   static bool isSnow(WeatherType weatherType) {
@@ -202,6 +205,7 @@ class WeatherUtil {
       case WeatherType.middleRainy:
         return "assets/images/weather/middle_rain.png";
       case WeatherType.heavyRainy:
+      case WeatherType.thunder:
         return "assets/images/weather/heavy_rain.png";
       case WeatherType.hazy:
         return "assets/images/weather/foggy.png";
