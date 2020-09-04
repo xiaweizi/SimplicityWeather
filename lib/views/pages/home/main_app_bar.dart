@@ -26,6 +26,9 @@ class _MainAppBarState extends State<MainAppBar> {
     if (widget.cityModels == null || widget.cityModels.isEmpty) {
       return Container();
     }
+    if (_index >= widget.cityModels.length) {
+      _index = widget.cityModels.length - 1;
+    }
     int index = _index;
     if (index >= widget.cityModels.length) {
       index = _index - 1;

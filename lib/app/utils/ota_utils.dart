@@ -50,7 +50,7 @@ class OTAUtils {
       int appCode = int.parse(otaData["data"]["appCode"]);
       var packageInfo = await PackageInfo.fromPlatform();
       var number = int.parse(packageInfo.buildNumber);
-      if (appCode >= number) {
+      if (appCode > number) {
         UmengAnalyticsPlugin.event(AnalyticsConstant.ota, label: "needOTA");
         showDialog(
             context: globalKey.currentContext,

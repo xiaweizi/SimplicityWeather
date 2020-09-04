@@ -11,7 +11,6 @@ import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_color_bg.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
 
 class WeatherMainBg extends StatefulWidget {
@@ -65,6 +64,9 @@ class _WeatherMainBgState extends State<WeatherMainBg>
     if (weatherTypes.isNotEmpty) {
       setState(() {
         _weatherTypes = weatherTypes;
+        if (_index >= _weatherTypes.length) {
+          _index = _weatherTypes.length - 1;
+        }
       });
     }
   }
