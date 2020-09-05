@@ -24,7 +24,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
   double width = 0;
   double height = 0;
   int count = 0;
-  double baseSpeed = 5;
+  WeatherType _weatherType;
 
   Future<void> fetchImages() async {
     weatherPrint("开始获取雨雪图片");
@@ -45,13 +45,10 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
       if (WeatherUtil.isSnowRain(widget.weatherType)) {
         if (widget.weatherType == WeatherType.lightRainy) {
           count = 50;
-          baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.middleRainy) {
           count = 80;
-          baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.heavyRainy || widget.weatherType == WeatherType.thunder) {
           count = 160;
-          baseSpeed = 80;
         } else if (widget.weatherType == WeatherType.lightSnow) {
           count = 30;
         } else if (widget.weatherType == WeatherType.middleSnow) {
@@ -65,7 +62,6 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
           _rainSnows.add(rainSnow);
         }
         weatherPrint("初始化雨参数成功 ${_rainSnows.length}");
-        setState(() {});
       }
     }
   }
@@ -98,7 +94,11 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    initParams();
+    if (_weatherType != widget.weatherType) {
+      _weatherType = widget.weatherType;
+      _rainSnows.clear();
+      initParams();
+    }
     return CustomPaint(
       painter: RainSnowPainter(this),
     );
