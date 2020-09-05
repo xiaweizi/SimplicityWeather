@@ -76,6 +76,7 @@ class AqiChartPainter extends CustomPainter {
     var centerX = size.width / 2;
     var centerY = size.height / 2;
     var centerOffset = Offset(centerX, centerY);
+    // 绘制半透明圆弧
     _path.reset();
     _path.addArc(Rect.fromCircle(center: centerOffset, radius: radius),
         pi * 0.7, pi * 1.6);
@@ -84,18 +85,19 @@ class AqiChartPainter extends CustomPainter {
     _paint.strokeCap = StrokeCap.round;
     _paint.color = Colors.white38;
     canvas.drawPath(_path, _paint);
+    // 绘制纯白色圆弧
     _path.reset();
     _path.addArc(Rect.fromCircle(center: centerOffset, radius: radius),
         pi * 0.7, pi * 1.6 * ratio);
     _paint.color = Colors.white;
     canvas.drawPath(_path, _paint);
-
+    // 绘制 AQIValue
     var valuePara = UiUtils.getParagraph(value, 30);
     canvas.drawParagraph(
         valuePara,
         Offset(centerOffset.dx - valuePara.width / 2,
             centerOffset.dy - valuePara.height / 2));
-
+    // 绘制 AQIDesc
     var descPara = UiUtils.getParagraph("$desc", 15);
     canvas.drawParagraph(
         descPara,

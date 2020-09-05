@@ -189,17 +189,15 @@ class DayPainter extends CustomPainter {
       canvas.drawParagraph(
           nightPara, Offset(startX - nightPara.width / 2, nightDescY));
 
-//      canvas.drawCircle(Offset(startX, topLineStartY), 5, _paint);
-//      canvas.drawCircle(Offset(startX, topLineEndY), 5, _paint);
-//      canvas.drawCircle(Offset(startX, bottomLineStartY), 5, _paint);
-//      canvas.drawCircle(Offset(startX, bottomLineEndY), 5, _paint);
       _paint.color = Colors.white;
       var topOffset = Offset(startX, getTopLineY(element.dayTemp));
       var bottomOffset = Offset(startX, getBottomLineY(element.dayTemp));
       _paint.style = PaintingStyle.fill;
+      // 绘制折线上的圆点
       canvas.drawCircle(topOffset, 3, _paint);
       canvas.drawCircle(bottomOffset, 3, _paint);
 
+      // 绘制圆点上下的温度值
       var topTempPara = UiUtils.getParagraph("${element.dayTemp}°", mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           topTempPara, Offset(topOffset.dx - topTempPara.width / 2, topOffset.dy - topTempPara.height - 5));
@@ -207,6 +205,7 @@ class DayPainter extends CustomPainter {
       canvas.drawParagraph(
           bottomTempPara, Offset(bottomOffset.dx - bottomTempPara.width / 2, bottomOffset.dy + 5));
 
+      // 绘制折线
       if (index == 0) {
         _topPath.moveTo(topOffset.dx, topOffset.dy);
         _bottomPath.moveTo(bottomOffset.dx, bottomOffset.dy);
