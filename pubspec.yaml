@@ -64,7 +64,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/images/cloud.png
+    - assets/images/cloud.webp
     - assets/images/snow1.png
     - assets/images/rain1.png
     - assets/images/ic_launcher.png
@@ -80,6 +80,7 @@ flutter:
     - assets/images/caiyun.png
     - assets/images/typhoon.png
     - assets/images/thunder.webp
+    - assets/images/sun.webp
 
     - assets/images/weather/
 
