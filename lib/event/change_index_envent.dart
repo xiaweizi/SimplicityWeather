@@ -1,4 +1,5 @@
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
+import 'package:flutter_dynamic_weather/views/pages/home/real_time_temp.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/search_page.dart';
 
 class ChangeMainAppBarIndexEvent {
@@ -19,3 +20,9 @@ class UpdateManagerData {
 }
 
 class MainBgChangeEvent {}
+
+class TtsStatusEvent {
+  final TtsState ttsState;
+
+  TtsStatusEvent(this.ttsState);
+}

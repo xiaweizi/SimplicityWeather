@@ -5,20 +5,71 @@ import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
+import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/rain_detail.dart';
+import 'package:flutter_dynamic_weather/views/pages/home/real_time_temp.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RealtimeView extends StatelessWidget {
   final WeatherModelEntity entity;
+  final CityModel cityModel;
 
   const RealtimeView({
     Key key,
     @required this.entity,
+    this.cityModel
   }) : super(key: key);
+
+  String buildSpeakContent() {
+    String introduction = "简悦天气为您播报天气,";
+    String cityName = "";
+    if (cityModel != null) {
+      cityName = cityModel.displayedName + ",";
+    }
+    String weatherType = "今天白天到夜间，${_getWeatherDesc()},";
+    String temp = _getTemperatureDesc();
+    String aqi = "";
+    var chn = entity?.result?.realtime?.airQuality?.description?.chn;
+    if (chn != null) {
+      aqi = "空气质量 $chn";
+    }
+    return introduction + cityName + weatherType + temp + aqi;
+  }
+
+  String _getWeatherDesc() {
+    if (entity.result.daily == null ||
+        entity.result.daily.skycon08h20h == null ||
+        entity.result.daily.skycon08h20h.isEmpty) {
+      return "";
+    }
+    if (entity.result.daily.skycon20h32h == null ||
+        entity.result.daily.skycon20h32h.isEmpty) {
+      return "";
+    }
+    var dayDesc =
+        WeatherUtil.convertDesc(entity.result.daily.skycon08h20h[0].value);
+    var nightDesc =
+        WeatherUtil.convertDesc(entity.result.daily.skycon20h32h[0].value);
+    if (dayDesc == nightDesc) {
+      return "$dayDesc";
+    }
+    return "$dayDesc转$nightDesc";
+  }
+
+  String _getTemperatureDesc() {
+    if (entity.result.daily == null ||
+        entity.result.daily.temperature == null ||
+        entity.result.daily.temperature.isEmpty) {
+      return "";
+    }
+    var dayTemperature = entity.result.daily.temperature[0].max;
+    var nightTemperature = entity.result.daily.temperature[0].min;
+    return "最高温$dayTemperature摄氏度，最低温$nightTemperature摄氏度,";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +91,7 @@ class RealtimeView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "${entity.result.realtime.temperature}",
-                style: TextStyle(
-                    fontSize: 150,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-              ),
-              Text(
-                "°",
-                style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
-            ],
-          ),
+          RealTimeTempView(temp: entity.result.realtime.temperature?.toString(), content: buildSpeakContent(),),
           Container(
             margin: EdgeInsets.only(left: 20),
             width: 220,

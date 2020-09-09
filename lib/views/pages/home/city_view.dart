@@ -69,7 +69,7 @@ class _CityViewState extends State<CityView>
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                RealtimeView(entity: _modelEntity),
+                RealtimeView(entity: _modelEntity, cityModel: widget.cityModel,),
                 AqiChartView(entity: _modelEntity),
                 SizedBox(
                   height: DimenConstant.dayForecastMarginBottom,
