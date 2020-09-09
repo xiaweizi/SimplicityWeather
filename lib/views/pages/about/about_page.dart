@@ -4,6 +4,7 @@ import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
+import 'package:flutter_dynamic_weather/views/bg/weather_thunder_bg.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:package_info/package_info.dart';
 import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
@@ -36,6 +37,9 @@ class _AboutPageState extends State<AboutPage> {
           weatherType: _weatherType,
         ),
         WeatherRainSnowBg(
+          weatherType: _weatherType,
+        ),
+        WeatherThunderBg(
           weatherType: _weatherType,
         ),
       ],

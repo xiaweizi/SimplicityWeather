@@ -104,11 +104,6 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     );
   }
 }
-double thunderAlpha = 0.2;
-bool isShow = false;
-bool needShow = true;
-int timeCount = 0;
-int timeMacCount = Random().nextInt(200);
 
 class RainSnowPainter extends CustomPainter {
   var _paint = Paint();
@@ -131,7 +126,6 @@ class RainSnowPainter extends CustomPainter {
     if (_state._images != null && _state._images.length > 1) {
       ui.Image image = _state._images[0];
       if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
-        drawThunder(canvas, size);
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -149,51 +143,6 @@ class RainSnowPainter extends CustomPainter {
         });
       }
     }
-  }
-
-  void drawThunder(Canvas canvas, Size size) {
-    if (_state.widget.weatherType != WeatherType.thunder) {
-      return;
-    }
-    ui.Image image = _state._images[2];
-    if (image != null && needShow == true) {
-      ui.Offset offset = ui.Offset(0, 0);
-      double alpha = isShow == true ? transformDecelerate(thunderAlpha) : transformAccelerate(thunderAlpha);
-      var identity = ColorFilter.matrix(<double>[
-        1, 0, 0, 0, 0,
-        0, 1, 0, 0, 0,
-        0, 0, 1, 0, 0,
-        0, 0, 0, alpha, 0,
-      ]);
-      _paint.colorFilter = identity;
-      canvas.drawImage(image, offset, _paint);
-      if (thunderAlpha >= 1.0) {
-        isShow = true;
-      } else if (thunderAlpha <= 0.0){
-        isShow = false;
-        needShow = false;
-        timeCount = 0;
-        timeMacCount = 100 + Random().nextInt(200);
-      }
-      if (isShow == false) {
-        thunderAlpha += 0.06;
-      } else {
-        thunderAlpha -=  0.06;
-      }
-    }
-    timeCount += 1;
-    if (timeCount >= timeMacCount) {
-      needShow = true;
-    }
-  }
-
-  double transformAccelerate(double t) {
-    return t * t;
-  }
-
-  double transformDecelerate(double t) {
-    t = 1.0 - t;
-    return 1.0 - t * t;
   }
 
   void move(RainSnowParams params) {

@@ -12,6 +12,7 @@ import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
+import 'package:flutter_dynamic_weather/views/bg/weather_thunder_bg.dart';
 
 class WeatherMainBg extends StatefulWidget {
   @override
@@ -184,6 +185,10 @@ class _WeatherMainBgState extends State<WeatherMainBg>
     );
   }
 
+  bool isThunder(weatherType) {
+    return weatherType == WeatherType.thunder;
+  }
+
   Widget _buildRainSnowBg() {
     if (_weatherTypes == null ||
         _weatherTypes.isEmpty ||
@@ -227,6 +232,49 @@ class _WeatherMainBgState extends State<WeatherMainBg>
     );
   }
 
+  Widget _buildThunderBg() {
+    if (_weatherTypes == null ||
+        _weatherTypes.isEmpty ||
+        _lastIndex >= _weatherTypes.length ||
+        _index >= _weatherTypes.length) {
+      return Container();
+    }
+    weatherPrint("开始构建雷暴层");
+    List<Widget> widgets = [];
+    if (_lastIndex != -1) {
+      var lastType = _weatherTypes[_lastIndex];
+      var type = _weatherTypes[_index];
+      if (isThunder(lastType)) {
+        widgets.add(Opacity(
+          opacity: (1 - _value),
+          child: WeatherThunderBg(
+            weatherType: lastType,
+          ),
+        ));
+      }
+      if (isThunder(type)) {
+        widgets.add(Opacity(
+          opacity: _value,
+          child: WeatherThunderBg(
+            weatherType: type,
+          ),
+        ));
+      }
+    } else {
+      if (isThunder(_weatherTypes[_index])) {
+        widgets.add(Opacity(
+          opacity: _value,
+          child: WeatherThunderBg(
+            weatherType: _weatherTypes[_index],
+          ),
+        ));
+      }
+    }
+    return Stack(
+      children: widgets,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -235,6 +283,7 @@ class _WeatherMainBgState extends State<WeatherMainBg>
           _buildColorBg(),
           _buildCloudBg(),
           _buildRainSnowBg(),
+          _buildThunderBg(),
         ],
       ),
     );
