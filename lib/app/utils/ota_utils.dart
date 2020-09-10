@@ -47,6 +47,7 @@ class OTAUtils {
     var otaData = await WeatherApi().getOTA();
     if (otaData != null && otaData["data"] != null) {
       String url = otaData["data"]["url"];
+      String desc = otaData["data"]["desc"];
       int appCode = int.parse(otaData["data"]["appCode"]);
       var packageInfo = await PackageInfo.fromPlatform();
       var number = int.parse(packageInfo.buildNumber);
@@ -56,9 +57,13 @@ class OTAUtils {
             context: globalKey.currentContext,
             barrierDismissible: false,
             builder: (BuildContext context) {
+              String content = "是否更新?";
+              if (desc != null && desc.isNotEmpty) {
+                content = desc + "\r\n\r\n是否更新?";
+              }
               return AlertDialog(
                 title: Text("检测到新版本更新"),
-                content: Text("是否更新"),
+                content: Text(content),
                 actions: [
                   FlatButton(
                     child: Text("更新"),
