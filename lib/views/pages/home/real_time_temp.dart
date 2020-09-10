@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
+import 'package:flutter_dynamic_weather/views/pages/home/speak_anim.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class RealTimeTempView extends StatefulWidget {
@@ -106,6 +107,7 @@ class _RealTimeTempViewState extends State<RealTimeTempView> {
 
   @override
   Widget build(BuildContext context) {
+    var color = Colors.white;
     return GestureDetector(
       child: Container(
         child: Row(
@@ -118,27 +120,29 @@ class _RealTimeTempViewState extends State<RealTimeTempView> {
             Text(
               "${widget.temp}",
               style: TextStyle(
-                  fontSize: 150,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white),
+                  fontSize: 150, fontWeight: FontWeight.w400, color: color),
             ),
             Text(
               "°",
               style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  fontSize: 50, fontWeight: FontWeight.w500, color: color),
             ),
             Container(
-              alignment: Alignment(1, 0.8),
-              width: 20,
+              alignment: Alignment(1, 0.9),
+              width: 30,
               height: 150,
-              child: Icon(
-                Icons.ac_unit,
-                color: Colors.white,
+              child: AnimatedCrossFade(
+                firstChild: Image.asset(
+                  "assets/images/play.png",
+                  color: color,
+                ),
+                secondChild: SpeakAnim(),
+                crossFadeState: ttsState == TtsState.playing
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: Duration(milliseconds: 150),
               ),
             ),
-            Text("$ttsState"),
           ],
         ),
       ),

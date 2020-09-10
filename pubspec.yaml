@@ -82,6 +82,7 @@ flutter:
     - assets/images/typhoon.png
     - assets/images/thunder.webp
     - assets/images/sun.webp
+    - assets/images/play.png
 
     - assets/images/weather/
     - assets/images/lightning/
