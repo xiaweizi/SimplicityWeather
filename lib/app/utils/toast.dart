@@ -18,7 +18,7 @@ class ToastUtils {
 
   static show(String msg, BuildContext context,
       {int duration = 1,
-        int gravity = 0,
+        int gravity = 2,
         Color backgroundColor = const Color(0xAA000000),
         Color textColor = Colors.white,
         double backgroundRadius = 20,

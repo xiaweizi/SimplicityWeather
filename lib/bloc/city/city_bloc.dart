@@ -11,6 +11,7 @@ import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/utils/location_util.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/shared_preference_util.dart';
+import 'package:flutter_dynamic_weather/app/utils/toast.dart';
 import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
@@ -43,9 +44,11 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       cityModel.displayedName = WeatherUtil.getCityName(cityModel);
       UmengAnalyticsPlugin.event(AnalyticsConstant.locatedCityName, label: "${cityModel.displayedName}");
       List<CityModel> cityModels = [];
-      if (cityModel.latitude != 0.0 && cityModel.longitude != 0.0) {
-        cityModels = await insertCityMode(cityModel);
+      if (cityModel.latitude == 0.0 || cityModel.longitude == 0.0) {
+        ToastUtils.show("高德 API 调用上限, 默认添加北京，请见谅", globalKey.currentContext, duration: 5);
+        cityModel = _buildDefault();
       }
+      cityModels = await insertCityMode(cityModel);
       weatherPrint('定位成功 location: $cityModel');
       eventBus.fire(MainBgChangeEvent());
       Navigator.of(globalKey.currentContext).pop();
@@ -98,6 +101,19 @@ class CityBloc extends Bloc<CityEvent, CityState> {
         yield CitySuccess(cacheModels);
       }
     }
+  }
+
+  CityModel _buildDefault() {
+    CityModel cityModel = CityModel(
+      latitude: 39.904989,
+      longitude: 116.405285,
+      country: "中国",
+      province: "北京市",
+      district: "东城区",
+      displayedName: "北京市",
+      isLocated: true,
+    );
+    return cityModel;
   }
 
   Future<List<CityModel>> insertCityMode(CityModel cityModel) async {

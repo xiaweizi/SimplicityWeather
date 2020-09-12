@@ -63,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
     });
     List<CityData> cityData = [];
     var result = await WeatherApi().searchCity(keywords);
+    weatherPrint("search result $result");
     if (keywords != _keyWords) {
       return;
     }
@@ -93,6 +94,9 @@ class _SearchPageState extends State<SearchPage> {
             });
           }
         });
+      } else if (result.info == "INVALID_REQUEST") {
+        weatherPrint("高德 API 调用次数上限");
+        ToastUtils.show("由于高德 API 调用次数上限，无法搜索，请见谅", context, duration: 5, gravity: 2);
       }
     }
     if (cityData.isEmpty) {
@@ -130,19 +134,37 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  CityModel _buildDefault() {
+    CityModel cityModel = CityModel(
+      latitude: 39.904989,
+      longitude: 116.405285,
+      country: "中国",
+      province: "北京市",
+      district: "东城区",
+      displayedName: "北京市",
+    );
+    return cityModel;
+  }
+
   Future<void> onItemClick(CityData cityData, bool fromList) async {
     showAppDialog();
     var result = await WeatherApi().reGeo(cityData.center);
+    weatherPrint("item click regeo result: $result");
     if (result == null) {
       Navigator.of(context).pop();
       ToastUtils.show("添加失败请重试", context);
       return;
     }
     CityModel cityModel = await parseCityModel(result, cityData);
-    if (fromList) {
-      cityModel.displayedName = "${WeatherUtil.getCityName(cityModel)}";
+    if (cityModel == null) {
+      ToastUtils.show("高德 API 调用上限, 默认添加北京，请见谅", context, duration: 5);
+      cityModel = _buildDefault();
     } else {
-      cityModel.displayedName = cityData.name;
+      if (fromList) {
+        cityModel.displayedName = "${WeatherUtil.getCityName(cityModel)}";
+      } else {
+        cityModel.displayedName = cityData.name;
+      }
     }
     BlocProvider.of<CityBloc>(context).add(InsertCityData(cityModel));
     await Future.delayed(Duration(milliseconds: 20));
@@ -171,6 +193,8 @@ class _SearchPageState extends State<SearchPage> {
           addressComponent["city"] is String) {
         cityModel.city = addressComponent["city"];
       }
+    } else {
+      return null;
     }
     return cityModel;
   }

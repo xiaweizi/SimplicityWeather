@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 typedef WeatherPrint = void Function(String message,
     {int wrapWidth, String tag});
 
-const DEBUG = false;
+const DEBUG = true;
 
 WeatherPrint weatherPrint = debugPrintThrottled;
 

@@ -94,6 +94,8 @@ class _MainAppBarState extends State<MainAppBar> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,7 +105,11 @@ class _MainAppBarState extends State<MainAppBar> {
           IconButton(
             padding: EdgeInsets.only(left: 20),
             onPressed: () async {
-              Navigator.of(context).pushNamed(Router.manager);
+              if (widget.cityModels == null && widget.cityModels.isEmpty) {
+                Navigator.of(context).pushNamed(Router.search);
+              } else {
+                Navigator.of(context).pushNamed(Router.manager);
+              }
             },
             icon: Icon(
               Icons.add,
