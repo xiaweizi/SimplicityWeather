@@ -2,7 +2,7 @@
 
 *简约不简单，丰富不复杂*
 
-一款简约风格的 flutter 天气项目，提供实时、多日、24 小时、台风路径以及生活指数等服务，支持定位、删除、搜索等操作。
+一款简约风格的 flutter 天气项目，提供实时、多日、24 小时、台风路径以及生活指数等服务，支持定位、删除、搜索，语音播报等操作。
 
 作为 flutter 实战项目，包含状态管理、网络请求、数据缓存、自定义 view、自定义动画，三方统计，事件管理等技术点，实用且丰富。
 
@@ -10,7 +10,7 @@
 
 ### 体验
 
-点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_1.apk)下载
+点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_2.apk)下载
 
 或者直接扫描二维码抢先体验
 
@@ -30,6 +30,8 @@
 - [x] 动态降雨卡片
 - [x] 自动更新
 - [x] 丰富多样的天气背景效果(雷暴效果)
+- [x] 自动升级
+- [x] 语音播报
 - [x] **一键换天**，做天气之子
 
 接下来多图警告
@@ -94,6 +96,8 @@ Fluter 为什么目前这么火热，以及开发的效率如此之高，除了�
 | [path_drawing](https://pub.flutter-io.cn/packages/path_drawing) | 绘制虚线 path 用到                                           |
 | [url_launcher](https://pub.flutter-io.cn/packages/url_launcher) | 通用跳转工具                                                 |
 | [package_info](https://pub.flutter-io.cn/packages/package_info) | 获取包相关信息                                               |
+| [ota_update](https://pub.flutter-io.cn/packages/ota_update)  | apk 自动升级                                                 |
+| [flutter_tts](https://pub.flutter-io.cn/packages/flutter_tts) | 语音播报                                                     |
 
 ### 总结
 
@@ -110,13 +114,22 @@ Fluter 为什么目前这么火热，以及开发的效率如此之高，除了�
 
 天气数据来源于 [彩云科技](https://open.caiyunapp.com/Main_Page)
 
-定位功能来自 [高德地图](https://lbs.amap.com/)
+定位功能来自 [高德地图](https://lbs.amap.com/) 
+
+> 高德 appkey 放在代码中，供大家使用，结果有人恶意刷 api，导致我账号被封，所以部分功能不能正常使用，请见谅
 
 统计来自 [友盟统计](https://mobile.umeng.com/)
 
 天气 icon 来自 [阿里icon](https://www.iconfont.cn/)
 
 ### ChangeLog
+
+#### 2.2.0
+
+- 新增 OTA 时更新说明
+- 晴天新增太阳
+- 支持语音播报功能
+- 容错高德 API 次数限制处理
 
 #### 2.1.0
 
