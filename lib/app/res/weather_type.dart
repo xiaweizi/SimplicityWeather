@@ -48,7 +48,7 @@ class WeatherUtil {
 
   static final weatherTypeMap = {
     "CLEAR_DAY": WeatherType.sunny,
-    "CLEAR_NIGHT": WeatherType.sunny,
+    "CLEAR_NIGHT": WeatherType.sunnyNight,
     "PARTLY_CLOUDY_DAY": WeatherType.cloudy,
     "PARTLY_CLOUDY_NIGHT": WeatherType.cloudy,
     "CLOUDY": WeatherType.overcast,
@@ -73,6 +73,8 @@ class WeatherUtil {
     switch (weatherType) {
       case WeatherType.sunny:
         return [Color(0xFF0071D1), Color(0xFF6DA6E4)];
+      case WeatherType.sunnyNight:
+        return [Color(0xFF061E74), Color(0xFF275E9A)];
       case WeatherType.cloudy:
         return [Color(0xFF5C82C1), Color(0xFF95B1DB)];
       case WeatherType.overcast:
@@ -196,6 +198,8 @@ class WeatherUtil {
     switch (weatherType) {
       case WeatherType.sunny:
         return "assets/images/weather/sunny.png";
+      case WeatherType.sunnyNight:
+        return "assets/images/weather/sunny_night.png";
       case WeatherType.cloudy:
         return "assets/images/weather/cloudy.png";
       case WeatherType.overcast:

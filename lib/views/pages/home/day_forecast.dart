@@ -40,25 +40,6 @@ class DayForecastView extends StatelessWidget {
     return "$dayDesc转$nightDesc";
   }
 
-  Image _getWeatherIcon(int index) {
-    if (resultDaily == null ||
-        resultDaily.skycon08h20h == null ||
-        resultDaily.skycon08h20h.isEmpty ||
-        index >= resultDaily.skycon08h20h.length) {
-      return Image.asset(
-        WeatherUtil.getWeatherIcon(WeatherType.sunny),
-        width: 25,
-        height: 25,
-      );
-    }
-    return Image.asset(
-      WeatherUtil.getWeatherIcon(WeatherUtil.convertWeatherType(
-          resultDaily.skycon08h20h[index].value)),
-      width: 25,
-      height: 25,
-    );
-  }
-
   String _getTemperatureDesc(int index) {
     if (resultDaily == null ||
         resultDaily.temperature == null ||

@@ -66,6 +66,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/cloud.webp
+    - assets/images/star1.webp
+    - assets/images/star2.webp
     - assets/images/snow1.png
     - assets/images/rain1.png
     - assets/images/ic_launcher.png

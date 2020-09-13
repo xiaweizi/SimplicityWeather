@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
+import 'package:flutter_dynamic_weather/views/bg/weather_night_star_bg.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
 import 'package:flutter_dynamic_weather/views/bg/weather_thunder_bg.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
@@ -40,6 +41,9 @@ class _AboutPageState extends State<AboutPage> {
           weatherType: _weatherType,
         ),
         WeatherThunderBg(
+          weatherType: _weatherType,
+        ),
+        WeatherNightStarBg(
           weatherType: _weatherType,
         ),
       ],
@@ -119,7 +123,7 @@ class _AboutPageState extends State<AboutPage> {
                                 padding: EdgeInsets.all(0.0),
                                 itemBuilder: (BuildContext context) {
                                   return WeatherType.values
-                                      .sublist(0, WeatherType.values.length - 2)
+                                      .sublist(0, WeatherType.values.length - 1)
                                       .map(
                                         (e) => PopupMenuItem<WeatherType>(
                                           child: Text(e.toString()),
