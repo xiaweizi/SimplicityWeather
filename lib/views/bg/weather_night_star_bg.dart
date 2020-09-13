@@ -22,6 +22,7 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
   List<ui.Image> _images = [];
   AnimationController _controller;
   List<_StarParam> _starParams = [];
+  List<_MeteorParam> _meteorParams = [];
 
   Future<void> fetchImages() async {
     weatherPrint("开始获取星星");
@@ -43,6 +44,11 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
       _starParam.init();
       _starParams.add(_starParam);
     }
+    for (int i = 0; i < 4; i++) {
+      _MeteorParam param = _MeteorParam();
+      param.reset();
+      _meteorParams.add(param);
+    }
   }
 
   @override
@@ -50,9 +56,7 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
     _controller =
         AnimationController(duration: Duration(seconds: 5), vsync: this);
     _controller.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
     fetchImages();
     super.initState();
@@ -66,10 +70,11 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
 
   Widget _buildWidget() {
     weatherPrint("开始构建星星: ${_images?.length}");
-    if (_starParams != null && _starParams.isNotEmpty &&
+    if (_starParams != null &&
+        _starParams.isNotEmpty &&
         widget.weatherType == WeatherType.sunnyNight) {
       return CustomPaint(
-        painter: _StarPainter(_starParams),
+        painter: _StarPainter(_starParams, _meteorParams),
       );
     } else {
       return Container();
@@ -84,17 +89,48 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
 
 class _StarPainter extends CustomPainter {
   var _paint = Paint();
-  final List<_StarParam> starParams;
+  var _meteorPaint = Paint();
+  final List<_StarParam> _starParams;
+  final List<_MeteorParam> _meteorParams;
+  double _meteorWidth = 200;
+  double _meteorHeight = 2;
+  Radius _radius = Radius.circular(10);
 
-  _StarPainter(this.starParams);
+  _StarPainter(this._starParams, this._meteorParams);
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (starParams != null && starParams.isNotEmpty) {
-      for (var param in starParams) {
+    if (_starParams != null && _starParams.isNotEmpty) {
+      for (var param in _starParams) {
         drawStar(param, canvas);
       }
     }
+    if (_meteorParams != null && _meteorParams.isNotEmpty) {
+      for (var param in _meteorParams) {
+        drawMeteor(param, canvas);
+      }
+    }
+  }
+
+  void drawMeteor(_MeteorParam param, Canvas canvas) {
+    canvas.save();
+    var gradient = ui.Gradient.linear(
+      const Offset(0, 0),
+      Offset(_meteorWidth, 0),
+      <Color>[const Color(0xFFFFFFFF), const Color(0x00FFFFFF)],
+    );
+    _meteorPaint.shader = gradient;
+    canvas.rotate(pi * param.radians);
+    canvas.translate(param.translateX, tan(pi * 0.1) *_meteorWidth + param.translateY);
+    canvas.drawRRect(
+        RRect.fromLTRBAndCorners(0, 0, _meteorWidth, _meteorHeight,
+            topLeft: _radius,
+            topRight: _radius,
+            bottomRight: _radius,
+            bottomLeft: _radius),
+        _meteorPaint);
+    param.move();
+    canvas.restore();
   }
 
   void drawStar(_StarParam param, Canvas canvas) {
@@ -115,9 +151,27 @@ class _StarPainter extends CustomPainter {
     param.move();
   }
 
-    @override
+  @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class _MeteorParam {
+  double translateX;
+  double translateY;
+  double radians;
+  void reset() {
+    translateX = 1.0.wp + Random().nextDouble() * 20.0.wp;
+    radians = -Random().nextDouble() * 0.07 - 0.05;
+    translateY = Random().nextDouble() * 0.5.hp;
+  }
+
+  void move() {
+    translateX -= 20;
+    if (translateX <= -1.0.wp) {
+      reset();
+    }
   }
 
 }
