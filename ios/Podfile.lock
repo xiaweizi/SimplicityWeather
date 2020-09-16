@@ -14,6 +14,8 @@ PODS:
   - core_location_fluttify (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_tts (0.0.1):
+    - Flutter
   - foundation_fluttify (0.0.1):
     - Flutter
   - "location_permissions (3.0.0+1)":
@@ -34,6 +36,7 @@ DEPENDENCIES:
   - amap_location_fluttify (from `.symlinks/plugins/amap_location_fluttify/ios`)
   - core_location_fluttify (from `.symlinks/plugins/core_location_fluttify/ios`)
   - Flutter (from `Flutter`)
+  - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - foundation_fluttify (from `.symlinks/plugins/foundation_fluttify/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -56,6 +59,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/core_location_fluttify/ios"
   Flutter:
     :path: Flutter
+  flutter_tts:
+    :path: ".symlinks/plugins/flutter_tts/ios"
   foundation_fluttify:
     :path: ".symlinks/plugins/foundation_fluttify/ios"
   location_permissions:
@@ -76,6 +81,7 @@ SPEC CHECKSUMS:
   AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
   core_location_fluttify: 24cc9dcd986ac7059916632d2cb3babb1568ff61
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
   foundation_fluttify: 0c45145e3fad1fb99188e4979daed5b24cd9b278
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62

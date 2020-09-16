@@ -71,6 +71,9 @@ class BgPainter extends CustomPainter {
         case WeatherType.cloudy:
           drawCloudy(canvas, size);
           break;
+        case WeatherType.cloudyNight:
+          drawCloudyNight(canvas, size);
+          break;
         case WeatherType.overcast:
           drawOvercast(canvas, size);
           break;
@@ -134,6 +137,27 @@ class BgPainter extends CustomPainter {
       1, 0, 0, 0, 0,
       0, 1, 0, 0, 0,
       0, 0, 1, 0, 0,
+      0, 0, 0, 0.9, 0,
+    ]);
+    _paint.colorFilter = identity;
+    final scale = 0.8;
+    ui.Offset offset1 = ui.Offset(0, 0);
+    ui.Offset offset2 = ui.Offset(-280 / scale, -60 / scale);
+    ui.Offset offset3 = ui.Offset(-380 / scale, 110 / scale);
+    canvas.scale(scale, scale);
+    canvas.drawImage(image, offset1, _paint);
+    canvas.drawImage(image, offset2, _paint);
+    canvas.drawImage(image, offset3, _paint);
+    canvas.restore();
+  }
+
+  void drawCloudyNight(Canvas canvas, Size size) {
+    ui.Image image = images[0];
+    canvas.save();
+    const identity = ColorFilter.matrix(<double>[
+      0.32, 0, 0, 0, 0,
+      0, 0.39, 0, 0, 0,
+      0, 0, 0.52, 0, 0,
       0, 0, 0, 0.9, 0,
     ]);
     _paint.colorFilter = identity;

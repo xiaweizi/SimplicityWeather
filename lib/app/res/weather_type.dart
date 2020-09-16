@@ -50,7 +50,7 @@ class WeatherUtil {
     "CLEAR_DAY": WeatherType.sunny,
     "CLEAR_NIGHT": WeatherType.sunnyNight,
     "PARTLY_CLOUDY_DAY": WeatherType.cloudy,
-    "PARTLY_CLOUDY_NIGHT": WeatherType.cloudy,
+    "PARTLY_CLOUDY_NIGHT": WeatherType.cloudyNight,
     "CLOUDY": WeatherType.overcast,
     "LIGHT_HAZE": WeatherType.hazy,
     "MODERATE_HAZE": WeatherType.hazy,
@@ -77,6 +77,8 @@ class WeatherUtil {
         return [Color(0xFF061E74), Color(0xFF275E9A)];
       case WeatherType.cloudy:
         return [Color(0xFF5C82C1), Color(0xFF95B1DB)];
+      case WeatherType.cloudyNight:
+        return [Color(0xFF2C3A60), Color(0xFF4B6685)];
       case WeatherType.overcast:
         return [Color(0xFF8FA3C0), Color(0xFF8C9FB1)];
       case WeatherType.lightRainy:
@@ -223,10 +225,8 @@ class WeatherUtil {
         return "assets/images/weather/heavy_snow.png";
       case WeatherType.dusty:
         return "assets/images/weather/sandy.png";
-      case WeatherType.sunnyNight:
-        return "assets/images/weather/sunny.png";
       case WeatherType.cloudyNight:
-        return "assets/images/weather/cloudy.png";
+        return "assets/images/weather/cloudy_night.png";
       default:
         return "assets/images/weather/sunnyy.png";
     }

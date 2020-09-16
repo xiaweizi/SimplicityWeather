@@ -123,7 +123,7 @@ class _AboutPageState extends State<AboutPage> {
                                 padding: EdgeInsets.all(0.0),
                                 itemBuilder: (BuildContext context) {
                                   return WeatherType.values
-                                      .sublist(0, WeatherType.values.length - 1)
+                                      .sublist(0, WeatherType.values.length)
                                       .map(
                                         (e) => PopupMenuItem<WeatherType>(
                                           child: Text(e.toString()),
