@@ -134,6 +134,7 @@ class _AboutPageState extends State<AboutPage> {
                                 },
                                 onSelected: (WeatherType action) {
                                   setState(() {
+                                    UmengAnalyticsPlugin.event(AnalyticsConstant.aboutWeatherClick, label: "$action");
                                     _weatherType = action;
                                   });
                                 },

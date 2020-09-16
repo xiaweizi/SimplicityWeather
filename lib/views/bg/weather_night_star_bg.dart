@@ -18,7 +18,6 @@ class WeatherNightStarBg extends StatefulWidget {
 
 class _WeatherNightStarBgState extends State<WeatherNightStarBg>
     with SingleTickerProviderStateMixin {
-  List<ui.Image> _images = [];
   AnimationController _controller;
   List<_StarParam> _starParams = [];
   List<_MeteorParam> _meteorParams = [];
@@ -63,7 +62,7 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
   }
 
   Widget _buildWidget() {
-    weatherPrint("开始构建星星: ${_images?.length}");
+    weatherPrint("开始构建星星: ${_starParams?.length}, weatherType: ${widget.weatherType}");
     if (_starParams != null &&
         _starParams.isNotEmpty &&
         widget.weatherType == WeatherType.sunnyNight) {
@@ -151,7 +150,7 @@ class _StarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }
 
