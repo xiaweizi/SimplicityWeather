@@ -41,7 +41,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       Location location = await AmapLocation.instance.fetchLocation();
       weatherPrint("定位结束: $location");
       CityModel cityModel = convert(location);
-      cityModel.displayedName = WeatherUtil.getCityName(cityModel);
+      cityModel.displayedName = WeatherUtils.getCityName(cityModel);
       UmengAnalyticsPlugin.event(AnalyticsConstant.locatedCityName, label: "${cityModel.displayedName}");
       List<CityModel> cityModels = [];
       if (cityModel.latitude == 0.0 || cityModel.longitude == 0.0) {

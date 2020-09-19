@@ -1,28 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
-
-enum WeatherType {
-  sunny,
-  cloudy,
-  overcast,
-  lightRainy,
-  middleRainy,
-  heavyRainy,
-  thunder,
-  hazy, // 霾
-  foggy, // 雾
-  lightSnow,
-  middleSnow,
-  heavySnow,
-  dusty, // 浮尘
-  sunnyNight,
-  cloudyNight,
-}
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 enum LifeIndexType { ultraviolet, carWashing, dressing, comfort, coldRisk, typhoon }
 
-class WeatherUtil {
+class WeatherUtils {
   static final weatherMap = {
     "CLEAR_DAY": "晴",
     "CLEAR_NIGHT": "晴",

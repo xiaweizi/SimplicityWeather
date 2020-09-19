@@ -8,6 +8,8 @@ import 'package:flutter_dynamic_weather/views/common/loading_dialog.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/home_page.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
+
 EventBus eventBus = EventBus();
 GlobalKey globalKey = GlobalKey();
 ValueNotifier<double> offsetNotifier = ValueNotifier<double>(0);
@@ -26,7 +28,7 @@ void showAppDialog({String loadingMsg = "正在加载中..."}) {
 
 void fetchWeatherImages() async {
   WeatherType.values.forEach((element) async {
-    weatherImages[element] = await ImageUtils.getImage(WeatherUtil.getWeatherIcon(element));
+    weatherImages[element] = await ImageUtils.getImage(WeatherUtils.getWeatherIcon(element));
   });
 }
 

@@ -161,7 +161,7 @@ class _SearchPageState extends State<SearchPage> {
       cityModel = _buildDefault();
     } else {
       if (fromList) {
-        cityModel.displayedName = "${WeatherUtil.getCityName(cityModel)}";
+        cityModel.displayedName = "${WeatherUtils.getCityName(cityModel)}";
       } else {
         cityModel.displayedName = cityData.name;
       }

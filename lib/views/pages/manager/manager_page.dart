@@ -16,9 +16,9 @@ import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_color_bg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_weather_bg/bg/weather_color_bg.dart';
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 class ManagerPage extends StatefulWidget {
   @override
@@ -58,19 +58,19 @@ class _ManagerPageState extends State<ManagerPage> {
                 weatherModelEntity.result != null &&
                 weatherModelEntity.result.daily != null) {
               todayTemperature =
-                  "${WeatherUtil.getTemperatureDesc(weatherModelEntity.result.daily)}";
+                  "${WeatherUtils.getTemperatureDesc(weatherModelEntity.result.daily)}";
             }
             WeatherType weatherType = WeatherType.sunny;
             if (weatherModelEntity != null &&
                 weatherModelEntity.result != null &&
                 weatherModelEntity.result.realtime != null) {
-              weatherType = WeatherUtil.convertWeatherType(weatherModelEntity.result.realtime.skycon);
+              weatherType = WeatherUtils.convertWeatherType(weatherModelEntity.result.realtime.skycon);
             }
             String weatherDesc = "";
             if (weatherModelEntity != null &&
                 weatherModelEntity.result != null &&
                 weatherModelEntity.result.realtime != null) {
-              weatherDesc = WeatherUtil.convertDesc(weatherModelEntity.result.realtime.skycon);
+              weatherDesc = WeatherUtils.convertDesc(weatherModelEntity.result.realtime.skycon);
             }
             managerData.add(ManagerData(
               cityFlag: element.cityFlag,

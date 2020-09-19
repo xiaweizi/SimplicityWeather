@@ -31,9 +31,9 @@ class DayForecastView extends StatelessWidget {
       return "";
     }
     var dayDesc =
-        WeatherUtil.convertDesc(resultDaily.skycon08h20h[index].value);
+        WeatherUtils.convertDesc(resultDaily.skycon08h20h[index].value);
     var nightDesc =
-        WeatherUtil.convertDesc(resultDaily.skycon20h32h[index].value);
+        WeatherUtils.convertDesc(resultDaily.skycon20h32h[index].value);
     if (dayDesc == nightDesc) {
       return "$dayDesc";
     }
@@ -67,7 +67,7 @@ class DayForecastView extends StatelessWidget {
         index >= resultDaily.airQuality.aqi.length) {
       return "";
     }
-    return "${WeatherUtil.getAqiDesc(resultDaily.airQuality.aqi[index].max.chn)}";
+    return "${WeatherUtils.getAqiDesc(resultDaily.airQuality.aqi[index].max.chn)}";
   }
 
   Widget _buildDayItemWidget(BuildContext context, int index) {
@@ -86,7 +86,7 @@ class DayForecastView extends StatelessWidget {
           backgroundColor: Colors.transparent,
           context: context,
           builder: (context, scrollController) => BlurRectWidget(
-            color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(
+            color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(
                     modelEntity?.result?.realtime?.skycon))[0]
                 .withAlpha(60),
             child: Container(

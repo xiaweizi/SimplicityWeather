@@ -51,9 +51,9 @@ class RealtimeView extends StatelessWidget {
       return "";
     }
     var dayDesc =
-        WeatherUtil.convertDesc(entity.result.daily.skycon08h20h[0].value);
+        WeatherUtils.convertDesc(entity.result.daily.skycon08h20h[0].value);
     var nightDesc =
-        WeatherUtil.convertDesc(entity.result.daily.skycon20h32h[0].value);
+        WeatherUtils.convertDesc(entity.result.daily.skycon20h32h[0].value);
     if (dayDesc == nightDesc) {
       return "$dayDesc";
     }
@@ -86,7 +86,7 @@ class RealtimeView extends StatelessWidget {
     if (entity != null &&
         entity.result != null &&
         entity.result.realtime != null) {
-      UmengAnalyticsPlugin.event(AnalyticsConstant.weatherType, label: WeatherUtil.convertDesc(entity.result.realtime.skycon));
+      UmengAnalyticsPlugin.event(AnalyticsConstant.weatherType, label: WeatherUtils.convertDesc(entity.result.realtime.skycon));
       child = Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class RealtimeView extends StatelessWidget {
             margin: EdgeInsets.only(left: 20),
             width: 220,
             child: Text(
-              "${WeatherUtil.convertDesc(entity.result.realtime.skycon)}",
+              "${WeatherUtils.convertDesc(entity.result.realtime.skycon)}",
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -117,7 +117,7 @@ class RealtimeView extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 context: context,
                 builder: (context, scrollController) => BlurRectWidget(
-                  color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(entity.result.realtime.skycon))[0].withAlpha(60),
+                  color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(entity.result.realtime.skycon))[0].withAlpha(60),
                   child: Container(
                     height: 0.3.hp,
                     child: RainDetailView(location: entity.location, title: "${entity.result.forecastKeypoint}",),

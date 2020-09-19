@@ -10,6 +10,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 class HourForecastView extends StatelessWidget {
   final WeatherModelResultHourly resultHourly;
@@ -33,7 +34,7 @@ class HourForecastView extends StatelessWidget {
         String skycon;
         if (resultHourly.skycon != null && resultHourly.skycon.isNotEmpty) {
           weatherType =
-              WeatherUtil.convertWeatherType(resultHourly.skycon[index].value);
+              WeatherUtils.convertWeatherType(resultHourly.skycon[index].value);
           skycon = resultHourly.skycon[index].value;
         }
         if (resultHourly.wind != null && resultHourly.wind.isNotEmpty) {

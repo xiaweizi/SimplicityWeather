@@ -77,7 +77,7 @@ class LifeIndexView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.asset(
-              WeatherUtil.getLifeIndexIcon(detail.type),
+              WeatherUtils.getLifeIndexIcon(detail.type),
               width: 30,
               height: 30,
               color: Colors.white,
@@ -108,7 +108,7 @@ class LifeIndexView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.asset(
-              WeatherUtil.getLifeIndexIcon(detail.type),
+              WeatherUtils.getLifeIndexIcon(detail.type),
               width: 30,
               height: 30,
               color: Colors.white,
@@ -124,7 +124,7 @@ class LifeIndexView extends StatelessWidget {
               height: 8,
             ),
             Text(
-              WeatherUtil.getLifeIndexDesc(detail.type),
+              WeatherUtils.getLifeIndexDesc(detail.type),
               style: TextStyle(color: Colors.white54, fontSize: 13),
             ),
           ],
@@ -141,7 +141,7 @@ class LifeIndexView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             context: context,
             builder: (context, scrollController) => BlurRectWidget(
-              color: WeatherUtil.getColor(WeatherUtil.convertWeatherType(skycon))[0].withAlpha(60),
+              color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(skycon))[0].withAlpha(60),
               child: Container(
                 height: 0.5.hp,
                 child: _buildSheetWidget(context, detail.type),

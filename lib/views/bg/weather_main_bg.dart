@@ -10,10 +10,7 @@ import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_night_star_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_thunder_bg.dart';
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 class WeatherMainBg extends StatefulWidget {
   @override
@@ -23,10 +20,8 @@ class WeatherMainBg extends StatefulWidget {
 class _WeatherMainBgState extends State<WeatherMainBg>
     with SingleTickerProviderStateMixin {
   int _index = 0;
-  int _lastIndex = -1;
   StreamSubscription _subscription;
   List<WeatherType> _weatherTypes;
-  AnimationController _controller;
   double _value = 1;
 
   Future<void> fetchWeatherTypes() async {
@@ -50,7 +45,7 @@ class _WeatherMainBgState extends State<WeatherMainBg>
             if (weatherModelEntity != null &&
                 weatherModelEntity.result != null &&
                 weatherModelEntity.result.realtime != null) {
-              weatherType = WeatherUtil.convertWeatherType(
+              weatherType = WeatherUtils.convertWeatherType(
                   weatherModelEntity.result.realtime.skycon);
             }
           }
@@ -75,30 +70,13 @@ class _WeatherMainBgState extends State<WeatherMainBg>
 
   @override
   void initState() {
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
-    CurvedAnimation(parent: _controller, curve: Curves.linear);
-    _controller.addListener(() {
-      setState(() {
-        _value = _controller.value;
-      });
-    });
     _subscription = eventBus.on().listen((event) {
       if (event is ChangeMainAppBarIndexEvent) {
-        weatherPrint("首页背景 view 收到 event ${event.index} lastIndex: $_lastIndex");
-        _lastIndex = _index;
         _index = event.index;
         if (_weatherTypes != null &&
             _weatherTypes.isNotEmpty &&
-            _lastIndex < _weatherTypes.length &&
             _index < _weatherTypes.length) {
-          var lastType = _weatherTypes[_lastIndex];
           var type = _weatherTypes[_index];
-          if (lastType != type) {
-            weatherPrint("首页背景开始做转场动画");
-            _controller.reset();
-            _controller.forward();
-          }
         }
         setState(() {});
       } else if (event is MainBgChangeEvent) {
@@ -112,227 +90,21 @@ class _WeatherMainBgState extends State<WeatherMainBg>
   @override
   void dispose() {
     _subscription.cancel();
-    _controller.dispose();
     super.dispose();
-  }
-
-  Widget _buildColorBg() {
-    if (_weatherTypes == null ||
-        _weatherTypes.isEmpty ||
-        _lastIndex >= _weatherTypes.length ||
-        _index >= _weatherTypes.length) {
-      return Container(
-        color: Colors.blue,
-      );
-    }
-
-    List<Color> colors = [];
-    if (_lastIndex != -1) {
-      var lastType = _weatherTypes[_lastIndex];
-      var type = _weatherTypes[_index];
-      List<Color> lastColors = WeatherUtil.getColor(lastType);
-      List<Color> currentColors = WeatherUtil.getColor(type);
-      colors.add(Color.lerp(lastColors[0], currentColors[0], _value));
-      colors.add(Color.lerp(lastColors[1], currentColors[1], _value));
-    } else {
-      colors.addAll(WeatherUtil.getColor(_weatherTypes[_index]));
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        colors: colors,
-        stops: [0, 1],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      )),
-    );
-  }
-
-  Widget _buildCloudBg() {
-    if (_weatherTypes == null ||
-        _weatherTypes.isEmpty ||
-        _lastIndex >= _weatherTypes.length ||
-        _index >= _weatherTypes.length) {
-      return Container();
-    }
-
-    List<Widget> widgets = [];
-    if (_lastIndex != -1) {
-      var lastType = _weatherTypes[_lastIndex];
-      var type = _weatherTypes[_index];
-      widgets.add(Opacity(
-        opacity: (1 - _value),
-        child: WeatherCloudBg(
-          weatherType: lastType,
-        ),
-      ));
-      widgets.add(Opacity(
-        opacity: _value,
-        child: WeatherCloudBg(
-          weatherType: type,
-        ),
-      ));
-    } else {
-      widgets.add(Opacity(
-        opacity: _value,
-        child: WeatherCloudBg(
-          weatherType: _weatherTypes[_index],
-        ),
-      ));
-    }
-    return Stack(
-      children: widgets,
-    );
-  }
-
-  bool isThunder(weatherType) {
-    return weatherType == WeatherType.thunder;
-  }
-
-  bool isStar(weatherType) {
-    return weatherType == WeatherType.sunnyNight;
-  }
-
-  Widget _buildRainSnowBg() {
-    if (_weatherTypes == null ||
-        _weatherTypes.isEmpty ||
-        _lastIndex >= _weatherTypes.length ||
-        _index >= _weatherTypes.length) {
-      return Container();
-    }
-    weatherPrint("开始构建雨雪层");
-    List<Widget> widgets = [];
-    if (_lastIndex != -1) {
-      var lastType = _weatherTypes[_lastIndex];
-      var type = _weatherTypes[_index];
-      if (WeatherUtil.isSnowRain(lastType)) {
-        widgets.add(Opacity(
-          opacity: (1 - _value),
-          child: WeatherRainSnowBg(
-            weatherType: lastType,
-          ),
-        ));
-      }
-      if (WeatherUtil.isSnowRain(type)) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherRainSnowBg(
-            weatherType: type,
-          ),
-        ));
-      }
-    } else {
-      if (WeatherUtil.isSnowRain(_weatherTypes[_index])) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherRainSnowBg(
-            weatherType: _weatherTypes[_index],
-          ),
-        ));
-      }
-    }
-    return Stack(
-      children: widgets,
-    );
-  }
-
-  Widget _buildThunderBg() {
-    if (_weatherTypes == null ||
-        _weatherTypes.isEmpty ||
-        _lastIndex >= _weatherTypes.length ||
-        _index >= _weatherTypes.length) {
-      return Container();
-    }
-    weatherPrint("开始构建雷暴层");
-    List<Widget> widgets = [];
-    if (_lastIndex != -1) {
-      var lastType = _weatherTypes[_lastIndex];
-      var type = _weatherTypes[_index];
-      if (isThunder(lastType)) {
-        widgets.add(Opacity(
-          opacity: (1 - _value),
-          child: WeatherThunderBg(
-            weatherType: lastType,
-          ),
-        ));
-      }
-      if (isThunder(type)) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherThunderBg(
-            weatherType: type,
-          ),
-        ));
-      }
-    } else {
-      if (isThunder(_weatherTypes[_index])) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherThunderBg(
-            weatherType: _weatherTypes[_index],
-          ),
-        ));
-      }
-    }
-    return Stack(
-      children: widgets,
-    );
-  }
-
-  Widget _buildStarBg() {
-    if (_weatherTypes == null ||
-        _weatherTypes.isEmpty ||
-        _lastIndex >= _weatherTypes.length ||
-        _index >= _weatherTypes.length) {
-      return Container();
-    }
-    weatherPrint("开始构建星星层");
-    List<Widget> widgets = [];
-    if (_lastIndex != -1) {
-      var lastType = _weatherTypes[_lastIndex];
-      var type = _weatherTypes[_index];
-      if (isStar(lastType)) {
-        widgets.add(Opacity(
-          opacity: (1 - _value),
-          child: WeatherNightStarBg(
-            weatherType: lastType,
-          ),
-        ));
-      }
-      if (isStar(type)) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherNightStarBg(
-            weatherType: type,
-          ),
-        ));
-      }
-    } else {
-      if (isStar(_weatherTypes[_index])) {
-        widgets.add(Opacity(
-          opacity: _value,
-          child: WeatherNightStarBg(
-            weatherType: _weatherTypes[_index],
-          ),
-        ));
-      }
-    }
-    return Stack(
-      children: widgets,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Container(
       child: Stack(
         children: [
-          _buildColorBg(),
-          _buildCloudBg(),
-          _buildRainSnowBg(),
-          _buildThunderBg(),
-          _buildStarBg(),
+          WeatherBg(
+            weatherType: _weatherTypes[_index],
+            width: width,
+            height: height,
+          ),
         ],
       ),
     );

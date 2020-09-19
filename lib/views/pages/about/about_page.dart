@@ -1,12 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
-import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_cloud_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_night_star_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_rain_snow_bg.dart';
-import 'package:flutter_dynamic_weather/views/bg/weather_thunder_bg.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
+import 'package:flutter_weather_bg/bg/weather_bg.dart';
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:package_info/package_info.dart';
 import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,7 +19,9 @@ class _AboutPageState extends State<AboutPage> {
   String _version;
   String _appName;
 
-  Widget _buildBg() {
+  Widget _buildBg(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Container(
@@ -34,18 +33,11 @@ class _AboutPageState extends State<AboutPage> {
             end: Alignment.bottomCenter,
           )),
         ),
-        WeatherCloudBg(
+        WeatherBg(
           weatherType: _weatherType,
-        ),
-        WeatherRainSnowBg(
-          weatherType: _weatherType,
-        ),
-        WeatherThunderBg(
-          weatherType: _weatherType,
-        ),
-        WeatherNightStarBg(
-          weatherType: _weatherType,
-        ),
+          width: width,
+          height: height,
+        )
       ],
     );
   }
@@ -71,7 +63,7 @@ class _AboutPageState extends State<AboutPage> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            _buildBg(),
+            _buildBg(context),
             BlurRectWidget(
               sigmaX: 0,
               sigmaY: 0,
@@ -134,7 +126,9 @@ class _AboutPageState extends State<AboutPage> {
                                 },
                                 onSelected: (WeatherType action) {
                                   setState(() {
-                                    UmengAnalyticsPlugin.event(AnalyticsConstant.aboutWeatherClick, label: "$action");
+                                    UmengAnalyticsPlugin.event(
+                                        AnalyticsConstant.aboutWeatherClick,
+                                        label: "$action");
                                     _weatherType = action;
                                   });
                                 },
@@ -191,7 +185,9 @@ class _AboutPageState extends State<AboutPage> {
                                       const url =
                                           'https://github.com/xiaweizi/SimplicityWeather';
                                       if (await canLaunch(url)) {
-                                        UmengAnalyticsPlugin.event(AnalyticsConstant.aboutClick, label: "简悦天气-github");
+                                        UmengAnalyticsPlugin.event(
+                                            AnalyticsConstant.aboutClick,
+                                            label: "简悦天气-github");
                                         await launch(url);
                                       }
                                     },
@@ -309,7 +305,8 @@ class _AboutPageState extends State<AboutPage> {
       recognizer: TapGestureRecognizer()
         ..onTap = () async {
           if (await canLaunch(url)) {
-            UmengAnalyticsPlugin.event(AnalyticsConstant.aboutClick, label: show);
+            UmengAnalyticsPlugin.event(AnalyticsConstant.aboutClick,
+                label: show);
             await launch(url);
           }
         },

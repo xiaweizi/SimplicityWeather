@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
+
 class DayForecastDetail extends StatelessWidget {
   List<DaysData> _data = [];
 
@@ -41,13 +43,13 @@ class DayForecastDetail extends StatelessWidget {
         }
         if (resultDaily.skycon08h20h != null &&
             index < resultDaily.skycon08h20h.length) {
-          dayType = WeatherUtil.convertWeatherType(
+          dayType = WeatherUtils.convertWeatherType(
               resultDaily.skycon08h20h[index].value);
           daySkycon = resultDaily.skycon08h20h[index].value;
         }
         if (resultDaily.skycon20h32h != null &&
             index < resultDaily.skycon20h32h.length) {
-          nightType = WeatherUtil.convertWeatherType(
+          nightType = WeatherUtils.convertWeatherType(
               resultDaily.skycon20h32h[index].value);
           nightSkycon = resultDaily.skycon20h32h[index].value;
         }
@@ -170,7 +172,7 @@ class DayPainter extends CustomPainter {
 
       var dayDescY = dayIconY + iconSize + margin2;
       var dayPara = UiUtils.getParagraph(
-          WeatherUtil.convertDesc(element.daySkycon), mainTextSize, itemWidth: itemWith);
+          WeatherUtils.convertDesc(element.daySkycon), mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           dayPara, Offset(startX - dayPara.width / 2, dayDescY));
 
@@ -185,7 +187,7 @@ class DayPainter extends CustomPainter {
 
       var nightDescY = nightIconY + iconSize + margin2;
       var nightPara = UiUtils.getParagraph(
-          WeatherUtil.convertDesc(element.nightSkycon), mainTextSize, itemWidth: itemWith);
+          WeatherUtils.convertDesc(element.nightSkycon), mainTextSize, itemWidth: itemWith);
       canvas.drawParagraph(
           nightPara, Offset(startX - nightPara.width / 2, nightDescY));
 
