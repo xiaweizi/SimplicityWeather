@@ -129,6 +129,7 @@ class _ManagerPageState extends State<ManagerPage> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                globalHeight = MediaQuery.of(context).size.height;
               },
             ),
           ),
@@ -161,82 +162,84 @@ class _ManagerPageState extends State<ManagerPage> {
     return Container();
   }
 
-  Widget _buildItemContentWidget(ManagerData data) => Stack(
-        children: [
-          WeatherColorBg(weatherType: data.weatherType, height: 100,),
-          Container(
-            height: 100,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 14,
+  Widget _buildItemContentWidget(ManagerData data)  {
+    return Stack(
+      children: [
+        WeatherBg(weatherType: data.weatherType, height: 100, width: MediaQuery.of(context).size.width,),
+        Container(
+          height: 100,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 14,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "${data.weatherDesc}",
+                          style: TextStyle(
+                              color: Color.fromARGB(200, 255, 255, 255),
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1,
+                              fontSize: 12),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${data.todayTemperature}",
+                          style: TextStyle(
+                              color: Color.fromARGB(200, 255, 255, 255),
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1,
+                              fontSize: 12),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "${data.cityName}",
+                          style: TextStyle(
+                              color: Color.fromARGB(250, 255, 255, 255),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18),
+                        ),
+                        SizedBox(width: 6,),
+                        Visibility(
+                          visible: data.isLocated == true,
+                          child: Icon(Icons.location_on, color: Colors.white, size: 18,),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "${data.weatherDesc}",
-                            style: TextStyle(
-                                color: Color.fromARGB(200, 255, 255, 255),
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 1,
-                                fontSize: 12),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "${data.todayTemperature}",
-                            style: TextStyle(
-                                color: Color.fromARGB(200, 255, 255, 255),
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 1,
-                                fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "${data.cityName}",
-                            style: TextStyle(
-                                color: Color.fromARGB(250, 255, 255, 255),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18),
-                          ),
-                          SizedBox(width: 6,),
-                          Visibility(
-                            visible: data.isLocated == true,
-                            child: Icon(Icons.location_on, color: Colors.white, size: 18,),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  "${data.currentTemperature}",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 40),
-                ),
-                SizedBox(
-                  width: 20,
-                )
-              ],
-            ),
+              ),
+              Text(
+                "${data.currentTemperature}",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 40),
+              ),
+              SizedBox(
+                width: 20,
+              )
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 
   Widget _buildItemWidget(ManagerData data) {
     if (data.isLocated != true) {

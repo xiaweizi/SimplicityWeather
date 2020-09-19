@@ -97,11 +97,15 @@ class _WeatherMainBgState extends State<WeatherMainBg>
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    WeatherType weatherType = WeatherType.sunny;
+    if (_weatherTypes != null && _weatherTypes.isNotEmpty) {
+      weatherType = _weatherTypes[_index];
+    }
     return Container(
       child: Stack(
         children: [
           WeatherBg(
-            weatherType: _weatherTypes[_index],
+            weatherType: weatherType,
             width: width,
             height: height,
           ),

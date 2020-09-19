@@ -211,7 +211,7 @@ class WeatherUtils {
       case WeatherType.cloudyNight:
         return "assets/images/weather/cloudy_night.png";
       default:
-        return "assets/images/weather/sunnyy.png";
+        return "assets/images/weather/sunny.png";
     }
   }
 
