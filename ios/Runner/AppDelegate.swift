@@ -9,7 +9,7 @@ import AMapFoundationKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    AMapServices.shared()?.apiKey = "9a313effeb3ba1be5dfdcc42308d7d07"
+    AMapServices.shared()?.apiKey = "1acd2fca2d9361152f3e77d0d7807043"
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -57,7 +57,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="9c8852cc13bc895241c4d3f55d111401" />
+            android:value="475e5ad0104d082aa642567d27b6f481" />
 
         <provider
             android:name="sk.fourq.otaupdate.OtaUpdateFileProvider"

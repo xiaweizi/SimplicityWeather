@@ -129,7 +129,6 @@ class _ManagerPageState extends State<ManagerPage> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                globalHeight = MediaQuery.of(context).size.height;
               },
             ),
           ),
@@ -165,7 +164,7 @@ class _ManagerPageState extends State<ManagerPage> {
   Widget _buildItemContentWidget(ManagerData data)  {
     return Stack(
       children: [
-        WeatherBg(weatherType: data.weatherType, height: 100, width: MediaQuery.of(context).size.width,),
+        WeatherColorBg(weatherType: data.weatherType, height: 100,),
         Container(
           height: 100,
           child: Row(
