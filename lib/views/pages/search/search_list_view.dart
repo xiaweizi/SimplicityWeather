@@ -40,31 +40,33 @@ class SearchListView extends StatelessWidget {
         alignment: Alignment.topLeft,
         child: ListView.builder(
           itemBuilder: (_, index) {
-            return InkWell(
-              child: Container(
-                alignment: Alignment.centerLeft,
-                height: 60,
-                margin: EdgeInsets.only(left: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text("${cityData[index].name}"),
-                    ),
-                    Text("${isAdd(cityData[index]) ? "已添加" : ""}"),
-                    SizedBox(
-                      width: 16,
-                    )
-                  ],
+            return Card(
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  height: 60,
+                  margin: EdgeInsets.only(left: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text("${cityData[index].name}"),
+                      ),
+                      Text("${isAdd(cityData[index]) ? "已添加" : ""}"),
+                      SizedBox(
+                        width: 16,
+                      )
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  if (isAdd(cityData[index])) {
+                    eventBus.fire(ChangeCityEvent(cityData[index].center));
+                    Navigator.of(context).pop();
+                  } else if (itemClickCallback != null) {
+                    itemClickCallback(cityData[index]);
+                  }
+                },
               ),
-              onTap: () {
-                if (isAdd(cityData[index])) {
-                  eventBus.fire(ChangeCityEvent(cityData[index].center));
-                  Navigator.of(context).pop();
-                } else if (itemClickCallback != null) {
-                  itemClickCallback(cityData[index]);
-                }
-              },
             );
           },
           itemCount: cityData.length,
