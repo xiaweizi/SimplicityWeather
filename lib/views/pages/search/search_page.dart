@@ -234,9 +234,6 @@ class _SearchPageState extends State<SearchPage> {
                     fetchCityData(keywords);
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
                 Stack(
                   children: [
                     Visibility(

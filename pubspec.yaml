@@ -40,7 +40,7 @@ dependencies:
   package_info: ^0.4.3
   ota_update: ^2.4.1
   flutter_tts: ^1.2.7
-  flutter_weather_bg: ^2.2.0
+  flutter_weather_bg: ^2.7.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
