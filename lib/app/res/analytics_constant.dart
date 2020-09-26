@@ -9,5 +9,6 @@ class AnalyticsConstant {
   static const String weatherType = "weather_type";
   static const String ota = "ota";
   static const String aboutWeatherClick = "aboutWeatherClick";
+  static const String exampleClick = "example_click";
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
+import 'package:flutter_dynamic_weather/app/router.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
@@ -104,33 +105,15 @@ class _AboutPageState extends State<AboutPage> {
                             Container(
                               padding: EdgeInsets.only(right: 9),
                               alignment: Alignment.centerRight,
-                              child: PopupMenuButton<WeatherType>(
+                              child: IconButton(
                                 icon: Icon(
                                   Icons.more_vert,
                                   color: Colors.white,
                                   size: 20,
                                 ),
-                                tooltip: "长按提示",
-                                initialValue: _weatherType,
-                                padding: EdgeInsets.all(0.0),
-                                itemBuilder: (BuildContext context) {
-                                  return WeatherType.values
-                                      .sublist(0, WeatherType.values.length)
-                                      .map(
-                                        (e) => PopupMenuItem<WeatherType>(
-                                          child: Text(e.toString()),
-                                          value: e,
-                                        ),
-                                      )
-                                      .toList();
-                                },
-                                onSelected: (WeatherType action) {
-                                  setState(() {
-                                    UmengAnalyticsPlugin.event(
-                                        AnalyticsConstant.aboutWeatherClick,
-                                        label: "$action");
-                                    _weatherType = action;
-                                  });
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(Router.example);
                                 },
                               ),
                             ),
