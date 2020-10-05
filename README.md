@@ -10,7 +10,7 @@
 
 ### 体验
 
-点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_6.apk)下载
+点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_7.apk)下载
 
 或者直接扫描二维码抢先体验
 
@@ -126,6 +126,10 @@ Fluter 为什么目前这么火热，以及开发的效率如此之高，除了�
 天气 icon 来自 [阿里icon](https://www.iconfont.cn/)
 
 ### ChangeLog
+
+#### 2.7.0
+
+- 重构自更新弹窗页面
 
 #### 2.6.0
 
