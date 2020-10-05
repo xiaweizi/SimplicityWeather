@@ -5,6 +5,7 @@ import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/router.dart';
 import 'package:flutter_dynamic_weather/app/utils/image_utils.dart';
 import 'package:flutter_dynamic_weather/views/common/loading_dialog.dart';
+import 'package:flutter_dynamic_weather/views/common/ota_dialog.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/home_page.dart';
 import 'dart:ui' as ui;
 
@@ -23,6 +24,15 @@ void showAppDialog({String loadingMsg = "正在加载中..."}) {
         return new LoadingDialog(
           text: loadingMsg,
         );
+      });
+}
+
+void showOTADialog(String apkUrl, String desc, String versionName) {
+  showDialog<LoadingDialog>(
+      context: globalKey.currentContext,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new OTADialog(desc, versionName, apkUrl);
       });
 }
 
