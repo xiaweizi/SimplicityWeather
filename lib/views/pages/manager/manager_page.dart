@@ -353,7 +353,7 @@ class _ManagerPageState extends State<ManagerPage> {
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushNamed(Router.search);
+          Navigator.of(context).pushNamed(WeatherRouter.search);
         },
       ),
     );
@@ -363,20 +363,17 @@ class _ManagerPageState extends State<ManagerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.dark,
-          child: Container(
-            padding: EdgeInsets.only(
-                top: MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-                    .padding
-                    .top),
-            child: Column(
-              children: [
-                _buildAppBar(),
-                _buildSearchView(),
-                _buildManagerContent(),
-              ],
-            ),
+        body: Container(
+          padding: EdgeInsets.only(
+              top: MediaQueryData.fromWindow(WidgetsBinding.instance.window)
+                  .padding
+                  .top),
+          child: Column(
+            children: [
+              _buildAppBar(),
+              _buildSearchView(),
+              _buildManagerContent(),
+            ],
           ),
         ));
   }

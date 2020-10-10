@@ -49,13 +49,10 @@ class FlutterApp extends StatelessWidget {
     return MaterialApp(
       title: "动态天气",
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: Router.generateRoute,
+      onGenerateRoute: WeatherRouter.generateRoute,
       navigatorObservers: [AppAnalysis()],
       color: Colors.blue[600],
-      home: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: HomePage(key: globalKey),
-      ),
+      home: HomePage(key: globalKey)
     );
   }
 }

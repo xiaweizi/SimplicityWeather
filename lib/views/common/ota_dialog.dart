@@ -9,7 +9,7 @@ import 'package:flutter_dynamic_weather/views/common/wave_view.dart';
 import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:ota_update/ota_update.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+
 
 var radius = 20.0;
 var width = 250.0;
@@ -123,7 +123,6 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
   }
 
   void startOta() async {
-    UmengAnalyticsPlugin.event(AnalyticsConstant.ota, label: "start");
     OTAUtils.startOTA(
         widget.apkUrl,
         (event) {
@@ -154,8 +153,6 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
                 color: Colors.white.withAlpha(188),
               ),
               onPressed: () {
-                UmengAnalyticsPlugin.event(AnalyticsConstant.ota,
-                    label: "cancel");
                 Navigator.of(context).pop();
               },
             ),

@@ -16,8 +16,6 @@ import 'package:flutter_dynamic_weather/views/common/loading_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/main_app_bar.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/main_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:location_permissions/location_permissions.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -28,22 +26,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
-  var locationState;
-
-  Future<void> init() async {
-    await UmengAnalyticsPlugin.init(
-      androidKey: '5f43cf00b4b08b653e98cc1a',
-      iosKey: '5f43cf6db4b08b653e98cc1f',
-      channel: "github",
-    );
-    UmengAnalyticsPlugin.event(AnalyticsConstant.initMainPage, label: Platform.operatingSystem);
-  }
-
   @override
   void initState() {
-    weatherPrint("umeng init event ${Platform.operatingSystem}");
-    init();
-    OTAUtils.initOTA();
     super.initState();
   }
 
@@ -57,31 +41,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         )
       ],
     );
-  }
-
-  Future<void> requestPermission() async {
-    await Future.delayed(Duration(seconds: 2));
-    var permissionStatus = await LocationPermissions().checkPermissionStatus();
-    weatherPrint('当前权限状态：$permissionStatus');
-    if (permissionStatus != PermissionStatus.granted) {
-      var permissionResult = await LocationPermissions().requestPermissions(permissionLevel: LocationPermissionLevel.locationWhenInUse);
-      if (permissionResult == PermissionStatus.granted) {
-        await Future.delayed(Duration(seconds: 1));
-        setState(() {
-          locationState = LocatePermissionState.success;
-        });
-      } else {
-        var models = await SPUtil.getCityModels();
-        if (models == null || models.isEmpty) {
-          Navigator.of(context).pushNamed(Router.search);
-        }
-        ToastUtils.show("请打开定位权限", context, duration: 2);
-      }
-    } else {
-      setState(() {
-        locationState = LocatePermissionState.success;
-      });
-    }
   }
 
   @override
@@ -98,17 +57,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                       .top),
               child: BlocBuilder<CityBloc, CityState>(
                 builder: (_, s) {
-                  weatherPrint(
-                      'homePage， state: ${s.runtimeType}, locationState: $locationState');
                   if (s is CitySuccess) {
                     return _buildHomeContent(s.cityModels);
                   } else if (s is CityInit) {
-                    if (locationState == null) {
-                      locationState = LocatePermissionState.loading;
-                      requestPermission();
-                    } else if (locationState == LocatePermissionState.success) {
-                      BlocProvider.of<CityBloc>(context).add(RequestLocationEvent());
-                    }
+                    BlocProvider.of<CityBloc>(context).add(RequestLocationEvent());
                     return Container(
                       alignment: Alignment.center,
                       child: Container(),

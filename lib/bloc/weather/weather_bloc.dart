@@ -12,7 +12,7 @@ import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/net/weather_api.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+
 
 part 'weather_event.dart';
 

@@ -4,9 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
-import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
 import 'package:flutter_dynamic_weather/app/res/widget_state.dart';
-import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/location_util.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/shared_preference_util.dart';
@@ -19,13 +17,10 @@ import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/common/loading_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/aqi_chart.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/day_forecast.dart';
-import 'package:flutter_dynamic_weather/views/pages/home/day_forecast_detail.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/hour_forecast.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/life_index.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/real_time.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/real_time_detail.dart';
-import 'package:location_permissions/location_permissions.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 
 class CityView extends StatefulWidget {

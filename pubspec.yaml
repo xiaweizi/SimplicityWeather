@@ -27,12 +27,9 @@ dependencies:
   equatable: ^1.2.3
   shared_preferences: ^0.5.8
   dio: ^3.0.10
-  amap_location_fluttify: ^0.14.0+1
-  location_permissions: ^3.0.0
   toast: ^0.1.5
   event_bus: ^1.1.1
   flutter_slidable: ^0.5.5
-  umeng_analytics_plugin: ^1.0.3
   flutter_screenutil: ^2.3.0
   modal_bottom_sheet: ^0.2.0+1
   path_drawing: ^0.4.1+1

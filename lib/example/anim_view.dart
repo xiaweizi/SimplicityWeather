@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/utils/weather_type.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+
 
 /// 主要提供两个实例
 /// 1. 切换天气类型时，会有过度动画
@@ -45,7 +45,6 @@ class _AnimViewWidgetState extends State<AnimViewWidget> {
               ],
             ),
             onSelected: (count) {
-              UmengAnalyticsPlugin.event(AnalyticsConstant.aboutWeatherClick, label: "$count");
               setState(() {
                 _weatherType = count;
               });

@@ -22,7 +22,7 @@ import 'package:flutter_dynamic_weather/views/common/loading_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/hot_city_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/search_app_bar.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/search_list_view.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+
 
 class SearchPage extends StatefulWidget {
   @override
@@ -76,7 +76,6 @@ class _SearchPageState extends State<SearchPage> {
       });
     } else {
       if (result.districts != null && result.districts.isNotEmpty) {
-        UmengAnalyticsPlugin.event(AnalyticsConstant.searchCityName, label: "$keywords");
         result.districts.forEach((element) {
           if (element.level == CityData.cityLevel ||
               element.level == CityData.districtLevel) {
