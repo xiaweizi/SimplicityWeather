@@ -38,7 +38,6 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       weatherPrint("开始请求定位...");
 
       CityModel cityModel = _buildDefault();
-      cityModel.displayedName = WeatherUtils.getCityName(cityModel);
       List<CityModel> cityModels = [];
       cityModels = await insertCityMode(cityModel);
       weatherPrint('定位成功 location: $cityModel');

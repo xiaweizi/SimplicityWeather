@@ -87,14 +87,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Wrap(
-          children: [
-            _buildItem(context, WeatherRouter.routePage, "翻页效果", WeatherType.thunder),
-            _buildItem(context, WeatherRouter.routeGrid, "宫格效果", WeatherType.sunnyNight),
-            _buildItem(context, WeatherRouter.routeList, "列表效果", WeatherType.lightSnow),
-            _buildItem(context, WeatherRouter.routeAnim, "切换效果", WeatherType.sunny),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          child: Wrap(
+            children: [
+              _buildItem(context, WeatherRouter.routePage, "翻页效果", WeatherType.thunder),
+              _buildItem(context, WeatherRouter.routeGrid, "宫格效果", WeatherType.sunnyNight),
+              _buildItem(context, WeatherRouter.routeList, "列表效果", WeatherType.lightSnow),
+              _buildItem(context, WeatherRouter.routeAnim, "切换效果", WeatherType.sunny),
+            ],
+          ),
         ),
       ),
     );

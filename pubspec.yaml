@@ -36,7 +36,6 @@ dependencies:
   url_launcher: ^5.5.1
   package_info: ^0.4.3
   ota_update: ^2.4.1
-  flutter_tts: ^1.2.7
   flutter_weather_bg: ^2.8.0
 
   # The following adds the Cupertino Icons font to your application.
