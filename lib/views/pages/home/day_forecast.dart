@@ -9,7 +9,6 @@ import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/day_forecast_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class DayForecastView extends StatelessWidget {
   final WeatherModelResultDaily resultDaily;
@@ -77,7 +76,6 @@ class DayForecastView extends StatelessWidget {
         2;
     return GestureDetector(
       onTap: () {
-        UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "多日");
         showMaterialModalBottomSheet(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

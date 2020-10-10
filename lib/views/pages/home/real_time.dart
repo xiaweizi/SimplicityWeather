@@ -11,7 +11,6 @@ import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/rain_detail.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/real_time_temp.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RealtimeView extends StatelessWidget {
@@ -86,7 +85,6 @@ class RealtimeView extends StatelessWidget {
     if (entity != null &&
         entity.result != null &&
         entity.result.realtime != null) {
-      UmengAnalyticsPlugin.event(AnalyticsConstant.weatherType, label: WeatherUtils.convertDesc(entity.result.realtime.skycon));
       child = Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +106,6 @@ class RealtimeView extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "降雨卡片");
               showMaterialModalBottomSheet(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(

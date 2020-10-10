@@ -106,9 +106,9 @@ class _MainAppBarState extends State<MainAppBar> {
             padding: EdgeInsets.only(left: 20),
             onPressed: () async {
               if (widget.cityModels == null && widget.cityModels.isEmpty) {
-                Navigator.of(context).pushNamed(Router.search);
+                Navigator.of(context).pushNamed(WeatherRouter.search);
               } else {
-                Navigator.of(context).pushNamed(Router.manager);
+                Navigator.of(context).pushNamed(WeatherRouter.manager);
               }
             },
             icon: Icon(
@@ -130,7 +130,7 @@ class _MainAppBarState extends State<MainAppBar> {
           IconButton(
             padding: EdgeInsets.only(right: 20),
             onPressed: () {
-              Navigator.of(context).pushNamed(Router.about);
+              Navigator.of(context).pushNamed(WeatherRouter.about);
             },
             icon: Icon(
               Icons.more_vert,

@@ -10,7 +10,6 @@ import 'package:flutter_dynamic_weather/app/res/common_extension.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LifeIndexView extends StatelessWidget {
@@ -132,7 +131,6 @@ class LifeIndexView extends StatelessWidget {
       ),
       onTap: () {
         if (detail.type != LifeIndexType.typhoon) {
-          UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "生活指数");
           showMaterialModalBottomSheet(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -149,7 +147,6 @@ class LifeIndexView extends StatelessWidget {
             ),
           );
         } else {
-          UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "台风路径");
           _launchURL();
         }
       },

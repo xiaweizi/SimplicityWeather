@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:amap_location_fluttify/amap_location_fluttify.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +16,6 @@ import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/net/weather_api.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 part 'city_event.dart';
 
@@ -38,16 +36,10 @@ class CityBloc extends Bloc<CityEvent, CityState> {
     } else if (event is RequestLocationEvent) {
       showAppDialog(loadingMsg: "正在定位");
       weatherPrint("开始请求定位...");
-      Location location = await AmapLocation.instance.fetchLocation();
-      weatherPrint("定位结束: $location");
-      CityModel cityModel = convert(location);
+
+      CityModel cityModel = _buildDefault();
       cityModel.displayedName = WeatherUtils.getCityName(cityModel);
-      UmengAnalyticsPlugin.event(AnalyticsConstant.locatedCityName, label: "${cityModel.displayedName}");
       List<CityModel> cityModels = [];
-      if (cityModel.latitude == 0.0 || cityModel.longitude == 0.0) {
-        ToastUtils.show("高德 API 调用上限, 默认添加北京，请见谅", globalKey.currentContext, duration: 5);
-        cityModel = _buildDefault();
-      }
       cityModels = await insertCityMode(cityModel);
       weatherPrint('定位成功 location: $cityModel');
       eventBus.fire(MainBgChangeEvent());
@@ -145,20 +137,6 @@ class CityBloc extends Bloc<CityEvent, CityState> {
     return cityModels;
   }
 
-  CityModel convert(Location location) {
-    return CityModel(
-        latitude: location.latLng.latitude,
-        longitude: location.latLng.longitude,
-        country: location.country,
-        province: location.province,
-        city: location.city,
-        district: location.district,
-        poiName: location.poiName,
-        street: location.street,
-        streetNumber: location.streetNumber,
-        isLocated: true);
-  }
-
   Stream<CityState> mapFetchCityDataEventToState() async* {
     weatherPrint("开始获取本地城市列表数据====");
     var cityModels = await SPUtil.getCityModels();
@@ -168,7 +146,6 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       yield CityInit();
     } else {
       weatherPrint('成功获取到城市列表数据 size: ${cityModels.length}');
-      UmengAnalyticsPlugin.event(AnalyticsConstant.cityTotalCount, label: "${cityModels.length}");
       yield CitySuccess(cityModels);
     }
   }

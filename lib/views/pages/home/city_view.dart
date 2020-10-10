@@ -24,8 +24,6 @@ import 'package:flutter_dynamic_weather/views/pages/home/hour_forecast.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/life_index.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/real_time.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/real_time_detail.dart';
-import 'package:location_permissions/location_permissions.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 
 class CityView extends StatefulWidget {

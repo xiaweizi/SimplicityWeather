@@ -9,7 +9,6 @@ import 'package:flutter_dynamic_weather/example/page_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/about/about_page.dart';
 import 'package:flutter_dynamic_weather/views/pages/manager/manager_page.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/search_page.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 import 'utils/router_utils.dart';
 
@@ -18,9 +17,6 @@ class AppAnalysis extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route.settings.name != null) {
       weatherPrint("AppAnalysis didPush: ${route.settings.name}");
-      UmengAnalyticsPlugin.event(AnalyticsConstant.pageShow,
-          label: "${route.settings.name}");
-      UmengAnalyticsPlugin.pageStart(route.settings.name);
     }
   }
 
@@ -28,12 +24,11 @@ class AppAnalysis extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route.settings.name != null) {
       weatherPrint("AppAnalysis didPop: ${route.settings.name}");
-      UmengAnalyticsPlugin.pageEnd(route.settings.name);
     }
   }
 }
 
-class Router {
+class WeatherRouter {
   static const String manager = 'manager';
   static const String search = 'search';
   static const String about = 'about';

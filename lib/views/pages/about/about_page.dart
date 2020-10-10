@@ -6,7 +6,6 @@ import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:package_info/package_info.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -113,7 +112,7 @@ class _AboutPageState extends State<AboutPage> {
                                 ),
                                 onPressed: () {
                                   Navigator.of(context)
-                                      .pushNamed(Router.example);
+                                      .pushNamed(WeatherRouter.example);
                                 },
                               ),
                             ),
@@ -168,9 +167,6 @@ class _AboutPageState extends State<AboutPage> {
                                       const url =
                                           'https://github.com/xiaweizi/SimplicityWeather';
                                       if (await canLaunch(url)) {
-                                        UmengAnalyticsPlugin.event(
-                                            AnalyticsConstant.aboutClick,
-                                            label: "简悦天气-github");
                                         await launch(url);
                                       }
                                     },
@@ -288,8 +284,6 @@ class _AboutPageState extends State<AboutPage> {
       recognizer: TapGestureRecognizer()
         ..onTap = () async {
           if (await canLaunch(url)) {
-            UmengAnalyticsPlugin.event(AnalyticsConstant.aboutClick,
-                label: show);
             await launch(url);
           }
         },
