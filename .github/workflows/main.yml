@@ -1,0 +1,33 @@
+name: Flutter Desktop Build CI
+on:
+  push:
+    branches: [ flutter_macos ]
+  pull_request:
+    branches: [ flutter_macos ]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'dev'  
+    # config enable macos
+    - run: flutter config --enable-macos-desktop
+    - name: Install dependencies
+      run: flutter pub get
+    # 运行测试
+    - name: Run tests
+      run: pub run test
+    # 编译release版本
+    - name: Build products
+      run: flutter build macos -v --release
+    # 压缩app
+    - name: Compress artifacts
+      run: cd build/macos/Build/Products/Release && tar -jcvf out.tar.bz2 out.app
+    # 上传生成物
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: out.tar.bz2
+        path: build/macos/Build/Products/Release/out.tar.bz2
