@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view_bottom_stub"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/public_white"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_minute_bottom_bg"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:id="@+id/view_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/minute_top_view_height"
+            android:background="#1A00BCD4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_progress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/minute_progress_height"
+            android:background="@drawable/shape_minute_progress_bg"
+            app:layout_constraintTop_toBottomOf="@id/view_top">
+
+            <com.eiffelyk.weather.weizi.map.MinuteProgressView
+                android:id="@+id/view_progress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line5"
+                app:layout_constraintStart_toStartOf="@id/view_line1" />
+
+
+            <ImageView
+                android:id="@+id/iv_minute_action"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="@dimen/public_margin_start_end"
+                android:src="@mipmap/ic_rain_area_play"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_line1"
+                android:layout_width="1dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="40dp"
+                android:background="@color/amap_progress_line_color"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress1"
+                app:layout_constraintEnd_toStartOf="@id/view_line2"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@id/iv_minute_action"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_progress1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="现在"
+                android:textColor="@color/amap_progress_line_color"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line1"
+                app:layout_constraintStart_toStartOf="@id/view_line1"
+                app:layout_constraintTop_toBottomOf="@id/view_line1" />
+
+
+            <View
+                android:id="@+id/view_line2"
+                android:layout_width="1dp"
+                android:layout_height="4dp"
+                android:background="@color/amap_progress_line_color"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress2"
+                app:layout_constraintEnd_toStartOf="@id/view_line3"
+                app:layout_constraintStart_toEndOf="@id/view_line1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_progress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="30分钟"
+                android:textColor="@color/amap_progress_line_color"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line2"
+                app:layout_constraintStart_toStartOf="@id/view_line2"
+                app:layout_constraintTop_toBottomOf="@id/view_line2" />
+
+            <View
+                android:id="@+id/view_line3"
+                android:layout_width="1dp"
+                android:layout_height="4dp"
+                android:background="@color/amap_progress_line_color"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress3"
+                app:layout_constraintEnd_toStartOf="@id/view_line4"
+                app:layout_constraintStart_toEndOf="@id/view_line2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_progress3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="60分钟"
+                android:textColor="@color/amap_progress_line_color"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line3"
+                app:layout_constraintStart_toStartOf="@id/view_line3"
+                app:layout_constraintTop_toBottomOf="@id/view_line3" />
+
+
+            <View
+                android:id="@+id/view_line4"
+                android:layout_width="1dp"
+                android:layout_height="4dp"
+                android:background="@color/amap_progress_line_color"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress4"
+                app:layout_constraintEnd_toStartOf="@id/view_line5"
+                app:layout_constraintStart_toEndOf="@id/view_line3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_progress4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="90分钟"
+                android:textColor="@color/amap_progress_line_color"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line4"
+                app:layout_constraintStart_toStartOf="@id/view_line4"
+                app:layout_constraintTop_toBottomOf="@id/view_line4" />
+
+
+            <View
+                android:id="@+id/view_line5"
+                android:layout_width="1dp"
+                android:layout_height="4dp"
+                android:layout_marginEnd="40dp"
+                android:background="@color/amap_progress_line_color"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view_line4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_progress5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="120分钟"
+                android:textColor="@color/amap_progress_line_color"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/view_line5"
+                app:layout_constraintStart_toStartOf="@id/view_line5"
+                app:layout_constraintTop_toBottomOf="@id/view_line5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_progress_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/minute_progress_margin_bottom"
+            app:layout_constraintTop_toBottomOf="@id/cl_progress" />
+
+        <View
+            android:id="@+id/view_minute_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/minute_bottom_view_height"
+            android:layout_marginBottom="@dimen/minute_progress_margin_bottom"
+            android:background="#1A9C27B0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_progress_bottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

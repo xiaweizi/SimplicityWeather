@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
+import 'package:flutter_dynamic_weather/app/router.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
@@ -109,21 +111,31 @@ class RealtimeView extends StatelessWidget {
           GestureDetector(
             onTap: (){
               UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "降雨卡片");
-              showMaterialModalBottomSheet(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-                ),
-                backgroundColor: Colors.transparent,
-                context: context,
-                builder: (context, scrollController) => BlurRectWidget(
-                  color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(entity.result.realtime.skycon))[0].withAlpha(60),
-                  child: Container(
-                    height: 0.3.hp,
-                    child: RainDetailView(location: entity.location, title: "${entity.result.forecastKeypoint}",),
+              if (Platform.isAndroid) {
+                Router.jumpToNativePage(Router.minute);
+              } else {
+                showMaterialModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
                   ),
-                ),
-              );
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context, scrollController) =>
+                      BlurRectWidget(
+                        color: WeatherUtils.getColor(
+                            WeatherUtils.convertWeatherType(
+                                entity.result.realtime.skycon))[0].withAlpha(
+                            60),
+                        child: Container(
+                          height: 0.3.hp,
+                          child: RainDetailView(location: entity.location,
+                            title: "${entity.result.forecastKeypoint}",),
+                        ),
+                      ),
+                );
+              }
             },
             child: Container(
               margin: EdgeInsets.only(left: 20),

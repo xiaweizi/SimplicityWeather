@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="public_white">#fff</color>
+    <color name="public_trans">#0000</color>
+    <color name="public_main_text_color">#000</color>
+    <color name="public_sub_text_color">#666666</color>
+    <color name="public_dash_line_color">#E3E3E3</color>
+    <color name="public_button_selected_color">#4277FF</color>
+    <color name="public_card_bg">#fdfdfd</color>
+    <color name="public_whole_bg">#f0f0f0</color>
+
+    <color name="amap_marker_view_located_outer_color">#33C55C45</color>
+    <color name="amap_marker_view_located_inner_color">#C55C45</color>
+    <color name="amap_progress_line_color">#807272</color>
+    <color name="amap_progress_bg_end_color">#992196F3</color>
+    <color name="amap_progress_bg_start_color">#002196F3</color>
+</resources>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/example/anim_view.dart';
@@ -34,15 +35,23 @@ class AppAnalysis extends NavigatorObserver {
 }
 
 class Router {
+  static const String CHANNEL_NAME = 'com.example.flutter_dynamic_weather/router';
+
   static const String manager = 'manager';
   static const String search = 'search';
   static const String about = 'about';
   static const String example = 'example';
+  static const String minute = 'minute';
 
   static const String routePage = "page";
   static const String routeList = "list";
   static const String routeGrid = "grid";
   static const String routeAnim = "anim";
+
+  static Future<Null> jumpToNativePage(String name) async {
+    MethodChannel channel = MethodChannel(CHANNEL_NAME);
+    channel.invokeMethod("startActivity", {"name": name});
+  }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

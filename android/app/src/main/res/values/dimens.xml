@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="amap_marker_view_located_outer_radius">15.27dp</dimen>
+    <dimen name="amap_marker_view_located_inner_radius">6.18dp</dimen>
+
+    <dimen name="minute_top_view_height">100dp</dimen>
+    <dimen name="minute_progress_height">45dp</dimen>
+    <dimen name="minute_progress_margin_bottom">12dp</dimen>
+    <dimen name="minute_bottom_view_height">250dp</dimen>
+    <dimen name="public_margin_start_end">12dp</dimen>
+
+</resources>

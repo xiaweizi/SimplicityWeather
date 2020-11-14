@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view_status"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/public_white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_minute_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/public_white"
+        app:layout_constraintTop_toBottomOf="@id/view_status">
+
+        <ImageView
+            android:id="@+id/iv_minute_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/public_margin_start_end"
+            android:src="@mipmap/zx_left_drawer_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.flutter_dynamic_weather.MarqueeTextView
+            android:id="@+id/tv_minute_title"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="marquee"
+            android:gravity="center_vertical|start"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/public_main_text_color"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toStartOf="@id/iv_minute_locate"
+            app:layout_constraintStart_toEndOf="@id/iv_minute_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="上海市" />
+
+        <ImageView
+            android:id="@+id/iv_minute_locate"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:padding="12dp"
+            android:src="@mipmap/ic_common_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_minute_refresh"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/iv_minute_refresh"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:padding="12dp"
+            android:src="@mipmap/ic_common_refresh_vector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_minute_title" />
+
+    <ImageView
+        android:id="@+id/iv_zoom_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/public_margin_start_end"
+        android:background="@color/public_trans"
+        android:src="@mipmap/ic_zoom_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_view" />
+
+    <ImageView
+        android:id="@+id/iv_zoom_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/public_margin_start_end"
+        android:background="@color/public_trans"
+        android:src="@mipmap/ic_zoom_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_zoom_in" />
+
+    <com.eiffelyk.weather.weizi.map.MinuteLayout
+        android:id="@+id/minute_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ buildscript {
         kotlin_version = '1.4.10'
         retrofit_version = '2.5.0'
         lifecycle_version = '2.2.0'
+        ext.glideVersion = '4.11.0'
     }
     repositories {
         google()
