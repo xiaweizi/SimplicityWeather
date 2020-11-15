@@ -1,5 +1,6 @@
 package com.eiffelyk.weather.weizi.map
 
+import android.annotation.SuppressLint
 import android.os.*
 import android.view.View
 import android.widget.Toast
@@ -140,10 +141,21 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchWeatherData(lat: String, long: String) {
         LogUtils.i(TAG, "开始获取天气数据 lat: $lat, long: $long")
         mMinuteViewModel.getAllData(lat, long) {
             LogUtils.i(TAG, "天气数据获取成功")
+            mMinuteViewModel.viewModelScope.launch(Dispatchers.Main) {
+                if (it != null) {
+                    tv_rain_update_time.text = it.updateTimeDesc
+                    tv_weather_desc.text = it.weatherDesc
+                    tv_aqi_desc.text = it.aqiDesc
+                    tv_rain_desc.text = it.minuteDesc
+                    tv_temp.text = it.temp + "°"
+                }
+            }
+
         }
     }
 

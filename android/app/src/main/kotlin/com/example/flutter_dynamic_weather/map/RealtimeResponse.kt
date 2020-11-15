@@ -48,7 +48,7 @@ data class Realtime(
         @SerializedName("apparent_temperature")
         val apparentTemperature: Double, // 17.4
         @SerializedName("cloudrate")
-        val cloudrate: Int, // 0
+        val cloudrate: Double, // 0
         @SerializedName("dswrf")
         val dswrf: Double, // 551.6
         @SerializedName("humidity")
@@ -75,19 +75,19 @@ data class AirQuality(
         @SerializedName("aqi")
         val aqi: Aqi,
         @SerializedName("co")
-        val co: Int, // 0
+        val co: Double, // 0
         @SerializedName("description")
         val description: Description,
         @SerializedName("no2")
-        val no2: Int, // 0
+        val no2: Double, // 0
         @SerializedName("o3")
-        val o3: Int, // 0
+        val o3: Double, // 0
         @SerializedName("pm10")
-        val pm10: Int, // 0
+        val pm10: Double, // 0
         @SerializedName("pm25")
-        val pm25: Int, // 6
+        val pm25: Double, // 6
         @SerializedName("so2")
-        val so2: Int // 0
+        val so2: Double // 0
 )
 
 data class LifeIndex(

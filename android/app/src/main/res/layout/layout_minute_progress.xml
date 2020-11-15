@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,16 +17,130 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_minute_bottom_bg"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="@dimen/public_margin_start_end"
+        android:paddingEnd="@dimen/public_margin_start_end"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/view_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/minute_top_view_height"
-            android:background="#1A00BCD4"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_rain_level_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/public_margin_start_end"
+                android:text="降水强度"
+                android:textColor="@color/public_main_text_color"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_rain_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_margin_start_end"
+                android:text="强"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rain_level_desc"
+                app:layout_constraintEnd_toStartOf="@id/iv_rain_level"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_rain_level_desc" />
+
+            <ImageView
+                android:id="@+id/iv_rain_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:src="@mipmap/intensity_of_rainfall_legend"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rain_level_desc"
+                app:layout_constraintEnd_toStartOf="@id/tv_rain_small"
+                app:layout_constraintStart_toEndOf="@id/tv_rain_big"
+                app:layout_constraintTop_toTopOf="@id/tv_rain_level_desc" />
+
+            <TextView
+                android:id="@+id/tv_rain_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="弱"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rain_level_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_rain_level"
+                app:layout_constraintTop_toTopOf="@id/tv_rain_level_desc" />
+
+            <TextView
+                android:id="@+id/tv_rain_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/public_main_text_color"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rain_level_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_rain_level_desc"
+                tools:text="12:20 更新" />
+
+            <View
+                android:id="@+id/view_rain_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/public_margin_start_end"
+                android:background="@color/public_dash_line_color"
+                app:layout_constraintTop_toBottomOf="@id/tv_rain_level_desc" />
+
+            <com.example.flutter_dynamic_weather.MarqueeTextView
+                android:id="@+id/tv_rain_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/public_margin_start_end"
+                android:textColor="@color/public_main_text_color"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_temp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_rain_line"
+                tools:text="爱HGIEHGIE" />
+
+            <TextView
+                android:id="@+id/tv_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/public_margin_start_end"
+                android:textColor="@color/public_main_text_color"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_weather_desc"
+                app:layout_constraintTop_toBottomOf="@id/view_rain_line"
+                tools:text="12°" />
+
+            <TextView
+                android:id="@+id/tv_weather_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_margin_start_end"
+                android:layout_marginEnd="@dimen/public_margin_start_end"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_temp"
+                app:layout_constraintEnd_toStartOf="@id/tv_aqi_desc"
+                app:layout_constraintTop_toTopOf="@id/tv_temp"
+                tools:text="晴" />
+
+            <TextView
+                android:id="@+id/tv_aqi_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_margin_start_end"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_temp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_temp"
+                tools:text="优" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_progress"

@@ -84,12 +84,14 @@ class MinuteLayout : ConstraintLayout {
     }
 
     fun setExtendEnable(extendEnable: Boolean) {
-        this.mExtendEnable = extendEnable
-        view_minute_bottom.visibility = if (extendEnable) VISIBLE else INVISIBLE
-        if (!mExtendEnable) {
-            fold()
-        } else {
-            extend()
+        if (mExtendEnable != extendEnable) {
+            this.mExtendEnable = extendEnable
+            view_minute_bottom.visibility = if (extendEnable) VISIBLE else INVISIBLE
+            if (!mExtendEnable) {
+                fold()
+            } else {
+                extend()
+            }
         }
     }
 
