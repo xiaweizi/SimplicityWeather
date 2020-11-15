@@ -37,7 +37,7 @@ data class RealtimeResponse(
 
 data class Result1(
         @SerializedName("primary")
-        val primary: Int, // 0
+        val primary: Double, // 0
         @SerializedName("realtime")
         val realtime: Realtime
 )
@@ -104,16 +104,16 @@ data class Precipitation(
 
 data class Wind(
         @SerializedName("direction")
-        val direction: Int, // 45
+        val direction: Double, // 45
         @SerializedName("speed")
         val speed: Double // 33.48
 )
 
 data class Aqi(
         @SerializedName("chn")
-        val chn: Int, // 13
+        val chn: Double, // 13
         @SerializedName("usa")
-        val usa: Int // 0
+        val usa: Double // 0
 )
 
 data class Description(
@@ -127,21 +127,21 @@ data class Comfort(
         @SerializedName("desc")
         val desc: String, // 凉爽
         @SerializedName("index")
-        val index: Int // 6
+        val index: Double // 6
 )
 
 data class Ultraviolet(
         @SerializedName("desc")
         val desc: String, // 强
         @SerializedName("index")
-        val index: Int // 7
+        val index: Double // 7
 )
 
 data class Local(
         @SerializedName("datasource")
         val datasource: String, // gfs
         @SerializedName("intensity")
-        val intensity: Int, // 0
+        val intensity: Double, // 0
         @SerializedName("status")
         val status: String // ok
 )

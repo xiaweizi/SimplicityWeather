@@ -83,7 +83,8 @@ class MinuteLayout : ConstraintLayout {
         return valueAnimator
     }
 
-    fun setExtendEnable(extendEnable: Boolean) {
+    private fun setExtendEnable(extendEnable: Boolean) {
+        LogUtils.i(TAG, "设置是否可以上拉:$extendEnable")
         if (mExtendEnable != extendEnable) {
             this.mExtendEnable = extendEnable
             view_minute_bottom.visibility = if (extendEnable) VISIBLE else INVISIBLE
@@ -94,6 +95,22 @@ class MinuteLayout : ConstraintLayout {
             }
         }
     }
+
+    fun setData(precipitation2h: List<Double>?) {
+        if (precipitation2h.isNullOrEmpty()) {
+            setExtendEnable(false)
+        } else {
+            val data = precipitation2h.filter {
+                it != 0.0
+            }
+            if (data.isNullOrEmpty()) {
+                setExtendEnable(false)
+            } else {
+                setExtendEnable(true)
+            }
+        }
+    }
+
 
     private fun setControlY(controlY: Float) {
         LogUtils.i(TAG, "setControlY: $controlY")

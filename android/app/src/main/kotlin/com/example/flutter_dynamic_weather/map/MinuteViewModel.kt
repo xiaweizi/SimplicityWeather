@@ -88,7 +88,7 @@ class MinuteViewModel : ViewModel() {
 
                 weatherDesc = WeatherUtils.getWeatherDesc(realtime.result?.realtime?.skycon) ?: ""
                 temp = realtime.result?.realtime?.temperature?.toInt()?.toString()
-                aqiDesc = WeatherUtils.getAqiDesc(realtime?.result?.realtime?.airQuality?.aqi?.chn)
+                aqiDesc = WeatherUtils.getAqiDesc(realtime?.result?.realtime?.airQuality?.aqi?.chn.toInt())
                         ?: ""
             }
             if (minuteData != null) {
