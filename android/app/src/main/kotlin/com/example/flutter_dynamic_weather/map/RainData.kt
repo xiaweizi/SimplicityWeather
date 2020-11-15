@@ -11,7 +11,7 @@ import android.graphics.Bitmap
  *     desc   :
  * </pre>
  */
-data class MinuteData(
+data class RainData(
     var leftLat: Double,
     var leftLong: Double,
     var rightLat: Double,

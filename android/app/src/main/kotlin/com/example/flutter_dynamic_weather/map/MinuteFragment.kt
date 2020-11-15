@@ -1,7 +1,6 @@
 package com.eiffelyk.weather.weizi.map
 
 import android.os.*
-import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +23,6 @@ import com.amap.api.services.geocoder.RegeocodeResult
 import com.example.flutter_dynamic_weather.R
 import com.example.flutter_dynamic_weather.base.BaseFragment
 import com.example.flutter_dynamic_weather.base.LogUtils
-import com.example.flutter_dynamic_weather.base.UiUtils
 import com.example.flutter_dynamic_weather.map.AmapLocationMarkerView
 import kotlinx.android.synthetic.main.fragment_minute.*
 import kotlinx.android.synthetic.main.layout_minute_progress.*
@@ -60,7 +58,7 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
         ViewModelProvider(this).get(MinuteViewModel::class.java)
     }
     private var mLoadingDialog: AlertDialog? = null
-    private var mMinuteData: List<MinuteData>? = null
+    private var mRainData: List<RainData>? = null
     private var mRatio = 0.0f
     private var mIndex = -1
     private var mIsLoading = false
@@ -68,7 +66,7 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
     private val mHandler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_UPDATE) {
-                if (!mMinuteData.isNullOrEmpty()) {
+                if (!mRainData.isNullOrEmpty()) {
 
                     refreshRatio()
                     view_progress.setRatio(mRatio)
@@ -133,12 +131,19 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
                     }
                     if (!it.isNullOrEmpty()) {
                         minute_layout.visibility = View.VISIBLE
-                        mMinuteData = it
+                        mRainData = it
                         initProgress()
                         start()
                     }
                 }
             }
+        }
+    }
+
+    private fun fetchWeatherData(lat: String, long: String) {
+        LogUtils.i(TAG, "开始获取天气数据 lat: $lat, long: $long")
+        mMinuteViewModel.getAllData(lat, long) {
+            LogUtils.i(TAG, "天气数据获取成功")
         }
     }
 
@@ -204,33 +209,31 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
     }
 
     private fun refreshRatio() {
-        val size = mMinuteData!!.size
+        val size = mRainData!!.size
         val index: Int = ((size - 1) * mRatio).toInt()
         refreshCloud(index)
     }
 
     private fun refreshCloud(index: Int) {
-        LogUtils.i(TAG, "refreshCloud: $index")
-        val minuteData: MinuteData?
-        if (mMinuteData != null && mIndex != index && index >= 0 && index < mMinuteData!!.size) {
+        val rainData: RainData?
+        if (mRainData != null && mIndex != index && index >= 0 && index < mRainData!!.size) {
             mIndex = index
-            minuteData = mMinuteData!![mIndex]
-            if (minuteData.srcBitmap != null) {
-                LogUtils.i(TAG, "refreshCloud: $minuteData")
+            rainData = mRainData!![mIndex]
+            if (rainData.srcBitmap != null) {
                 val bounds =
-                        LatLngBounds.builder().include(LatLng(minuteData.leftLat, minuteData.leftLong))
-                                .include(LatLng(minuteData.rightLat, minuteData.rightLong)).build()
+                        LatLngBounds.builder().include(LatLng(rainData.leftLat, rainData.leftLong))
+                                .include(LatLng(rainData.rightLat, rainData.rightLong)).build()
                 if (null == mSingleGroundOverlay) {
                     val groundOverlayOptions = GroundOverlayOptions().apply {
                         anchor(0.5f, 0.5f)
                         transparency(0.1f)
-                        image(BitmapDescriptorFactory.fromBitmap(minuteData.srcBitmap))
+                        image(BitmapDescriptorFactory.fromBitmap(rainData.srcBitmap))
                         positionFromBounds(bounds)
                     }
                     mSingleGroundOverlay = mAMap?.addGroundOverlay(groundOverlayOptions)
                 } else {
                     mSingleGroundOverlay?.apply {
-                        setImage(BitmapDescriptorFactory.fromBitmap(minuteData.srcBitmap))
+                        setImage(BitmapDescriptorFactory.fromBitmap(rainData.srcBitmap))
                         setPositionFromBounds(bounds)
                         isVisible = true
                     }
@@ -321,6 +324,7 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
             val query = RegeocodeQuery(latLonPoint, 1000f, GeocodeSearch.AMAP)
             mGeocodeSearch?.getFromLocationAsyn(query)
         }
+        fetchWeatherData(latLng?.latitude.toString(), latLng?.longitude.toString())
     }
 
     override fun onMapLoaded() {
@@ -349,6 +353,7 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
                 )
                 refreshTitle(aMapLocation.poiName)
                 mLocationChangedListener?.onLocationChanged(aMapLocation)
+                fetchWeatherData(aMapLocation.latitude.toString(), aMapLocation.longitude.toString())
             } else {
                 Toast.makeText(activity!!, "定位失败", Toast.LENGTH_SHORT).show()
             }

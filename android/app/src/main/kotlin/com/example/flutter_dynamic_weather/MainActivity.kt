@@ -25,6 +25,8 @@ class MainActivity : FlutterActivity() {
                     if (name == "minute") {
                         // 跳转到降雨二级页
                         CommonUtils.startMinutePage(this)
+                    } else if (name == "") {
+
                     }
                 }
             }
