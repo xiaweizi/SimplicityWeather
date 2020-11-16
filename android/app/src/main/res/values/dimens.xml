@@ -11,7 +11,8 @@
 
     <dimen name="minute_chart_margin_top_bottom">45dp</dimen>
     <dimen name="minute_chart_axis_margin_start">10dp</dimen>
-    <dimen name="minute_chart_line_margin_start">20dp</dimen>
-    <dimen name="minute_chart_text_size">14dp</dimen>
+    <dimen name="minute_chart_line_margin_start">25dp</dimen>
+    <dimen name="minute_chart_text_margin_start">35dp</dimen>
+    <dimen name="minute_chart_text_size">12dp</dimen>
 
 </resources>

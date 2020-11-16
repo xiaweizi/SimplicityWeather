@@ -310,6 +310,80 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_progress_bottom" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/minute_chart_text_margin_start"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/view_minute_bottom"
+            app:layout_constraintGuide_end="@dimen/minute_chart_margin_top_bottom" />
+
+        <TextView
+            android:id="@+id/tv_time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/public_sub_text_color"
+            android:textSize="@dimen/minute_chart_text_size"
+            app:layout_constraintEnd_toStartOf="@id/tv_time2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/guidelineTop"
+            android:text="现在" />
+
+        <TextView
+            android:id="@+id/tv_time2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/public_sub_text_color"
+            android:textSize="@dimen/minute_chart_text_size"
+            app:layout_constraintEnd_toStartOf="@id/tv_time3"
+            app:layout_constraintStart_toEndOf="@id/tv_time1"
+            app:layout_constraintTop_toTopOf="@id/tv_time1"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/tv_time3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/public_sub_text_color"
+            android:textSize="@dimen/minute_chart_text_size"
+            app:layout_constraintEnd_toStartOf="@id/tv_time4"
+            app:layout_constraintStart_toEndOf="@id/tv_time2"
+            app:layout_constraintTop_toTopOf="@id/tv_time1"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/tv_time4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/public_sub_text_color"
+            android:textSize="@dimen/minute_chart_text_size"
+            app:layout_constraintEnd_toStartOf="@id/tv_time5"
+            app:layout_constraintStart_toEndOf="@id/tv_time3"
+            app:layout_constraintTop_toTopOf="@id/tv_time1"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/tv_time5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/minute_chart_axis_margin_start"
+            android:textColor="@color/public_sub_text_color"
+            android:textSize="@dimen/minute_chart_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_time4"
+            app:layout_constraintTop_toTopOf="@id/tv_time1"
+            tools:text="1" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -353,7 +353,7 @@ class _ManagerPageState extends State<ManagerPage> {
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushNamed(Router.search);
+          Navigator.of(context).pushNamed(WeatherRouter.search);
         },
       ),
     );

@@ -80,11 +80,13 @@ class MinuteViewModel : ViewModel() {
             var temp = ""
             var aqiDesc = ""
             var updateTimeDesc = ""
+            var updateTime = 0L
 
             if (realtime != null) {
                 val date = Date(realtime.serverTime * 1000L)
                 val format = SimpleDateFormat("HH:mm")
                 updateTimeDesc = format.format(date)
+                updateTime = realtime.serverTime.toLong()
 
                 weatherDesc = WeatherUtils.getWeatherDesc(realtime.result?.realtime?.skycon) ?: ""
                 temp = realtime.result?.realtime?.temperature?.toInt()?.toString()
@@ -96,7 +98,7 @@ class MinuteViewModel : ViewModel() {
                 precipitation2h = minuteData.result?.minutely?.precipitation2h
             }
 
-            val allData = WeatherAllData(minuteDesc, precipitation2h, weatherDesc, temp, aqiDesc, updateTimeDesc)
+            val allData = WeatherAllData(minuteDesc, precipitation2h, weatherDesc, temp, aqiDesc, updateTimeDesc, updateTime)
             callback?.invoke(allData)
         }
     }

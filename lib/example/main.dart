@@ -93,10 +93,10 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Wrap(
           children: [
-            _buildItem(context, Router.routePage, "翻页效果", WeatherType.thunder),
-            _buildItem(context, Router.routeGrid, "宫格效果", WeatherType.sunnyNight),
-            _buildItem(context, Router.routeList, "列表效果", WeatherType.lightSnow),
-            _buildItem(context, Router.routeAnim, "切换效果", WeatherType.sunny),
+            _buildItem(context, WeatherRouter.routePage, "翻页效果", WeatherType.thunder),
+            _buildItem(context, WeatherRouter.routeGrid, "宫格效果", WeatherType.sunnyNight),
+            _buildItem(context, WeatherRouter.routeList, "列表效果", WeatherType.lightSnow),
+            _buildItem(context, WeatherRouter.routeAnim, "切换效果", WeatherType.sunny),
           ],
         ),
       ),

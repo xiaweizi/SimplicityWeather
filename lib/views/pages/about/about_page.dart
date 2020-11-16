@@ -113,7 +113,7 @@ class _AboutPageState extends State<AboutPage> {
                                 ),
                                 onPressed: () {
                                   Navigator.of(context)
-                                      .pushNamed(Router.example);
+                                      .pushNamed(WeatherRouter.example);
                                 },
                               ),
                             ),

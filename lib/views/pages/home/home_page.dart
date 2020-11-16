@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
       } else {
         var models = await SPUtil.getCityModels();
         if (models == null || models.isEmpty) {
-          Navigator.of(context).pushNamed(Router.search);
+          Navigator.of(context).pushNamed(WeatherRouter.search);
         }
         ToastUtils.show("请打开定位权限", context, duration: 2);
       }

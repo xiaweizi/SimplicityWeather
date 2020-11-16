@@ -1,6 +1,7 @@
 package com.eiffelyk.weather.weizi.map
 
 import android.annotation.SuppressLint
+import android.opengl.GLSurfaceView
 import android.os.*
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,8 @@ import kotlinx.android.synthetic.main.fragment_minute.*
 import kotlinx.android.synthetic.main.layout_minute_progress.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * <pre>
@@ -154,6 +157,11 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
                     tv_rain_desc.text = it.minuteDesc
                     tv_temp.text = it.temp + "°"
                     minute_layout.setData(it.precipitation2h)
+                    val format = SimpleDateFormat("HH:mm")
+                    tv_time2.text = format.format(Date(it.updateTime * 1000L + 30 * 60 * 1000))
+                    tv_time3.text = format.format(Date(it.updateTime * 1000L + 30 * 60 * 2000))
+                    tv_time4.text = format.format(Date(it.updateTime * 1000L + 30 * 60 * 3000))
+                    tv_time5.text = format.format(Date(it.updateTime * 1000L + 30 * 60 * 4000))
                 }
             }
 
@@ -214,6 +222,7 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
         mAMap?.setOnMapLoadedListener(this)
         mAMap?.setOnCameraChangeListener(this)
         mAMap?.animateCamera(CameraUpdateFactory.zoomTo(9f))
+        mAMap?.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY)
         val uiSettings = mAMap?.uiSettings
         uiSettings?.isZoomControlsEnabled = false
         mGeocodeSearch = GeocodeSearch(activity!!.application)

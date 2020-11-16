@@ -112,7 +112,7 @@ class RealtimeView extends StatelessWidget {
             onTap: (){
               UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "降雨卡片");
               if (Platform.isAndroid) {
-                Router.jumpToNativePage(Router.minute);
+                WeatherRouter.jumpToNativePage(WeatherRouter.minute);
               } else {
                 showMaterialModalBottomSheet(
                   shape: RoundedRectangleBorder(

@@ -1,10 +1,13 @@
 package com.example.flutter_dynamic_weather.map
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import com.example.flutter_dynamic_weather.R
 
 /**
@@ -19,6 +22,7 @@ import com.example.flutter_dynamic_weather.R
 class MinuteChartView : View {
 
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val mTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mPath = Path()
     private val mBgPath = Path()
     private var mGradient: LinearGradient? = null
@@ -50,7 +54,9 @@ class MinuteChartView : View {
         context.resources.getColor(R.color.amap_chart_line_color)
     }
     private var mMinuteData: List<Float>? = null
-    private var mMaxValue: Float = 1000f
+    private var mMaxValue: Float = 0f
+    private var mAnimator: ValueAnimator? = null
+    private var mRatio = 1.0f
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, -1)
@@ -58,28 +64,49 @@ class MinuteChartView : View {
 
     }
 
+    private fun startAnimator() {
+        if (mAnimator == null) {
+            mAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+                duration = 800
+                interpolator = LinearInterpolator()
+                addUpdateListener {
+                    mRatio = it.animatedValue as Float
+                    invalidate()
+                }
+            }
+        } else {
+            mAnimator?.setFloatValues(0f, 1f)
+        }
+        mAnimator?.start()
+    }
+
     fun setData(precipitation2h: List<Double>) {
         if (precipitation2h.isNotEmpty()) {
-            val lineEndY = height - mTop
             val axisItemHeight = (height - mTop * 2) * 1.0f / 4
             mMinuteData = precipitation2h.map {
                 val minuteY: Float = if (it <= 0.031) {
-                    lineEndY - axisItemHeight * 0.02f
+                    axisItemHeight * 0.02f
                 } else if (it > 0.031 && it <= 0.25) {
-                    lineEndY - axisItemHeight * (it.toFloat() - 0.031f) / (0.25f - 0.031f)
+                    axisItemHeight * (it.toFloat() - 0.031f) / (0.25f - 0.031f)
                 } else if (it > 0.25 && it <= 0.35) {
-                    lineEndY - axisItemHeight - axisItemHeight * (it.toFloat() - 0.25f) / 0.1f
+                    axisItemHeight - axisItemHeight * (it.toFloat() - 0.25f) / 0.1f
                 } else if (it > 0.35 && it <= 0.48) {
-                    lineEndY - axisItemHeight * 2 - axisItemHeight * (it.toFloat() - 0.35f) / 0.13f
+                    axisItemHeight * 2 - axisItemHeight * (it.toFloat() - 0.35f) / 0.13f
                 } else {
-                    lineEndY - axisItemHeight * 3 - axisItemHeight * (it.toFloat() - 0.48f) / 0.52f
+                    axisItemHeight * 3 - axisItemHeight * (it.toFloat() - 0.48f) / 0.52f
                 }
-                if (minuteY < mMaxValue) {
+                if (minuteY > mMaxValue) {
                     mMaxValue = minuteY
                 }
                 minuteY
             }
-            invalidate()
+            if (mMinuteData.isNullOrEmpty()) {
+                postDelayed({
+                    startAnimator()
+                }, 300)
+            } else {
+                startAnimator()
+            }
         }
     }
 
@@ -96,6 +123,7 @@ class MinuteChartView : View {
             val itemWidth = (width - mAxisStart * 2 - mLineStart) * 1.0f / 120
             mMinuteData!!.forEachIndexed { index, y ->
                 val x = mAxisStart + mLineStart + itemWidth * index
+                val y = startY - y * mRatio
                 when (index) {
                     0 -> {
                         mPath.moveTo(x, y)
@@ -140,5 +168,18 @@ class MinuteChartView : View {
             mPaint.shader = null
             canvas?.drawLine(startX, axisY, endX, axisY, mPaint)
         }
+        // 绘制 y 轴文字
+        mTextPaint.textSize = mTextSize.toFloat()
+        mTextPaint.textAlign = Paint.Align.CENTER
+        mTextPaint.color = mTextColor
+        val textX = mAxisStart + mLineStart * 1.0f / 2
+        var textY = mTop + axisItemHeight / 2
+        canvas?.drawText("暴雨", textX, textY, mTextPaint)
+        textY = mTop + axisItemHeight / 2 + axisItemHeight
+        canvas?.drawText("大雨", textX, textY, mTextPaint)
+        textY = mTop + axisItemHeight / 2 + axisItemHeight * 2
+        canvas?.drawText("中雨", textX, textY, mTextPaint)
+        textY = mTop + axisItemHeight / 2 + axisItemHeight * 3
+        canvas?.drawText("小雨", textX, textY, mTextPaint)
     }
 }

@@ -16,4 +16,5 @@ data class WeatherAllData(
         val temp: String,
         val aqiDesc: String,
         val updateTimeDesc: String,
+        val updateTime: Long,
 )

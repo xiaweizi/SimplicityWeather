@@ -34,7 +34,7 @@ class AppAnalysis extends NavigatorObserver {
   }
 }
 
-class Router {
+class WeatherRouter {
   static const String CHANNEL_NAME = 'com.example.flutter_dynamic_weather/router';
 
   static const String manager = 'manager';
