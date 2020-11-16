@@ -9,4 +9,9 @@
     <dimen name="minute_bottom_view_height">250dp</dimen>
     <dimen name="public_margin_start_end">12dp</dimen>
 
+    <dimen name="minute_chart_margin_top_bottom">45dp</dimen>
+    <dimen name="minute_chart_axis_margin_start">10dp</dimen>
+    <dimen name="minute_chart_line_margin_start">20dp</dimen>
+    <dimen name="minute_chart_text_size">14dp</dimen>
+
 </resources>

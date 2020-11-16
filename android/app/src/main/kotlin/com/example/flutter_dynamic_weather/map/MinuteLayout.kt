@@ -106,6 +106,7 @@ class MinuteLayout : ConstraintLayout {
             if (data.isNullOrEmpty()) {
                 setExtendEnable(false)
             } else {
+                view_minute_bottom.setData(precipitation2h)
                 setExtendEnable(true)
             }
         }

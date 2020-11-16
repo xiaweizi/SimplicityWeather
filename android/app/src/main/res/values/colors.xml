@@ -2,6 +2,7 @@
 <resources>
 
     <color name="public_white">#fff</color>
+
     <color name="public_trans">#0000</color>
     <color name="public_main_text_color">#000</color>
     <color name="public_sub_text_color">#666666</color>
@@ -15,4 +16,9 @@
     <color name="amap_progress_line_color">#807272</color>
     <color name="amap_progress_bg_end_color">#992196F3</color>
     <color name="amap_progress_bg_start_color">#002196F3</color>
+
+    <color name="amap_chart_axis_color">#33BF5256</color>
+    <color name="amap_chart_line_color">#2196F3</color>
+    <color name="amap_chart_line_bg_start">#802196F3</color>
+    <color name="amap_chart_line_bg_end">#032196F3</color>
 </resources>

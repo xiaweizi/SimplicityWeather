@@ -302,7 +302,11 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
     }
 
     private fun refreshTitle(content: String) {
-        tv_minute_title.text = content
+        if (content.isEmpty()) {
+            tv_minute_title.text = "地球某处"
+        } else {
+            tv_minute_title.text = content
+        }
     }
 
     override fun onResume() {
@@ -375,13 +379,12 @@ class MinuteFragment : BaseFragment(), AMap.OnMapClickListener, AMap.OnMapLoaded
     }
 
     override fun onRegeocodeSearched(regeocodeResult: RegeocodeResult?, i: Int) {
-        val point = regeocodeResult?.regeocodeQuery?.point
         val regeocodeAddress = regeocodeResult!!.regeocodeAddress
         refreshTitle(regeocodeAddress.formatAddress)
     }
 
     override fun onGeocodeSearched(p0: GeocodeResult?, p1: Int) {
-
+        LogUtils.i(TAG, "onGeocodeSearched")
     }
 
 }
