@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.example.flutter_dynamic_weather.widget.BigWidgetSettingActivity"
+    android:initialLayout="@layout/layout_widget_big"
+    android:minWidth="320dp"
+    android:minHeight="110dp"
+    android:minResizeWidth="250dp"
+    android:minResizeHeight="100dp"
+    android:previewImage="@mipmap/icon_app_widget_tools_4x2_shili"
+    android:resizeMode="vertical"
+    android:updatePeriodMillis="60000" />
