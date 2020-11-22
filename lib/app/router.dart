@@ -42,6 +42,8 @@ class WeatherRouter {
   static const String about = 'about';
   static const String example = 'example';
   static const String minute = 'minute';
+  static const String zhuge = 'zhuge';
+  static const String jike = 'jike';
 
   static const String routePage = "page";
   static const String routeList = "list";

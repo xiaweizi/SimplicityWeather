@@ -30,7 +30,7 @@ class CommonUtils {
     companion object {
         private const val TAG = "CommonUtils::"
 
-        private fun startModuleActivity(
+        fun startModuleActivity(
                 context: Context,
                 fragmentName: String,
                 handleIntent: ((Intent) -> Unit)? = null

@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
       child: Card(
         elevation: 7,
         margin:
-            EdgeInsets.symmetric(horizontal: marginLeft, vertical: marginTop),
+            EdgeInsets.only(left: marginLeft, right: marginLeft, top: marginTop, bottom: marginTop),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
         child: ClipPath(
@@ -74,7 +74,11 @@ class HomePage extends StatelessWidget {
                   ),
                   onTap: () {
                     weatherPrint("name: $routeName");
-                    Navigator.of(context).pushNamed(routeName);
+                    if (routeName == WeatherRouter.zhuge || routeName == WeatherRouter.jike) {
+                      WeatherRouter.jumpToNativePage(routeName);
+                    } else {
+                      Navigator.of(context).pushNamed(routeName);
+                    }
                     UmengAnalyticsPlugin.event(AnalyticsConstant.exampleClick,
                         label: routeName);
                   },
@@ -90,13 +94,22 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Wrap(
           children: [
-            _buildItem(context, WeatherRouter.routePage, "翻页效果", WeatherType.thunder),
-            _buildItem(context, WeatherRouter.routeGrid, "宫格效果", WeatherType.sunnyNight),
-            _buildItem(context, WeatherRouter.routeList, "列表效果", WeatherType.lightSnow),
-            _buildItem(context, WeatherRouter.routeAnim, "切换效果", WeatherType.sunny),
+            SizedBox(width: 250, height: 50,),
+            _buildItem(
+                context, WeatherRouter.routePage, "翻页效果", WeatherType.thunder),
+            _buildItem(context, WeatherRouter.routeGrid, "宫格效果",
+                WeatherType.sunnyNight),
+            _buildItem(context, WeatherRouter.routeList, "列表效果",
+                WeatherType.lightSnow),
+            _buildItem(
+                context, WeatherRouter.routeAnim, "切换效果", WeatherType.sunny),
+            _buildItem(
+                context, WeatherRouter.zhuge, "诸葛天气", WeatherType.cloudyNight),
+            _buildItem(
+                context, WeatherRouter.jike, "即刻天气", WeatherType.lightRainy),
           ],
         ),
       ),
