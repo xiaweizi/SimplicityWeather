@@ -20,7 +20,7 @@ class AqiChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = (1.wp -
+    var width = (1.sw -
             DimenConstant.cardMarginStartEnd * 2 -
             DimenConstant.dayMiddleMargin) /
         2;

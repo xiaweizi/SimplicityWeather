@@ -23,7 +23,7 @@ class SunSetRiseView extends StatelessWidget {
         children: [
           Container(
             height: 140,
-            width: 1.wp - DimenConstant.mainMarginStartEnd * 2,
+            width: 1.sw - DimenConstant.mainMarginStartEnd * 2,
             child: CustomPaint(
               painter: SunSetRisePainter(model.sunrise.time, model.sunset.time),
             ),

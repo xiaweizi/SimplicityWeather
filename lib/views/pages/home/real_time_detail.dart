@@ -23,7 +23,7 @@ class RealTimeDetailView extends StatelessWidget {
   }
 
   Widget _buildItem(String title, String desc) {
-    var width = (1.wp - DimenConstant.cardMarginStartEnd * 2 - 60) / 2;
+    var width = (1.sw - DimenConstant.cardMarginStartEnd * 2 - 60) / 2;
     return Container(
       width: width,
       height: width / 2,

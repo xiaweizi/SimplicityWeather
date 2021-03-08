@@ -20,14 +20,14 @@ import 'package:location_permissions/location_permissions.dart';
 import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 
-  HomePage({Key key}) : super(key:key);
+  HomePage({Key key}) : super(key: key);
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   var locationState;
 
   Future<void> init() async {
@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
       iosKey: '5f43cf6db4b08b653e98cc1f',
       channel: "github",
     );
-    UmengAnalyticsPlugin.event(AnalyticsConstant.initMainPage, label: Platform.operatingSystem);
+    UmengAnalyticsPlugin.event(AnalyticsConstant.initMainPage,
+        label: Platform.operatingSystem);
   }
 
   @override
@@ -64,7 +65,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
     var permissionStatus = await LocationPermissions().checkPermissionStatus();
     weatherPrint('当前权限状态：$permissionStatus');
     if (permissionStatus != PermissionStatus.granted) {
-      var permissionResult = await LocationPermissions().requestPermissions(permissionLevel: LocationPermissionLevel.locationWhenInUse);
+      var permissionResult = await LocationPermissions().requestPermissions(
+          permissionLevel: LocationPermissionLevel.locationWhenInUse);
       if (permissionResult == PermissionStatus.granted) {
         await Future.delayed(Duration(seconds: 1));
         setState(() {
@@ -86,7 +88,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context);
+    // 初始化
+    ScreenUtil.init(
+      // 设备像素大小(必须在首页中获取)
+      BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width,
+        maxHeight: MediaQuery.of(context).size.height,
+      ),
+      Orientation.portrait,
+      // 设计尺寸
+      designSize: Size(750, 1334),
+      allowFontScaling: false,
+    );
     return Scaffold(
       body: Stack(
         children: [
@@ -107,7 +120,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                       locationState = LocatePermissionState.loading;
                       requestPermission();
                     } else if (locationState == LocatePermissionState.success) {
-                      BlocProvider.of<CityBloc>(context).add(RequestLocationEvent());
+                      BlocProvider.of<CityBloc>(context)
+                          .add(RequestLocationEvent());
                     }
                     return Container(
                       alignment: Alignment.center,

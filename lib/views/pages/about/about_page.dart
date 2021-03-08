@@ -120,7 +120,7 @@ class _AboutPageState extends State<AboutPage> {
                           ],
                         )),
                     Container(
-                      height: 1.hp -
+                      height: 1.sh -
                           MediaQueryData.fromWindow(
                                   WidgetsBinding.instance.window)
                               .padding

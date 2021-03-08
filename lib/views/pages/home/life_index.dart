@@ -140,10 +140,10 @@ class LifeIndexView extends StatelessWidget {
             ),
             backgroundColor: Colors.transparent,
             context: context,
-            builder: (context, scrollController) => BlurRectWidget(
+            builder: (context) => BlurRectWidget(
               color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(skycon))[0].withAlpha(60),
               child: Container(
-                height: 0.5.hp,
+                height: 0.5.sh,
                 child: _buildSheetWidget(context, detail.type),
               ),
             ),
@@ -200,8 +200,8 @@ class LifeIndexView extends StatelessWidget {
         }
       }
     }
-    var width = 1.0.wp / 3;
-    var height = (0.5.hp - 30) / 2;
+    var width = 1.0.sw / 3;
+    var height = (0.5.sh - 30) / 2;
     var ratio = width / height;
     weatherPrint("bottomSheet width: $width, height: $height, ratio: $ratio");
     return Container(
@@ -219,7 +219,7 @@ class LifeIndexView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var itemWidth = (1.wp - DimenConstant.mainMarginStartEnd * 2) / 3 * 5 / 4;
+    var itemWidth = (1.sw - DimenConstant.mainMarginStartEnd * 2) / 3 * 5 / 4;
     return BlurRectWidget(
       child: Container(
         height: itemWidth * (1 + 1),

@@ -71,7 +71,7 @@ class DayForecastView extends StatelessWidget {
   }
 
   Widget _buildDayItemWidget(BuildContext context, int index) {
-    var itemWidth = (1.wp -
+    var itemWidth = (1.sw -
             DimenConstant.cardMarginStartEnd * 2 -
             DimenConstant.dayMiddleMargin) /
         2;
@@ -85,12 +85,12 @@ class DayForecastView extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           context: context,
-          builder: (context, scrollController) => BlurRectWidget(
+          builder: (context) => BlurRectWidget(
             color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(
                     modelEntity?.result?.realtime?.skycon))[0]
                 .withAlpha(60),
             child: Container(
-              height: 0.5.hp,
+              height: 0.5.sh,
               child: DayForecastDetail(
                 resultDaily: modelEntity?.result?.daily,
               ),

@@ -122,14 +122,14 @@ class RealtimeView extends StatelessWidget {
                   ),
                   backgroundColor: Colors.transparent,
                   context: context,
-                  builder: (context, scrollController) =>
+                  builder: (context) =>
                       BlurRectWidget(
                         color: WeatherUtils.getColor(
                             WeatherUtils.convertWeatherType(
                                 entity.result.realtime.skycon))[0].withAlpha(
                             60),
                         child: Container(
-                          height: 0.3.hp,
+                          height: 0.3.sh,
                           child: RainDetailView(location: entity.location,
                             title: "${entity.result.forecastKeypoint}",),
                         ),

@@ -74,7 +74,7 @@ class DayForecastDetail extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         child: CustomPaint(
           painter: DayPainter(_data),
-          size: Size(_data.length * 100.toDouble(), 0.5.hp),
+          size: Size(_data.length * 100.toDouble(), 0.5.sh),
         ),
         scrollDirection: Axis.horizontal,
       ),
@@ -123,7 +123,7 @@ class DayPainter extends CustomPainter {
 
   DayPainter(this._data) {
     setMinMax();
-    lineHeight = (0.5.hp -
+    lineHeight = (0.5.sh -
             mainTextSize * 3 -
             subTextSize * 2 -
             margin1 * 2 -
