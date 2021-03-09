@@ -1,3 +1,4 @@
+import 'package:amap_location_fluttify/amap_location_fluttify.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +47,7 @@ class FlutterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     fetchWeatherImages();
+    AmapLocation.instance.init(iosKey: "1acd2fca2d9361152f3e77d0d7807043");
     return MaterialApp(
       title: "动态天气",
       debugShowCheckedModeBanner: false,
