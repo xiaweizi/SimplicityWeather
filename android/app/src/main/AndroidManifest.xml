@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_dynamic_weather">
+
     <!--
          io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -23,11 +24,26 @@
         android:label="简悦天气"
         android:networkSecurityConfig="@xml/network_config"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".WeatherAnimWidgetService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <receiver android:name=".WeatherAnimWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather_anim_widget_info" />
+        </receiver>
+
         <activity
             android:name=".widget.BigWidgetSettingActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
         <activity

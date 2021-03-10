@@ -15,4 +15,10 @@
     <dimen name="minute_chart_text_margin_start">35dp</dimen>
     <dimen name="minute_chart_text_size">12dp</dimen>
 
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">0dp</dimen>
+
 </resources>
