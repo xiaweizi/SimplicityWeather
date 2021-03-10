@@ -3,34 +3,40 @@ package com.example.flutter_dynamic_weather
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.graphics.Bitmap
+import android.util.Log
 import android.widget.RemoteViews
 
 /**
  * Implementation of App Widget functionality.
  */
 class WeatherAnimWidget : AppWidgetProvider() {
+
+    companion object {
+        private const val TAG = "WeatherService-widget::"
+        internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, bitmap: Bitmap? = null) {
+            val widgetText = context.getString(R.string.appwidget_text)
+            val views = RemoteViews(context.packageName, R.layout.weather_anim_widget)
+            views.setTextViewText(R.id.appwidget_text, widgetText)
+            if (bitmap != null) {
+                views.setImageViewBitmap(R.id.appwidget_bg, bitmap)
+            }
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
+    }
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
 
     override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
+        WeatherAnimWidgetService.startService(context)
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
+
     }
 }
 
-internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-    val widgetText = context.getString(R.string.appwidget_text)
-    // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.weather_anim_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
-
-    // Instruct the widget manager to update the widget
-    appWidgetManager.updateAppWidget(appWidgetId, views)
-}
