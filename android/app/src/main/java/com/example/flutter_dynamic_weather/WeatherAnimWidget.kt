@@ -15,9 +15,7 @@ class WeatherAnimWidget : AppWidgetProvider() {
     companion object {
         private const val TAG = "WeatherService-widget::"
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, bitmap: Bitmap? = null) {
-            val widgetText = context.getString(R.string.appwidget_text)
             val views = RemoteViews(context.packageName, R.layout.weather_anim_widget)
-            views.setTextViewText(R.id.appwidget_text, widgetText)
             if (bitmap != null) {
                 views.setImageViewBitmap(R.id.appwidget_bg, bitmap)
             }

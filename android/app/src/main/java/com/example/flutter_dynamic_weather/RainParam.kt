@@ -16,7 +16,7 @@ data class RainParam(
         var y: Float = 0f,
         var scale: Float = 1f,
         var alpha: Float = 1f,
-        var speed: Float = 5.5f,
+        var speed: Float = 10.5f,
         var bitmap: Bitmap = WeatherResFactory.instance.rainBitmap!!,
         var point: Point,
 ) {

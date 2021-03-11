@@ -45,7 +45,7 @@ data class ThunderParam(
 
 
     fun move() {
-        progress += 0.05f
+        progress += 0.1f
         if (progress >= 12f) {
             progress = 0.0f
         }

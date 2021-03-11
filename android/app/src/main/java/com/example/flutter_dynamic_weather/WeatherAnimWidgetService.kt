@@ -8,8 +8,6 @@ import android.content.Intent
 import android.graphics.*
 import android.os.*
 import android.util.Log
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class WeatherAnimWidgetService : Service() {
 
@@ -20,7 +18,21 @@ class WeatherAnimWidgetService : Service() {
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRainParam = mutableListOf<RainParam>()
     private val mThunderParam = mutableListOf<ThunderParam>()
-    private val mClipPath = Path();
+    private val mClipPath = Path()
+    private val mColorMatrix = ColorMatrix(floatArrayOf(
+            0.19f, 0f, 0f, 0f, 0f,
+            0f, 0.2f, 0f, 0f, 0f,
+            0f, 0f, 0.22f, 0f, 0f,
+            0f, 0f, 0f, 1f, 0f,
+    ))
+    private val mRainBgColor = intArrayOf(
+            Color.parseColor("#565d66"), Color.parseColor("#545b64"),
+            Color.parseColor("#515861"), Color.parseColor("#4e555f"),
+            Color.parseColor("#4b535c"), Color.parseColor("#49505a"),
+            Color.parseColor("#454d57"), Color.parseColor("#424a54"),
+            Color.parseColor("#3f4651"), Color.parseColor("#3b434e"))
+    private val mRainOffset = floatArrayOf(0f, 1 / 9f, 2 / 9f, 3 / 9f, 4 / 9f, 5 / 9f, 6 / 9f, 7 / 9f, 8 / 9f, 9 / 9f
+    )
 
     companion object {
         private const val TAG = "WeatherService::"
@@ -114,20 +126,21 @@ class WeatherAnimWidgetService : Service() {
         canvas.clipPath(mClipPath)
         drawBackground(canvas, point)
         drawThunder(canvas)
-        drawRain(canvas)
+        drawRain(canvas, point)
+        drawCloud(canvas)
         canvas.restore()
-        Log.d(TAG, "createBitmap: totalTime: ${System.currentTimeMillis() - lastTime}")
+        Log.d(TAG, "createBitmap: totalTime4: ${System.currentTimeMillis() - lastTime}")
         return bitmap
     }
 
-    private fun drawRain(canvas: Canvas) {
+    private fun drawRain(canvas: Canvas, point: Point) {
         mRainParam.forEach {
             canvas.save()
             canvas.scale(it.scale, it.scale)
             mPaint.alpha = (it.alpha * 255).toInt()
             canvas.drawBitmap(it.bitmap, it.x, it.y, mPaint)
             canvas.restore()
-            it.move()
+            it.move(point)
         }
     }
 
@@ -141,8 +154,17 @@ class WeatherAnimWidgetService : Service() {
         }
     }
 
+    private fun drawCloud(canvas: Canvas) {
+        canvas.save()
+        canvas.scale(1.4f, 1.4f)
+        mPaint.colorFilter = ColorMatrixColorFilter(mColorMatrix)
+        canvas.drawBitmap(WeatherResFactory.instance.cloudBitmap!!, -20f, -40f, mPaint)
+        canvas.restore()
+        mPaint.colorFilter = null
+    }
+
     private fun drawBackground(canvas: Canvas, point: Point) {
-        mPaint.color = resources.getColor(R.color.light_blue_600)
+        mPaint.color = Color.parseColor("#565d66")
         mPaint.alpha = 255
         canvas.drawRect(0f, 0f, point.x.toFloat(), point.y.toFloat(), mPaint)
     }

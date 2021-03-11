@@ -17,6 +17,7 @@ class WeatherResFactory private constructor() {
 
     var rainBitmap: Bitmap? = null
     var thunderBitmap = arrayListOf<Bitmap?>()
+    var cloudBitmap: Bitmap? = null
     var isPrepare = false
 
     companion object {
@@ -29,6 +30,7 @@ class WeatherResFactory private constructor() {
     fun prepareRes(context: Context) {
         val lastTime = System.currentTimeMillis()
         rainBitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.rain)
+        cloudBitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.cloud)
         thunderBitmap.clear()
         thunderBitmap.add(BitmapFactory.decodeResource(context.resources, R.mipmap.lightning0))
         thunderBitmap.add(BitmapFactory.decodeResource(context.resources, R.mipmap.lightning1))
