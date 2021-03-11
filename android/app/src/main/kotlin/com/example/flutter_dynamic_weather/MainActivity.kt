@@ -21,6 +21,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WeatherAnimWidgetService.startService(this)
         val nativeChannel = MethodChannel(flutterEngine?.dartExecutor, CHANNEL_NAME)
 
         nativeChannel.setMethodCallHandler { call, result ->

@@ -19,6 +19,7 @@ class WeatherAnimWidgetService : Service() {
     private val mSizeMap = hashMapOf<Int, Point>()
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRainParam = mutableListOf<RainParam>()
+    private val mThunderParam = mutableListOf<ThunderParam>()
     private val mClipPath = Path();
 
     companion object {
@@ -49,6 +50,7 @@ class WeatherAnimWidgetService : Service() {
             val point = mSizeMap[it]
             if (point != null) {
                 prepareRainParam(point)
+                prepareThunderParam(point)
                 val bitmap = createBitmap(point)
                 mMainHandler.post {
                     WeatherAnimWidget.updateAppWidget(this, manager, it, bitmap)
@@ -91,11 +93,19 @@ class WeatherAnimWidgetService : Service() {
             for (i in 0..150) {
                 mRainParam.add(RainParam(point = point))
             }
+        }
+    }
 
+    private fun prepareThunderParam(point: Point) {
+        if (mThunderParam.isNullOrEmpty()) {
+            for (i in 0..5) {
+                mThunderParam.add(ThunderParam(point = point))
+            }
         }
     }
 
     private fun createBitmap(point: Point): Bitmap {
+        val lastTime = System.currentTimeMillis()
         val bitmap = Bitmap.createBitmap(point.x, point.y, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.save()
@@ -103,8 +113,10 @@ class WeatherAnimWidgetService : Service() {
         mClipPath.addRoundRect(0f, 0f, point.x.toFloat(), point.y.toFloat(), 30f, 30f, Path.Direction.CCW)
         canvas.clipPath(mClipPath)
         drawBackground(canvas, point)
+        drawThunder(canvas)
         drawRain(canvas)
         canvas.restore()
+        Log.d(TAG, "createBitmap: totalTime: ${System.currentTimeMillis() - lastTime}")
         return bitmap
     }
 
@@ -119,8 +131,18 @@ class WeatherAnimWidgetService : Service() {
         }
     }
 
+    private fun drawThunder(canvas: Canvas) {
+        mThunderParam.forEach {
+            canvas.save()
+            mPaint.alpha = (it.alpha * 255).toInt()
+            canvas.drawBitmap(it.bitmap, it.x, it.y, mPaint)
+            canvas.restore()
+            it.move()
+        }
+    }
+
     private fun drawBackground(canvas: Canvas, point: Point) {
-        mPaint.color = resources.getColor(R.color.light_blue_900)
+        mPaint.color = resources.getColor(R.color.light_blue_600)
         mPaint.alpha = 255
         canvas.drawRect(0f, 0f, point.x.toFloat(), point.y.toFloat(), mPaint)
     }
@@ -128,5 +150,6 @@ class WeatherAnimWidgetService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         mBitmapLooper?.quit()
+        WeatherResFactory.instance.release()
     }
 }
