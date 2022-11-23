@@ -12,11 +12,7 @@
 
 ### 体验
 
-点击[下载链接](http://xiaweizi.top/SimplicityWeather-2_6.apk)下载
-
-或者直接扫描二维码抢先体验
-
-![第三组](/images/qrcode.png)
+不在维护
 
 ### 功能介绍
 
