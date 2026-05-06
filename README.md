@@ -4,51 +4,63 @@
 
 *简约不简单，丰富不复杂*
 
-一款简约风格的 flutter 天气项目，提供实时、多日、24 小时、台风路径以及生活指数等服务，支持定位、删除、搜索，语音播报等操作。
+一款简约风格的 Flutter 天气项目，提供实时、多日、24 小时、台风路径以及生活指数等服务，支持定位、删除、搜索、语音播报等操作。
 
-作为 flutter 实战项目，包含状态管理、网络请求、数据缓存、自定义 view、自定义动画，三方统计，事件管理等技术点，实用且丰富。
+作为 Flutter 实战项目，包含状态管理、网络请求、数据缓存、自定义 View、自定义动画、事件管理等技术点，实用且丰富。
 
 如果图片看不到，请前往 [『Flutter』一款风格简约功能丰富的天气](http://xiaweizi.cn/article/f7f8/)
 
-### 体验
+### 运行要求
 
-不在维护
+- Flutter `>= 3.0.0`
+- Dart SDK `>= 3.0.0 < 4.0.0`（空安全）
+
+项目已于 **2026/5** 完成 Flutter 3.x / Dart 3 空安全迁移，详见 [CHANGELOG](#changelog) 3.0.0 条目。
+
+### 快速体验
+
+```bash
+git clone https://github.com/xiaweizi/SimplicityWeather.git
+cd SimplicityWeather
+flutter pub get
+flutter run                # 连真机或模拟器
+# 或
+flutter run -d chrome      # Web 版（无需定位权限）
+```
+
+> 默认的高德 / 彩云 API Key 已被作者撤销，接口调用会失败。请在 `lib/net/net_manager.dart` 与
+> 高德相关代码里填入你自己的 Key 即可看到真实数据；**不填也能正常启动进首页**（只是数据空）。
 
 ### 功能介绍
 
-目前已支持的功能如下
-
-- [x] 自动定位
+- [x] 自动定位（从高德 SDK 迁移到 `geolocator`）
 - [x] 添加&删除城市
 - [x] 实时信息
-- [x] 24小时&多日预报
+- [x] 24 小时 & 多日预报
 - [x] 丰富的生活指数
 - [x] 台风路径
 - [x] 背景高斯模糊
 - [x] 动态降雨卡片
-- [x] 自动更新
-- [x] 丰富多样的天气背景效果(雷暴效果)
-- [x] 自动升级
+- [x] 丰富多样的天气背景效果（雷暴、流星等）
 - [x] 语音播报
 - [x] **一键换天**，做天气之子
+- [x] 自动升级（`ota_update` 6.x，仅 Android）
 
 接下来多图警告
 
 ![第一组](/images/weather1.png)
-
 ![第二组](/images/weather2.png)
-
 ![第三组](/images/weather3.png)
 
 #### 一键换天
 
 天气背景效果分为三层：
 
-- 背景颜色层。从上到下的渐变效果
-- 云层。只有一种图片，对其位移、数量、染色做不同变化达到不同效果
+- 背景颜色层。从上到下的渐变效果。
+- 云层。只有一种图片，对其位移、数量、染色做不同变化达到不同效果。
 - 雨雪层。为雨雪天气单独做了动画，很炫酷。
 
-目前支持多达 **12** 种不同的天气类型，其中包括：晴、多云、阴天、小中大雨、小中大雪、雾、霾、浮尘，为了更好，在关于页面有上角添加切换天气类型的入口，实时查看不同气象下不同的背景效果。下面用一种 GIF 图展示效果，鉴于 GIF 本身的局限，可能会模糊低帧，请下载 apk 自行体验。
+目前支持多达 **12** 种不同的天气类型：晴、多云、阴天、小中大雨、小中大雪、雾、霾、浮尘。为了更好，在关于页面右上角添加切换天气类型的入口，实时查看不同气象下不同的背景效果。下面用 GIF 图展示效果，鉴于 GIF 本身的局限，可能模糊低帧，请下载 APK 自行体验。
 
 ![home](/images/home.gif)
 ![page](/images/page.gif)
@@ -56,74 +68,61 @@
 ![grid](/images/grid.gif)
 ![check](/images/check.gif)
 
-### 技术介绍
+### 技术栈
 
-虽然这个项目简单，但是涵盖的 flutter 技术点却不少，可以满足日常开发小项目的需求。
-
-其实从入门 flutter 到完成这个项目，也只是花了两个周末，加上平时下班的时间，代码写的略微有点仓促，很多可以封装，和一些绘制的逻辑还有很大的优化空间，后面抽时间进行优化一波。
-
-大致整理一下其技术点：
-
-- 网络请求&数据缓存
-- 高德 SDK 以及自动定位
-- 自定义 View，动画以及 widget
-- 三方统计接入，插件接入
-- 状态管理，数据同页面以及跨页面传输
-- 屏幕适配，公共组件封装
-
-这里特地把自自定义 View &动画拉出来说说，从项目可以看到很多的图表，包括空气质量&湿度比例圆弧图，日出日落弧线图，以及24小时&多日折线图。其实绘制原理跟 Android 的绘制很像，包括接口的设计也异曲同工。同样有 canvas 画布和 paint 画笔，这样写起来就方便很多。
-
-有了 Android 绘制基础，写起来就非常快了，这几个图加在一起一共不到一天的时间就可以完成。无非是先装载好数据，根据获取到的数据进行绘制。后面有时间会单独介绍一下这这块的绘制逻辑。
+| 领域       | 方案                                                                    |
+| ---------- | ----------------------------------------------------------------------- |
+| 状态管理   | `flutter_bloc` 9.x（BLoC 8 风格的 `on<Event>` handler）                  |
+| 网络       | `dio` 5.x + 自建 `RepResult` 包装 / Interceptor                          |
+| 本地存储   | `shared_preferences`                                                    |
+| 定位 & 权限 | `geolocator` + `permission_handler`                                     |
+| 屏幕适配   | `flutter_screenutil` 5.x                                                |
+| 事件总线   | `event_bus`                                                             |
+| 自定义绘制 | `CustomPainter`：AQI 圆弧、日出日落弧线、24h & 多日折线图、动态降雨卡片 |
+| 自定义动画 | `AnimationController` + `TweenSequence`（语音播报、浪潮进度）           |
+| 天气背景   | 本人开发的 [`flutter_weather_bg`](https://pub.dev/packages/flutter_weather_bg) 3.x |
 
 ### 三方库依赖
 
-Fluter 为什么目前这么火热，以及开发的效率如此之高，除了因为 Google 这个大佬作为靠山，更多的还是活跃的开源社区，[pub.dev](https://pub.flutter-io.cn/) 上提供了很多稳定而又多样的插件，省去不必要的开发时间，根据自己的实际情况进行选择，结合 Mac 上 Alfred 工具，搜索起来得心应手。
-
-同样，简悦天气项目中也引用不少依赖插件，特此进行说明和感谢。
-
-| 插件名称                                                     | 插件说明                                                     |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [flutter_weather_bg](https://pub.flutter-io.cn/packages/flutter_weather_bg) | 本人开发的炫酷的天气动态背景                                           |
-| [flutter_bloc](https://pub.flutter-io.cn/packages/flutter_bloc) | 不多说，很强大，作为新手再也不用担心数据共享与更新           |
-| [shared_preferences](https://pub.flutter-io.cn/packages/shared_preferences) | 很常用，持久化保存数据                                       |
-| [dio](https://pub.flutter-io.cn/packages/dio)                | 网络请求当然离不开一个好的网络框架，项目只是用到了基础的 GET 请求 |
-| [amap_location_fluttify](https://pub.flutter-io.cn/packages/amap_location_fluttify) | 高德定位插件，虽然有坑，但是满足基础需求                     |
-| [location_permissions](https://pub.flutter-io.cn/packages/location_permissions) | 定位权限判断已经申请插件                                     |
-| [event_bus](https://pub.flutter-io.cn/packages/event_bus)    | 事件更新                                                     |
-| [flutter_slidable](https://pub.flutter-io.cn/packages/flutter_slidable) | 强大的侧滑插件                                               |
-| [umeng_analytics_plugin](https://pub.flutter-io.cn/packages/umeng_analytics_plugin) | 友盟统计插件                                                 |
-| [flutter_screenutil](https://pub.flutter-io.cn/packages/flutter_screenutil) | 屏幕适配工具插件                                             |
-| [modal_bottom_sheet](https://pub.flutter-io.cn/packages/modal_bottom_sheet) | 底部弹窗                                                     |
-| [path_drawing](https://pub.flutter-io.cn/packages/path_drawing) | 绘制虚线 path 用到                                           |
-| [url_launcher](https://pub.flutter-io.cn/packages/url_launcher) | 通用跳转工具                                                 |
-| [package_info](https://pub.flutter-io.cn/packages/package_info) | 获取包相关信息                                               |
-| [ota_update](https://pub.flutter-io.cn/packages/ota_update)  | apk 自动升级                                                 |
-| [flutter_tts](https://pub.flutter-io.cn/packages/flutter_tts) | 语音播报                                                     |
-
-### 总结
-
-对 Flutter 两周的学习和开发下来后的感受，代码写起来是真快，在 Android 如果想实现，点击按钮并更新 TextView 的逻辑，首先创建 xml 布局，其次 java 代码中初始化 View 并给 button 添加点击事件，然后，还需要有单独的变量保存状态的更新，最后在变量发生变化时更新 TextView 的值。
-
-而 Flutter 的核心就是  widget，很多功能都封装在 widget 中，在 Flutter 中如果想实现该功能，只需创建两个 widget，在相应 click 事件时只需关系变量值改变，调用 setState，后续的 View 更新可以完全不用管，有点类似 Android 的 databinding。
-
-不过，由于全部都是 widget，你会发现如果把所有页面写在一个文件，那么嵌套的画面绝对会让你崩溃。这就需要，对功能进行拆解，尽量做到逻辑最小化，代码阅读性和维护性也会很高。还有就是插件，虽然社区的插件已经相当丰富，但还是有些需求没有找到合适的插件，这就需要广大开发者，积极燃烧开源热血，为社区贡献自己的成果。
-
-总的来说，开发效率上确实提高不少，因为入坑时间短，原理和性能上没有细致研究，所以可能导致看法有点片面，不过后面会努力补上知识点。
-
+| 插件 | 说明 |
+| ---- | ---- |
+| [flutter_weather_bg](https://pub.dev/packages/flutter_weather_bg) | 本人开发的炫酷天气动态背景（3.x） |
+| [flutter_bloc](https://pub.dev/packages/flutter_bloc) | 状态管理 |
+| [equatable](https://pub.dev/packages/equatable) | 值对象相等性 |
+| [shared_preferences](https://pub.dev/packages/shared_preferences) | 持久化保存数据 |
+| [dio](https://pub.dev/packages/dio) | 网络请求 |
+| [geolocator](https://pub.dev/packages/geolocator) | 跨平台定位 |
+| [permission_handler](https://pub.dev/packages/permission_handler) | 权限申请 |
+| [event_bus](https://pub.dev/packages/event_bus) | 事件总线 |
+| [flutter_slidable](https://pub.dev/packages/flutter_slidable) | 侧滑列表 |
+| [flutter_screenutil](https://pub.dev/packages/flutter_screenutil) | 屏幕适配 |
+| [modal_bottom_sheet](https://pub.dev/packages/modal_bottom_sheet) | 底部弹窗 |
+| [path_drawing](https://pub.dev/packages/path_drawing) | 绘制虚线 |
+| [url_launcher](https://pub.dev/packages/url_launcher) | 打开外部链接 |
+| [package_info_plus](https://pub.dev/packages/package_info_plus) | 读取包版本号 |
+| [fluttertoast](https://pub.dev/packages/fluttertoast) | 轻量 Toast |
+| [ota_update](https://pub.dev/packages/ota_update) | APK 自动升级（Android） |
+| [flutter_tts](https://pub.dev/packages/flutter_tts) | 语音播报 |
 
 ### 感谢
 
-天气数据来源于 [彩云科技](https://open.caiyunapp.com/Main_Page)
+- 天气数据来源于 [彩云科技](https://open.caiyunapp.com/Main_Page)
+- 天气 icon 来自 [阿里 iconfont](https://www.iconfont.cn/)
 
-定位功能来自 [高德地图](https://lbs.amap.com/) 
-
-> 高德 appkey 放在代码中，供大家使用，结果有人恶意刷 api，导致我账号被封，所以部分功能不能正常使用，请见谅
-
-统计来自 [友盟统计](https://mobile.umeng.com/)
-
-天气 icon 来自 [阿里icon](https://www.iconfont.cn/)
+> 定位功能原由 [高德地图](https://lbs.amap.com/) SDK 提供，2026 年版本起已改为跨平台的 `geolocator`。
+> 早年高德 appkey 放在代码中被恶意刷爆账号，因此部分高德接口不再可用 —— 项目对接口失败会做容错，不影响整体运行。
 
 ### ChangeLog
+
+#### 3.0.0 (2026/5)
+
+- 迁移至 Flutter 3.x / Dart 3 空安全（`sdk: >=3.0.0 <4.0.0`）
+- BLoC 6 → 9；dio 3 → 5；flutter_slidable 0.5 → 3；flutter_screenutil 4 → 5 等一批三方依赖升级
+- `amap_location_fluttify` 已死，替换为 `geolocator`；`location_permissions` / `package_info` / `toast` 等已废弃包换成 `permission_handler` / `package_info_plus` / `fluttertoast`
+- 移除友盟统计（作者未续签后台 appkey，保留业务代码干净）
+- `flutter_weather_bg` 依赖升级到 3.0.0
+- 重建 `android/` `ios/` 原生外壳：AGP 8、Gradle 8、Kotlin DSL，新增 `web/` 平台支持
+- 修复大量 null-safety 相关运行时 bug（异步回调后 `setState` 未检查 `mounted` 等）
 
 #### 2.6.0
 
@@ -135,7 +134,7 @@ Fluter 为什么目前这么火热，以及开发的效率如此之高，除了�
 #### 2.5.0
 
 - 更新背景动画依赖
-- 修复定位失败&搜索失败&添加城市失败问题
+- 修复定位失败 & 搜索失败 & 添加城市失败问题
 
 #### 2.3.0
 
