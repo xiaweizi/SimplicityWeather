@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/router.dart';
 import 'package:flutter_dynamic_weather/app/utils/ota_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
@@ -16,64 +14,51 @@ import 'package:flutter_dynamic_weather/views/common/loading_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/main_app_bar.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/main_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:location_permissions/location_permissions.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
+  const HomePage({super.key});
 
-  HomePage({Key key}) : super(key: key);
+  @override
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  var locationState;
-
-  Future<void> init() async {
-    await UmengAnalyticsPlugin.init(
-      androidKey: '5f43cf00b4b08b653e98cc1a',
-      iosKey: '5f43cf6db4b08b653e98cc1f',
-      channel: "github",
-    );
-    UmengAnalyticsPlugin.event(AnalyticsConstant.initMainPage,
-        label: Platform.operatingSystem);
-  }
+  LocatePermissionState? locationState;
 
   @override
   void initState() {
-    weatherPrint("umeng init event ${Platform.operatingSystem}");
-    init();
-    OTAUtils.initOTA();
     super.initState();
+    weatherPrint("init event ${Platform.operatingSystem}");
+    OTAUtils.initOTA();
   }
 
   Widget _buildHomeContent(List<CityModel> cityModels) {
-    weatherPrint("build home content: ${cityModels?.length}");
+    weatherPrint("build home content: ${cityModels.length}");
     return Column(
       children: [
         MainAppBar(cityModels: cityModels),
-        Expanded(
-          child: MainMessage(),
-        )
+        const Expanded(child: MainMessage()),
       ],
     );
   }
 
   Future<void> requestPermission() async {
-    await Future.delayed(Duration(seconds: 2));
-    var permissionStatus = await LocationPermissions().checkPermissionStatus();
-    weatherPrint('当前权限状态：$permissionStatus');
-    if (permissionStatus != PermissionStatus.granted) {
-      var permissionResult = await LocationPermissions().requestPermissions(
-          permissionLevel: LocationPermissionLevel.locationWhenInUse);
-      if (permissionResult == PermissionStatus.granted) {
-        await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
+    var status = await Permission.locationWhenInUse.status;
+    weatherPrint('当前权限状态：$status');
+    if (!status.isGranted) {
+      status = await Permission.locationWhenInUse.request();
+      if (status.isGranted) {
+        await Future.delayed(const Duration(seconds: 1));
+        if (!mounted) return;
         setState(() {
           locationState = LocatePermissionState.success;
         });
       } else {
-        var models = await SPUtil.getCityModels();
+        final models = await SPUtil.getCityModels();
+        if (!mounted) return;
         if (models == null || models.isEmpty) {
           Navigator.of(context).pushNamed(WeatherRouter.search);
         }
@@ -88,54 +73,37 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    // 初始化
-    ScreenUtil.init(
-      // 设备像素大小(必须在首页中获取)
-      BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width,
-        maxHeight: MediaQuery.of(context).size.height,
-      ),
-      Orientation.portrait,
-      // 设计尺寸
-      designSize: Size(750, 1334),
-      allowFontScaling: false,
-    );
+    super.build(context);
+    // flutter_screenutil 5.x 的初始化：必须在 MaterialApp 下且使用 ScreenUtilInit。
+    // 这里做一次性配置以兼容老代码的 ScreenUtil.xxx 使用。
+    ScreenUtil.init(context, designSize: const Size(750, 1334));
     return Scaffold(
       body: Stack(
         children: [
-          WeatherMainBg(),
-          Container(
-              padding: EdgeInsets.only(
-                  top: MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-                      .padding
-                      .top),
-              child: BlocBuilder<CityBloc, CityState>(
-                builder: (_, s) {
-                  weatherPrint(
-                      'homePage， state: ${s.runtimeType}, locationState: $locationState');
-                  if (s is CitySuccess) {
-                    return _buildHomeContent(s.cityModels);
-                  } else if (s is CityInit) {
-                    if (locationState == null) {
-                      locationState = LocatePermissionState.loading;
-                      requestPermission();
-                    } else if (locationState == LocatePermissionState.success) {
-                      BlocProvider.of<CityBloc>(context)
-                          .add(RequestLocationEvent());
-                    }
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Container(),
-                    );
-                  } else if (s is LocationSuccessState) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Container(),
-                    );
+          const WeatherMainBg(),
+          Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: BlocBuilder<CityBloc, CityState>(
+              builder: (ctx, s) {
+                weatherPrint(
+                    'homePage, state: ${s.runtimeType}, locationState: $locationState');
+                if (s is CitySuccess) {
+                  return _buildHomeContent(s.cityModels);
+                } else if (s is CityInit) {
+                  if (locationState == null) {
+                    locationState = LocatePermissionState.loading;
+                    requestPermission();
+                  } else if (locationState == LocatePermissionState.success) {
+                    ctx.read<CityBloc>().add(const RequestLocationEvent());
                   }
-                  return StateView(weatherState: ViewState.loading);
-                },
-              )),
+                  return const SizedBox.shrink();
+                } else if (s is LocationSuccessState) {
+                  return const SizedBox.shrink();
+                }
+                return const StateView(weatherState: ViewState.loading);
+              },
+            ),
+          ),
         ],
       ),
     );

@@ -39,10 +39,10 @@ class ColorUtils {
         weatherPrint(e.toString());
       }
       switch (code.length) {
-        case 1 + 6://6位
+        case 7: // # + 6位
           result = Color(value + 0xFF000000);
           break;
-        case 1 + 8://8位
+        case 9: // # + 8位
           result = Color(value);
           break;
         default:

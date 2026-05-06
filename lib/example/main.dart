@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/router.dart';
 import 'package:flutter_dynamic_weather/example/anim_view.dart';
 import 'package:flutter_dynamic_weather/example/grid_view.dart';
@@ -10,8 +9,6 @@ import 'package:flutter_dynamic_weather/example/page_view.dart';
 import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:flutter_weather_bg/utils/print_utils.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
-
 class MyExampleApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -79,8 +76,6 @@ class HomePage extends StatelessWidget {
                     } else {
                       Navigator.of(context).pushNamed(routeName);
                     }
-                    UmengAnalyticsPlugin.event(AnalyticsConstant.exampleClick,
-                        label: routeName);
                   },
                 ),
               ),

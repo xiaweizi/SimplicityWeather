@@ -2,42 +2,39 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/utils/ota_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/views/common/wave_view.dart';
-import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:ota_update/ota_update.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
-var radius = 20.0;
-var width = 250.0;
-var height = 350.0;
-var weatherType = WeatherType.sunny;
+const double radius = 20.0;
+const double width = 250.0;
+const double height = 350.0;
+WeatherType weatherType = WeatherType.sunny;
 
 class OTADialog extends Dialog {
-  final desc;
-  final versionName;
-  final apkUrl;
+  final String desc;
+  final String versionName;
+  final String apkUrl;
 
-  OTADialog(this.desc, this.versionName, this.apkUrl, {Key key})
-      : super(key: key);
+  const OTADialog(this.desc, this.versionName, this.apkUrl, {super.key});
 
   @override
   Widget build(BuildContext context) {
     weatherType =
         WeatherType.values[Random().nextInt(WeatherType.values.length)];
-    return new Material(
+    return Material(
       type: MaterialType.transparency,
-      child: new Center(
-        child: new SizedBox(
+      child: Center(
+        child: SizedBox(
           width: width,
           height: height,
           child: ClipPath(
             clipper: ShapeBorderClipper(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(radius))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius)),
+            ),
             child: Stack(
               children: [
                 WeatherBg(
@@ -46,10 +43,7 @@ class OTADialog extends Dialog {
                   height: height,
                 ),
                 BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 1,
-                    sigmaY: 1,
-                  ),
+                  filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
                   child: Container(
                     width: width,
                     height: height,
@@ -67,34 +61,34 @@ class OTADialog extends Dialog {
 }
 
 class OTAContentWidget extends StatefulWidget {
+  final String desc;
+  final String versionName;
+  final String apkUrl;
 
-  final desc;
-  final versionName;
-  final apkUrl;
-
-  OTAContentWidget(this.desc, this.versionName, this.apkUrl, {Key key})
-      : super(key: key);
+  const OTAContentWidget(this.desc, this.versionName, this.apkUrl, {super.key});
 
   @override
-  _OTAContentWidgetState createState() => _OTAContentWidgetState();
+  State<OTAContentWidget> createState() => _OTAContentWidgetState();
 }
 
 class _OTAContentWidgetState extends State<OTAContentWidget> {
   double progress = 0.0;
-  OtaStatus otaStatus;
+  OtaStatus? otaStatus;
 
   Widget _buildWaveBg() {
     weatherPrint("_buildWaveBg progress: $progress, status: $otaStatus");
     if (otaStatus == OtaStatus.DOWNLOADING) {
       return WaveProgress(
-          Size(width, height), WeatherUtil.getColor(weatherType)[0], progress);
+          const Size(width, height),
+          WeatherUtil.getColor(weatherType)[0],
+          progress);
     }
-    return Container();
+    return const SizedBox.shrink();
   }
 
   Widget _buildUpdateButton() {
     String buttonText = "立即更新";
-    VoidCallback action = startOta;
+    VoidCallback? action = startOta;
     if (otaStatus == OtaStatus.DOWNLOADING) {
       buttonText = "正在下载...";
       action = null;
@@ -103,43 +97,44 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
       action = null;
     }
     return Container(
-      margin: EdgeInsets.only(left: 40, right: 40, bottom: 25, top: 10),
+      margin: const EdgeInsets.only(left: 40, right: 40, bottom: 25, top: 10),
       width: width,
       child: MaterialButton(
         onPressed: action,
-        disabledColor: WeatherUtil.getColor(weatherType)[1].withOpacity(0.5),
+        disabledColor:
+            WeatherUtil.getColor(weatherType)[1].withOpacity(0.5),
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
           borderRadius: BorderRadius.circular(25),
         ),
+        color: WeatherUtil.getColor(weatherType)[1],
         child: Text(
           buttonText,
-          style: TextStyle(
-              color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-        color: WeatherUtil.getColor(weatherType)[1],
       ),
     );
   }
 
   void startOta() async {
-    UmengAnalyticsPlugin.event(AnalyticsConstant.ota, label: "start");
-    OTAUtils.startOTA(
-        widget.apkUrl,
-        (event) {
+    OTAUtils.startOTA(widget.apkUrl, (event) {
       otaStatus = event.status;
       if (event.status == OtaStatus.DOWNLOADING) {
-        progress = int.parse(event.value).toDouble();
+        progress = double.tryParse(event.value ?? "0") ?? 0;
       } else if (event.status == OtaStatus.INSTALLING) {
-        Navigator.of(context).pop();
+        if (mounted) Navigator.of(context).pop();
       }
-      setState(() {});
+      if (mounted) setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Stack(
@@ -149,22 +144,15 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
             right: 10,
             top: 10,
             child: IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Colors.white.withAlpha(188),
-              ),
-              onPressed: () {
-                UmengAnalyticsPlugin.event(AnalyticsConstant.ota,
-                    label: "cancel");
-                Navigator.of(context).pop();
-              },
+              icon: Icon(Icons.close, color: Colors.white.withAlpha(188)),
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 20, left: 30),
+                margin: const EdgeInsets.only(top: 20, left: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -178,14 +166,12 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
                         shadows: [
                           Shadow(
                               color: Colors.black.withAlpha(100),
-                              offset: Offset(6, 3),
-                              blurRadius: 4)
+                              offset: const Offset(6, 3),
+                              blurRadius: 4),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
+                    const SizedBox(width: 20),
                     Text(
                       widget.versionName,
                       style: TextStyle(
@@ -196,17 +182,17 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
                         shadows: [
                           Shadow(
                               color: Colors.black.withAlpha(80),
-                              offset: Offset(2, 1),
-                              blurRadius: 4)
+                              offset: const Offset(2, 1),
+                              blurRadius: 4),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, top: 30),
-                child: Text(
+                margin: const EdgeInsets.only(left: 15, top: 30),
+                child: const Text(
                   "更新内容",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -216,12 +202,12 @@ class _OTAContentWidgetState extends State<OTAContentWidget> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Container(
-                    margin: EdgeInsets.only(left: 15, top: 15, right: 12),
+                    margin: const EdgeInsets.only(left: 15, top: 15, right: 12),
                     child: Text(
                       widget.desc,
-                      style: TextStyle(color: Colors.white, height: 1.8),
+                      style: const TextStyle(color: Colors.white, height: 1.8),
                     ),
                   ),
                 ),

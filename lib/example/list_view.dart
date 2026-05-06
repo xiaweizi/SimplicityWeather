@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg/bg/weather_bg.dart';
-import 'package:flutter_weather_bg/utils/weather_type.dart';
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 class ListViewWidget extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 class ListItemWidget extends StatelessWidget {
   final WeatherType weatherType;
 
-  ListItemWidget({Key key, this.weatherType}) : super(key: key);
+  const ListItemWidget({super.key, required this.weatherType});
 
   @override
   Widget build(BuildContext context) {

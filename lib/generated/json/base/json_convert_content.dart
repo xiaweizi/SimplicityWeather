@@ -8,7 +8,7 @@ import 'package:flutter_dynamic_weather/generated/json/district_model_entity_hel
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/generated/json/weather_model_entity_helper.dart';
 
-class JsonConvert<T> {
+mixin class JsonConvert<T> {
 	T fromJson(Map<String, dynamic> json) {
 		return _getFromJson<T>(runtimeType, this, json);
 	}
@@ -218,67 +218,67 @@ class JsonConvert<T> {
   //empty list is returned by type
   static _getListFromType(String type) {
     switch (type) {			case 'DistrictModelEntity':
-			return List<DistrictModelEntity>();			case 'DistrictModelDistrict':
-			return List<DistrictModelDistrict>();			case 'DistrictModelDistrictsDistrict':
-			return List<DistrictModelDistrictsDistrict>();			case 'WeatherModelEntity':
-			return List<WeatherModelEntity>();			case 'WeatherModelResult':
-			return List<WeatherModelResult>();			case 'WeatherModelResultRealtime':
-			return List<WeatherModelResultRealtime>();			case 'WeatherModelResultRealtimeWind':
-			return List<WeatherModelResultRealtimeWind>();			case 'WeatherModelResultRealtimePrecipitation':
-			return List<WeatherModelResultRealtimePrecipitation>();			case 'WeatherModelResultRealtimePrecipitationLocal':
-			return List<WeatherModelResultRealtimePrecipitationLocal>();			case 'WeatherModelResultRealtimePrecipitationNearest':
-			return List<WeatherModelResultRealtimePrecipitationNearest>();			case 'WeatherModelResultRealtimeAirQuality':
-			return List<WeatherModelResultRealtimeAirQuality>();			case 'WeatherModelResultRealtimeAirQualityAqi':
-			return List<WeatherModelResultRealtimeAirQualityAqi>();			case 'WeatherModelResultRealtimeAirQualityDescription':
-			return List<WeatherModelResultRealtimeAirQualityDescription>();			case 'WeatherModelResultRealtimeLifeIndex':
-			return List<WeatherModelResultRealtimeLifeIndex>();			case 'WeatherModelResultRealtimeLifeIndexUltraviolet':
-			return List<WeatherModelResultRealtimeLifeIndexUltraviolet>();			case 'WeatherModelResultRealtimeLifeIndexComfort':
-			return List<WeatherModelResultRealtimeLifeIndexComfort>();			case 'WeatherModelResultMinutely':
-			return List<WeatherModelResultMinutely>();			case 'WeatherModelResultHourly':
-			return List<WeatherModelResultHourly>();			case 'WeatherModelResultHourlyPrecipitation':
-			return List<WeatherModelResultHourlyPrecipitation>();			case 'WeatherModelResultHourlyTemperature':
-			return List<WeatherModelResultHourlyTemperature>();			case 'WeatherModelResultHourlyWind':
-			return List<WeatherModelResultHourlyWind>();			case 'WeatherModelResultHourlyHumidity':
-			return List<WeatherModelResultHourlyHumidity>();			case 'WeatherModelResultHourlyCloudrate':
-			return List<WeatherModelResultHourlyCloudrate>();			case 'WeatherModelResultHourlySkycon':
-			return List<WeatherModelResultHourlySkycon>();			case 'WeatherModelResultHourlyPressure':
-			return List<WeatherModelResultHourlyPressure>();			case 'WeatherModelResultHourlyVisibility':
-			return List<WeatherModelResultHourlyVisibility>();			case 'WeatherModelResultHourlyDswrf':
-			return List<WeatherModelResultHourlyDswrf>();			case 'WeatherModelResultHourlyAirQuality':
-			return List<WeatherModelResultHourlyAirQuality>();			case 'WeatherModelResultHourlyAirQualityAqi':
-			return List<WeatherModelResultHourlyAirQualityAqi>();			case 'WeatherModelResultHourlyAirQualityAqiValue':
-			return List<WeatherModelResultHourlyAirQualityAqiValue>();			case 'WeatherModelResultHourlyAirQualityPm25':
-			return List<WeatherModelResultHourlyAirQualityPm25>();			case 'WeatherModelResultDaily':
-			return List<WeatherModelResultDaily>();			case 'WeatherModelResultDailyAstro':
-			return List<WeatherModelResultDailyAstro>();			case 'WeatherModelResultDailyAstroSunrise':
-			return List<WeatherModelResultDailyAstroSunrise>();			case 'WeatherModelResultDailyAstroSunset':
-			return List<WeatherModelResultDailyAstroSunset>();			case 'WeatherModelResultDailyPrecipitation':
-			return List<WeatherModelResultDailyPrecipitation>();			case 'WeatherModelResultDailyTemperature':
-			return List<WeatherModelResultDailyTemperature>();			case 'WeatherModelResultDailyWind':
-			return List<WeatherModelResultDailyWind>();			case 'WeatherModelResultDailyWindMax':
-			return List<WeatherModelResultDailyWindMax>();			case 'WeatherModelResultDailyWindMin':
-			return List<WeatherModelResultDailyWindMin>();			case 'WeatherModelResultDailyWindAvg':
-			return List<WeatherModelResultDailyWindAvg>();			case 'WeatherModelResultDailyHumidity':
-			return List<WeatherModelResultDailyHumidity>();			case 'WeatherModelResultDailyCloudrate':
-			return List<WeatherModelResultDailyCloudrate>();			case 'WeatherModelResultDailyPressure':
-			return List<WeatherModelResultDailyPressure>();			case 'WeatherModelResultDailyVisibility':
-			return List<WeatherModelResultDailyVisibility>();			case 'WeatherModelResultDailyDswrf':
-			return List<WeatherModelResultDailyDswrf>();			case 'WeatherModelResultDailyAirQuality':
-			return List<WeatherModelResultDailyAirQuality>();			case 'WeatherModelResultDailyAirQualityAqi':
-			return List<WeatherModelResultDailyAirQualityAqi>();			case 'WeatherModelResultDailyAirQualityAqiMax':
-			return List<WeatherModelResultDailyAirQualityAqiMax>();			case 'WeatherModelResultDailyAirQualityAqiAvg':
-			return List<WeatherModelResultDailyAirQualityAqiAvg>();			case 'WeatherModelResultDailyAirQualityAqiMin':
-			return List<WeatherModelResultDailyAirQualityAqiMin>();			case 'WeatherModelResultDailyAirQualityPm25':
-			return List<WeatherModelResultDailyAirQualityPm25>();			case 'WeatherModelResultDailySkycon':
-			return List<WeatherModelResultDailySkycon>();			case 'WeatherModelResultDailySkycon08h20h':
-			return List<WeatherModelResultDailySkycon08h20h>();			case 'WeatherModelResultDailySkycon20h32h':
-			return List<WeatherModelResultDailySkycon20h32h>();			case 'WeatherModelResultDailyLifeIndex':
-			return List<WeatherModelResultDailyLifeIndex>();			case 'WeatherModelResultDailyLifeIndexUltraviolet':
-			return List<WeatherModelResultDailyLifeIndexUltraviolet>();			case 'WeatherModelResultDailyLifeIndexCarWashing':
-			return List<WeatherModelResultDailyLifeIndexCarWashing>();			case 'WeatherModelResultDailyLifeIndexDressing':
-			return List<WeatherModelResultDailyLifeIndexDressing>();			case 'WeatherModelResultDailyLifeIndexComfort':
-			return List<WeatherModelResultDailyLifeIndexComfort>();			case 'WeatherModelResultDailyLifeIndexColdRisk':
-			return List<WeatherModelResultDailyLifeIndexColdRisk>();    }
+			return <DistrictModelEntity>[];			case 'DistrictModelDistrict':
+			return <DistrictModelDistrict>[];			case 'DistrictModelDistrictsDistrict':
+			return <DistrictModelDistrictsDistrict>[];			case 'WeatherModelEntity':
+			return <WeatherModelEntity>[];			case 'WeatherModelResult':
+			return <WeatherModelResult>[];			case 'WeatherModelResultRealtime':
+			return <WeatherModelResultRealtime>[];			case 'WeatherModelResultRealtimeWind':
+			return <WeatherModelResultRealtimeWind>[];			case 'WeatherModelResultRealtimePrecipitation':
+			return <WeatherModelResultRealtimePrecipitation>[];			case 'WeatherModelResultRealtimePrecipitationLocal':
+			return <WeatherModelResultRealtimePrecipitationLocal>[];			case 'WeatherModelResultRealtimePrecipitationNearest':
+			return <WeatherModelResultRealtimePrecipitationNearest>[];			case 'WeatherModelResultRealtimeAirQuality':
+			return <WeatherModelResultRealtimeAirQuality>[];			case 'WeatherModelResultRealtimeAirQualityAqi':
+			return <WeatherModelResultRealtimeAirQualityAqi>[];			case 'WeatherModelResultRealtimeAirQualityDescription':
+			return <WeatherModelResultRealtimeAirQualityDescription>[];			case 'WeatherModelResultRealtimeLifeIndex':
+			return <WeatherModelResultRealtimeLifeIndex>[];			case 'WeatherModelResultRealtimeLifeIndexUltraviolet':
+			return <WeatherModelResultRealtimeLifeIndexUltraviolet>[];			case 'WeatherModelResultRealtimeLifeIndexComfort':
+			return <WeatherModelResultRealtimeLifeIndexComfort>[];			case 'WeatherModelResultMinutely':
+			return <WeatherModelResultMinutely>[];			case 'WeatherModelResultHourly':
+			return <WeatherModelResultHourly>[];			case 'WeatherModelResultHourlyPrecipitation':
+			return <WeatherModelResultHourlyPrecipitation>[];			case 'WeatherModelResultHourlyTemperature':
+			return <WeatherModelResultHourlyTemperature>[];			case 'WeatherModelResultHourlyWind':
+			return <WeatherModelResultHourlyWind>[];			case 'WeatherModelResultHourlyHumidity':
+			return <WeatherModelResultHourlyHumidity>[];			case 'WeatherModelResultHourlyCloudrate':
+			return <WeatherModelResultHourlyCloudrate>[];			case 'WeatherModelResultHourlySkycon':
+			return <WeatherModelResultHourlySkycon>[];			case 'WeatherModelResultHourlyPressure':
+			return <WeatherModelResultHourlyPressure>[];			case 'WeatherModelResultHourlyVisibility':
+			return <WeatherModelResultHourlyVisibility>[];			case 'WeatherModelResultHourlyDswrf':
+			return <WeatherModelResultHourlyDswrf>[];			case 'WeatherModelResultHourlyAirQuality':
+			return <WeatherModelResultHourlyAirQuality>[];			case 'WeatherModelResultHourlyAirQualityAqi':
+			return <WeatherModelResultHourlyAirQualityAqi>[];			case 'WeatherModelResultHourlyAirQualityAqiValue':
+			return <WeatherModelResultHourlyAirQualityAqiValue>[];			case 'WeatherModelResultHourlyAirQualityPm25':
+			return <WeatherModelResultHourlyAirQualityPm25>[];			case 'WeatherModelResultDaily':
+			return <WeatherModelResultDaily>[];			case 'WeatherModelResultDailyAstro':
+			return <WeatherModelResultDailyAstro>[];			case 'WeatherModelResultDailyAstroSunrise':
+			return <WeatherModelResultDailyAstroSunrise>[];			case 'WeatherModelResultDailyAstroSunset':
+			return <WeatherModelResultDailyAstroSunset>[];			case 'WeatherModelResultDailyPrecipitation':
+			return <WeatherModelResultDailyPrecipitation>[];			case 'WeatherModelResultDailyTemperature':
+			return <WeatherModelResultDailyTemperature>[];			case 'WeatherModelResultDailyWind':
+			return <WeatherModelResultDailyWind>[];			case 'WeatherModelResultDailyWindMax':
+			return <WeatherModelResultDailyWindMax>[];			case 'WeatherModelResultDailyWindMin':
+			return <WeatherModelResultDailyWindMin>[];			case 'WeatherModelResultDailyWindAvg':
+			return <WeatherModelResultDailyWindAvg>[];			case 'WeatherModelResultDailyHumidity':
+			return <WeatherModelResultDailyHumidity>[];			case 'WeatherModelResultDailyCloudrate':
+			return <WeatherModelResultDailyCloudrate>[];			case 'WeatherModelResultDailyPressure':
+			return <WeatherModelResultDailyPressure>[];			case 'WeatherModelResultDailyVisibility':
+			return <WeatherModelResultDailyVisibility>[];			case 'WeatherModelResultDailyDswrf':
+			return <WeatherModelResultDailyDswrf>[];			case 'WeatherModelResultDailyAirQuality':
+			return <WeatherModelResultDailyAirQuality>[];			case 'WeatherModelResultDailyAirQualityAqi':
+			return <WeatherModelResultDailyAirQualityAqi>[];			case 'WeatherModelResultDailyAirQualityAqiMax':
+			return <WeatherModelResultDailyAirQualityAqiMax>[];			case 'WeatherModelResultDailyAirQualityAqiAvg':
+			return <WeatherModelResultDailyAirQualityAqiAvg>[];			case 'WeatherModelResultDailyAirQualityAqiMin':
+			return <WeatherModelResultDailyAirQualityAqiMin>[];			case 'WeatherModelResultDailyAirQualityPm25':
+			return <WeatherModelResultDailyAirQualityPm25>[];			case 'WeatherModelResultDailySkycon':
+			return <WeatherModelResultDailySkycon>[];			case 'WeatherModelResultDailySkycon08h20h':
+			return <WeatherModelResultDailySkycon08h20h>[];			case 'WeatherModelResultDailySkycon20h32h':
+			return <WeatherModelResultDailySkycon20h32h>[];			case 'WeatherModelResultDailyLifeIndex':
+			return <WeatherModelResultDailyLifeIndex>[];			case 'WeatherModelResultDailyLifeIndexUltraviolet':
+			return <WeatherModelResultDailyLifeIndexUltraviolet>[];			case 'WeatherModelResultDailyLifeIndexCarWashing':
+			return <WeatherModelResultDailyLifeIndexCarWashing>[];			case 'WeatherModelResultDailyLifeIndexDressing':
+			return <WeatherModelResultDailyLifeIndexDressing>[];			case 'WeatherModelResultDailyLifeIndexComfort':
+			return <WeatherModelResultDailyLifeIndexComfort>[];			case 'WeatherModelResultDailyLifeIndexColdRisk':
+			return <WeatherModelResultDailyLifeIndexColdRisk>[];    }
     return null;
   }
 

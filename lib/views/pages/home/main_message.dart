@@ -6,72 +6,70 @@ import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/bloc/city/city_bloc.dart';
 import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
-import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/common/loading_view.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/city_view.dart';
 
 class MainMessage extends StatefulWidget {
+  const MainMessage({super.key});
+
   @override
-  _MainMessageState createState() => _MainMessageState();
+  State<MainMessage> createState() => _MainMessageState();
 }
 
 class _MainMessageState extends State<MainMessage> {
-  List<CityModel> _cityModels;
-  PageController _controller = PageController();
-  StreamSubscription _subscription;
+  List<CityModel>? _cityModels;
+  final PageController _controller = PageController();
+  StreamSubscription? _subscription;
 
   Widget _buildMainWidget() {
     weatherPrint('main-build main widget');
-    if (_cityModels == null) {
-      return StateView(weatherState: ViewState.loading);
-    } else if (_cityModels.isEmpty) {
-      return StateView(weatherState: ViewState.empty);
+    final models = _cityModels;
+    if (models == null) {
+      return const StateView(weatherState: ViewState.loading);
+    } else if (models.isEmpty) {
+      return const StateView(weatherState: ViewState.empty);
     } else {
       weatherPrint("创建城市列表页面");
-      weatherPrint('main-success, cityModel: $_cityModels');
       return PageView.builder(
         controller: _controller,
         onPageChanged: (index) {
           weatherPrint('current index: $index');
-          eventBus.fire(ChangeMainAppBarIndexEvent(index, _cityModels[index].cityFlag));
+          eventBus.fire(
+              ChangeMainAppBarIndexEvent(index, models[index].cityFlag));
         },
         itemBuilder: (context, index) {
-          return CityView(
-            cityModel: _cityModels[index],
-          );
+          return CityView(cityModel: models[index]);
         },
-        itemCount: _cityModels.length,
+        itemCount: models.length,
       );
     }
   }
 
   @override
   void initState() {
+    super.initState();
     _subscription = eventBus.on<ChangeCityEvent>().listen((event) {
-      if (_cityModels != null) {
-        _cityModels.forEach((element) {
-          if (element.cityFlag == event.cityFlag) {
-            var index = _cityModels.indexOf(element);
-            if (index >= 0 && index < _cityModels.length) {
-              _controller.jumpToPage(index);
-            }
-          }
-        });
+      final models = _cityModels;
+      if (models == null) return;
+      for (var i = 0; i < models.length; i++) {
+        if (models[i].cityFlag == event.cityFlag) {
+          _controller.jumpToPage(i);
+          return;
+        }
       }
     });
-    super.initState();
   }
 
   @override
   void dispose() {
-    _subscription.cancel();
+    _subscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var state = BlocProvider.of<CityBloc>(context).state;
+    final state = context.read<CityBloc>().state;
     weatherPrint('build || main-state: ${state.runtimeType}');
     if (state is CitySuccess) {
       _cityModels = state.cityModels;

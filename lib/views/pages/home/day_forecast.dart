@@ -1,95 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/dimen_constant.dart';
 import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
-import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/time_util.dart';
 import 'package:flutter_dynamic_weather/model/weather_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/common/blur_rect.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/day_forecast_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 
 class DayForecastView extends StatelessWidget {
-  final WeatherModelResultDaily resultDaily;
-  final WeatherModelEntity modelEntity;
+  final WeatherModelResultDaily? resultDaily;
+  final WeatherModelEntity? modelEntity;
 
-  DayForecastView({Key key, @required this.resultDaily, this.modelEntity})
-      : super(key: key);
+  const DayForecastView(
+      {super.key, required this.resultDaily, this.modelEntity});
 
   String _getWeatherDesc(int index) {
-    if (resultDaily == null ||
-        resultDaily.skycon08h20h == null ||
-        resultDaily.skycon08h20h.isEmpty ||
-        index >= resultDaily.skycon08h20h.length) {
+    final day = resultDaily?.skycon08h20h;
+    final night = resultDaily?.skycon20h32h;
+    if (day == null ||
+        night == null ||
+        day.isEmpty ||
+        night.isEmpty ||
+        index >= day.length ||
+        index >= night.length) {
       return "";
     }
-    if (resultDaily.skycon20h32h == null ||
-        resultDaily.skycon20h32h.isEmpty ||
-        index >= resultDaily.skycon20h32h.length) {
-      return "";
-    }
-    var dayDesc =
-        WeatherUtils.convertDesc(resultDaily.skycon08h20h[index].value);
-    var nightDesc =
-        WeatherUtils.convertDesc(resultDaily.skycon20h32h[index].value);
-    if (dayDesc == nightDesc) {
-      return "$dayDesc";
-    }
-    return "$dayDesc转$nightDesc";
+    final dayDesc = WeatherUtils.convertDesc(day[index].value);
+    final nightDesc = WeatherUtils.convertDesc(night[index].value);
+    return dayDesc == nightDesc ? dayDesc : "$dayDesc转$nightDesc";
   }
 
   String _getTemperatureDesc(int index) {
-    if (resultDaily == null ||
-        resultDaily.temperature == null ||
-        resultDaily.temperature.isEmpty ||
-        index >= resultDaily.temperature.length) {
-      return "";
-    }
-    var dayTemperature = resultDaily.temperature[index].max;
-    var nightTemperature = resultDaily.temperature[index].min;
-    return "$dayTemperature°/$nightTemperature°";
+    final temps = resultDaily?.temperature;
+    if (temps == null || temps.isEmpty || index >= temps.length) return "";
+    return "${temps[index].max}°/${temps[index].min}°";
   }
 
   String _getWeatherDayDesc(int index) {
-    if (resultDaily == null) {
-      return "";
-    }
-    return "${TimeUtil.getWeatherDayDesc(resultDaily.temperature[index].date)}";
+    final temps = resultDaily?.temperature;
+    if (temps == null || temps.isEmpty || index >= temps.length) return "";
+    return TimeUtil.getWeatherDayDesc(temps[index].date);
   }
 
   String _getAqiDesc(int index) {
-    if (resultDaily == null ||
-        resultDaily.airQuality == null ||
-        resultDaily.airQuality.aqi == null ||
-        resultDaily.airQuality.aqi.isEmpty ||
-        index >= resultDaily.airQuality.aqi.length) {
-      return "";
-    }
-    return "${WeatherUtils.getAqiDesc(resultDaily.airQuality.aqi[index].max.chn)}";
+    final aqi = resultDaily?.airQuality?.aqi;
+    if (aqi == null || aqi.isEmpty || index >= aqi.length) return "";
+    final max = aqi[index].max?.chn;
+    if (max == null) return "";
+    return WeatherUtils.getAqiDesc(max);
   }
 
   Widget _buildDayItemWidget(BuildContext context, int index) {
-    var itemWidth = (1.sw -
+    final itemWidth = (1.sw -
             DimenConstant.cardMarginStartEnd * 2 -
             DimenConstant.dayMiddleMargin) /
         2;
     return GestureDetector(
       onTap: () {
-        UmengAnalyticsPlugin.event(AnalyticsConstant.bottomSheet, label: "多日");
         showMaterialModalBottomSheet(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           ),
           backgroundColor: Colors.transparent,
           context: context,
-          builder: (context) => BlurRectWidget(
+          builder: (ctx) => BlurRectWidget(
             color: WeatherUtils.getColor(WeatherUtils.convertWeatherType(
                     modelEntity?.result?.realtime?.skycon))[0]
                 .withAlpha(60),
-            child: Container(
+            child: SizedBox(
               height: 0.5.sh,
               child: DayForecastDetail(
                 resultDaily: modelEntity?.result?.daily,
@@ -100,55 +80,59 @@ class DayForecastView extends StatelessWidget {
       },
       child: BlurRectWidget(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 13),
+          padding: const EdgeInsets.symmetric(horizontal: 13),
           width: itemWidth,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 50,
-                    child: Text(_getWeatherDayDesc(index),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1)),
+                    child: Text(
+                      _getWeatherDayDesc(index),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1),
+                    ),
                   ),
                   Expanded(
-                    child: Container(
-                      child: Text("${_getWeatherDesc(index)}",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1)),
+                    child: Text(
+                      _getWeatherDesc(index),
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1),
                     ),
-                  )
+                  ),
                 ],
               ),
               Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      child: Text("${_getTemperatureDesc(index)}",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 19,
-                              letterSpacing: 0.2,
-                              fontWeight: FontWeight.w600)),
+                    child: Text(
+                      _getTemperatureDesc(index),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 19,
+                          letterSpacing: 0.2,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 60,
-                    child: Text(_getAqiDesc(index),
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w800)),
+                    child: Text(
+                      _getAqiDesc(index),
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ),
                 ],
               ),
@@ -161,22 +145,18 @@ class DayForecastView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Container(
-            child: _buildDayItemWidget(context, 0),
-            height: DimenConstant.singleDayForecastHeight,
-          ),
-          SizedBox(
-            width: DimenConstant.dayMiddleMargin,
-          ),
-          Container(
-            child: _buildDayItemWidget(context, 1),
-            height: DimenConstant.singleDayForecastHeight,
-          )
-        ],
-      ),
+    return Row(
+      children: [
+        SizedBox(
+          height: DimenConstant.singleDayForecastHeight,
+          child: _buildDayItemWidget(context, 0),
+        ),
+        const SizedBox(width: DimenConstant.dayMiddleMargin),
+        SizedBox(
+          height: DimenConstant.singleDayForecastHeight,
+          child: _buildDayItemWidget(context, 1),
+        ),
+      ],
     );
   }
 }

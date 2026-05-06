@@ -88,18 +88,16 @@ class WeatherUtils {
     }
   }
 
-  static convertDesc(String skycon) {
-    if (weatherMap[skycon] == null || weatherMap[skycon].isEmpty) {
-      return "晴";
-    }
-    return weatherMap[skycon];
+  static String convertDesc(String? skycon) {
+    final desc = weatherMap[skycon];
+    if (desc == null || desc.isEmpty) return "晴";
+    return desc;
   }
 
-  static WeatherType convertWeatherType(String skycon) {
-    if (weatherMap[skycon] == null || weatherMap[skycon].isEmpty) {
-      return WeatherType.sunny;
-    }
-    return weatherTypeMap[skycon];
+  static WeatherType convertWeatherType(String? skycon) {
+    final desc = weatherMap[skycon];
+    if (desc == null || desc.isEmpty) return WeatherType.sunny;
+    return weatherTypeMap[skycon] ?? WeatherType.sunny;
   }
 
   static String getAqiDesc(int aqi) {
@@ -125,40 +123,23 @@ class WeatherUtils {
   }
 
   static String getCityName(CityModel cityModel) {
-    String cityName = "";
     if (cityModel.isLocated == true) {
-      cityName = "${cityModel.district}  ${cityModel.street}";
-    } else {
-      String city = "";
-      if (cityModel.city != null && cityModel.city.isNotEmpty) {
-        city = "${cityModel.city}";
-      }
-      String district = "";
-      if (cityModel.district != null && cityModel.district.isNotEmpty) {
-        district = "${cityModel.district}";
-      }
-      String province = "";
-      if (cityModel.province != null && cityModel.province.isNotEmpty) {
-        province = "${cityModel.province}";
-      }
-      if (city != "") {
-        cityName = "$city $district";
-      } else {
-        cityName = "$province";
-      }
+      return "${cityModel.district ?? ''}  ${cityModel.street ?? ''}";
     }
-    return cityName;
+    final city = cityModel.city ?? "";
+    final district = cityModel.district ?? "";
+    final province = cityModel.province ?? "";
+    if (city.isNotEmpty) {
+      return "$city $district";
+    }
+    return province;
   }
 
-  static String getTemperatureDesc(WeatherModelResultDaily resultDaily) {
-    if (resultDaily == null ||
-        resultDaily.temperature == null ||
-        resultDaily.temperature.isEmpty ||
-        resultDaily.temperature.length <= 1) {
-      return "";
-    }
-    var dayTemperature = resultDaily.temperature[1].max;
-    var nightTemperature = resultDaily.temperature[1].min;
+  static String getTemperatureDesc(WeatherModelResultDaily? resultDaily) {
+    final temp = resultDaily?.temperature;
+    if (temp == null || temp.length <= 1) return "";
+    final dayTemperature = temp[1].max;
+    final nightTemperature = temp[1].min;
     return "$dayTemperature°/$nightTemperature°";
   }
 

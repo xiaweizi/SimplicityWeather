@@ -46,7 +46,7 @@ Map<String, dynamic> weatherModelEntityToJson(WeatherModelEntity entity) {
 	data['server_time'] = entity.serverTime;
 	data['location'] = entity.location;
 	if (entity.result != null) {
-		data['result'] = entity.result.toJson();
+		data['result'] = entity.result!.toJson();
 	}
 	return data;
 }
@@ -76,16 +76,16 @@ weatherModelResultFromJson(WeatherModelResult data, Map<String, dynamic> json) {
 Map<String, dynamic> weatherModelResultToJson(WeatherModelResult entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.realtime != null) {
-		data['realtime'] = entity.realtime.toJson();
+		data['realtime'] = entity.realtime!.toJson();
 	}
 	if (entity.minutely != null) {
-		data['minutely'] = entity.minutely.toJson();
+		data['minutely'] = entity.minutely!.toJson();
 	}
 	if (entity.hourly != null) {
-		data['hourly'] = entity.hourly.toJson();
+		data['hourly'] = entity.hourly!.toJson();
 	}
 	if (entity.daily != null) {
-		data['daily'] = entity.daily.toJson();
+		data['daily'] = entity.daily!.toJson();
 	}
 	data['primary'] = entity.primary;
 	data['forecast_keypoint'] = entity.forecastKeypoint;
@@ -145,18 +145,18 @@ Map<String, dynamic> weatherModelResultRealtimeToJson(WeatherModelResultRealtime
 	data['visibility'] = entity.visibility;
 	data['dswrf'] = entity.dswrf;
 	if (entity.wind != null) {
-		data['wind'] = entity.wind.toJson();
+		data['wind'] = entity.wind!.toJson();
 	}
 	data['pressure'] = entity.pressure;
 	data['apparent_temperature'] = entity.apparentTemperature;
 	if (entity.precipitation != null) {
-		data['precipitation'] = entity.precipitation.toJson();
+		data['precipitation'] = entity.precipitation!.toJson();
 	}
 	if (entity.airQuality != null) {
-		data['air_quality'] = entity.airQuality.toJson();
+		data['air_quality'] = entity.airQuality!.toJson();
 	}
 	if (entity.lifeIndex != null) {
-		data['life_index'] = entity.lifeIndex.toJson();
+		data['life_index'] = entity.lifeIndex!.toJson();
 	}
 	return data;
 }
@@ -191,10 +191,10 @@ weatherModelResultRealtimePrecipitationFromJson(WeatherModelResultRealtimePrecip
 Map<String, dynamic> weatherModelResultRealtimePrecipitationToJson(WeatherModelResultRealtimePrecipitation entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.local != null) {
-		data['local'] = entity.local.toJson();
+		data['local'] = entity.local!.toJson();
 	}
 	if (entity.nearest != null) {
-		data['nearest'] = entity.nearest.toJson();
+		data['nearest'] = entity.nearest!.toJson();
 	}
 	return data;
 }
@@ -278,10 +278,10 @@ Map<String, dynamic> weatherModelResultRealtimeAirQualityToJson(WeatherModelResu
 	data['no2'] = entity.no2;
 	data['co'] = entity.co;
 	if (entity.aqi != null) {
-		data['aqi'] = entity.aqi.toJson();
+		data['aqi'] = entity.aqi!.toJson();
 	}
 	if (entity.description != null) {
-		data['description'] = entity.description.toJson();
+		data['description'] = entity.description!.toJson();
 	}
 	return data;
 }
@@ -333,10 +333,10 @@ weatherModelResultRealtimeLifeIndexFromJson(WeatherModelResultRealtimeLifeIndex 
 Map<String, dynamic> weatherModelResultRealtimeLifeIndexToJson(WeatherModelResultRealtimeLifeIndex entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.ultraviolet != null) {
-		data['ultraviolet'] = entity.ultraviolet.toJson();
+		data['ultraviolet'] = entity.ultraviolet!.toJson();
 	}
 	if (entity.comfort != null) {
-		data['comfort'] = entity.comfort.toJson();
+		data['comfort'] = entity.comfort!.toJson();
 	}
 	return data;
 }
@@ -416,57 +416,57 @@ weatherModelResultHourlyFromJson(WeatherModelResultHourly data, Map<String, dyna
 		data.description = json['description']?.toString();
 	}
 	if (json['precipitation'] != null) {
-		data.precipitation = new List<WeatherModelResultHourlyPrecipitation>();
+		data.precipitation = <WeatherModelResultHourlyPrecipitation>[];
 		(json['precipitation'] as List).forEach((v) {
-			data.precipitation.add(new WeatherModelResultHourlyPrecipitation().fromJson(v));
+			data.precipitation!.add(new WeatherModelResultHourlyPrecipitation().fromJson(v));
 		});
 	}
 	if (json['temperature'] != null) {
-		data.temperature = new List<WeatherModelResultHourlyTemperature>();
+		data.temperature = <WeatherModelResultHourlyTemperature>[];
 		(json['temperature'] as List).forEach((v) {
-			data.temperature.add(new WeatherModelResultHourlyTemperature().fromJson(v));
+			data.temperature!.add(new WeatherModelResultHourlyTemperature().fromJson(v));
 		});
 	}
 	if (json['wind'] != null) {
-		data.wind = new List<WeatherModelResultHourlyWind>();
+		data.wind = <WeatherModelResultHourlyWind>[];
 		(json['wind'] as List).forEach((v) {
-			data.wind.add(new WeatherModelResultHourlyWind().fromJson(v));
+			data.wind!.add(new WeatherModelResultHourlyWind().fromJson(v));
 		});
 	}
 	if (json['humidity'] != null) {
-		data.humidity = new List<WeatherModelResultHourlyHumidity>();
+		data.humidity = <WeatherModelResultHourlyHumidity>[];
 		(json['humidity'] as List).forEach((v) {
-			data.humidity.add(new WeatherModelResultHourlyHumidity().fromJson(v));
+			data.humidity!.add(new WeatherModelResultHourlyHumidity().fromJson(v));
 		});
 	}
 	if (json['cloudrate'] != null) {
-		data.cloudrate = new List<WeatherModelResultHourlyCloudrate>();
+		data.cloudrate = <WeatherModelResultHourlyCloudrate>[];
 		(json['cloudrate'] as List).forEach((v) {
-			data.cloudrate.add(new WeatherModelResultHourlyCloudrate().fromJson(v));
+			data.cloudrate!.add(new WeatherModelResultHourlyCloudrate().fromJson(v));
 		});
 	}
 	if (json['skycon'] != null) {
-		data.skycon = new List<WeatherModelResultHourlySkycon>();
+		data.skycon = <WeatherModelResultHourlySkycon>[];
 		(json['skycon'] as List).forEach((v) {
-			data.skycon.add(new WeatherModelResultHourlySkycon().fromJson(v));
+			data.skycon!.add(new WeatherModelResultHourlySkycon().fromJson(v));
 		});
 	}
 	if (json['pressure'] != null) {
-		data.pressure = new List<WeatherModelResultHourlyPressure>();
+		data.pressure = <WeatherModelResultHourlyPressure>[];
 		(json['pressure'] as List).forEach((v) {
-			data.pressure.add(new WeatherModelResultHourlyPressure().fromJson(v));
+			data.pressure!.add(new WeatherModelResultHourlyPressure().fromJson(v));
 		});
 	}
 	if (json['visibility'] != null) {
-		data.visibility = new List<WeatherModelResultHourlyVisibility>();
+		data.visibility = <WeatherModelResultHourlyVisibility>[];
 		(json['visibility'] as List).forEach((v) {
-			data.visibility.add(new WeatherModelResultHourlyVisibility().fromJson(v));
+			data.visibility!.add(new WeatherModelResultHourlyVisibility().fromJson(v));
 		});
 	}
 	if (json['dswrf'] != null) {
-		data.dswrf = new List<WeatherModelResultHourlyDswrf>();
+		data.dswrf = <WeatherModelResultHourlyDswrf>[];
 		(json['dswrf'] as List).forEach((v) {
-			data.dswrf.add(new WeatherModelResultHourlyDswrf().fromJson(v));
+			data.dswrf!.add(new WeatherModelResultHourlyDswrf().fromJson(v));
 		});
 	}
 	if (json['air_quality'] != null) {
@@ -480,34 +480,34 @@ Map<String, dynamic> weatherModelResultHourlyToJson(WeatherModelResultHourly ent
 	data['status'] = entity.status;
 	data['description'] = entity.description;
 	if (entity.precipitation != null) {
-		data['precipitation'] =  entity.precipitation.map((v) => v.toJson()).toList();
+		data['precipitation'] =  entity.precipitation!.map((v) => v.toJson()).toList();
 	}
 	if (entity.temperature != null) {
-		data['temperature'] =  entity.temperature.map((v) => v.toJson()).toList();
+		data['temperature'] =  entity.temperature!.map((v) => v.toJson()).toList();
 	}
 	if (entity.wind != null) {
-		data['wind'] =  entity.wind.map((v) => v.toJson()).toList();
+		data['wind'] =  entity.wind!.map((v) => v.toJson()).toList();
 	}
 	if (entity.humidity != null) {
-		data['humidity'] =  entity.humidity.map((v) => v.toJson()).toList();
+		data['humidity'] =  entity.humidity!.map((v) => v.toJson()).toList();
 	}
 	if (entity.cloudrate != null) {
-		data['cloudrate'] =  entity.cloudrate.map((v) => v.toJson()).toList();
+		data['cloudrate'] =  entity.cloudrate!.map((v) => v.toJson()).toList();
 	}
 	if (entity.skycon != null) {
-		data['skycon'] =  entity.skycon.map((v) => v.toJson()).toList();
+		data['skycon'] =  entity.skycon!.map((v) => v.toJson()).toList();
 	}
 	if (entity.pressure != null) {
-		data['pressure'] =  entity.pressure.map((v) => v.toJson()).toList();
+		data['pressure'] =  entity.pressure!.map((v) => v.toJson()).toList();
 	}
 	if (entity.visibility != null) {
-		data['visibility'] =  entity.visibility.map((v) => v.toJson()).toList();
+		data['visibility'] =  entity.visibility!.map((v) => v.toJson()).toList();
 	}
 	if (entity.dswrf != null) {
-		data['dswrf'] =  entity.dswrf.map((v) => v.toJson()).toList();
+		data['dswrf'] =  entity.dswrf!.map((v) => v.toJson()).toList();
 	}
 	if (entity.airQuality != null) {
-		data['air_quality'] = entity.airQuality.toJson();
+		data['air_quality'] = entity.airQuality!.toJson();
 	}
 	return data;
 }
@@ -671,15 +671,15 @@ Map<String, dynamic> weatherModelResultHourlyDswrfToJson(WeatherModelResultHourl
 
 weatherModelResultHourlyAirQualityFromJson(WeatherModelResultHourlyAirQuality data, Map<String, dynamic> json) {
 	if (json['aqi'] != null) {
-		data.aqi = new List<WeatherModelResultHourlyAirQualityAqi>();
+		data.aqi = <WeatherModelResultHourlyAirQualityAqi>[];
 		(json['aqi'] as List).forEach((v) {
-			data.aqi.add(new WeatherModelResultHourlyAirQualityAqi().fromJson(v));
+			data.aqi!.add(new WeatherModelResultHourlyAirQualityAqi().fromJson(v));
 		});
 	}
 	if (json['pm25'] != null) {
-		data.pm25 = new List<WeatherModelResultHourlyAirQualityPm25>();
+		data.pm25 = <WeatherModelResultHourlyAirQualityPm25>[];
 		(json['pm25'] as List).forEach((v) {
-			data.pm25.add(new WeatherModelResultHourlyAirQualityPm25().fromJson(v));
+			data.pm25!.add(new WeatherModelResultHourlyAirQualityPm25().fromJson(v));
 		});
 	}
 	return data;
@@ -688,10 +688,10 @@ weatherModelResultHourlyAirQualityFromJson(WeatherModelResultHourlyAirQuality da
 Map<String, dynamic> weatherModelResultHourlyAirQualityToJson(WeatherModelResultHourlyAirQuality entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.aqi != null) {
-		data['aqi'] =  entity.aqi.map((v) => v.toJson()).toList();
+		data['aqi'] =  entity.aqi!.map((v) => v.toJson()).toList();
 	}
 	if (entity.pm25 != null) {
-		data['pm25'] =  entity.pm25.map((v) => v.toJson()).toList();
+		data['pm25'] =  entity.pm25!.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -710,7 +710,7 @@ Map<String, dynamic> weatherModelResultHourlyAirQualityAqiToJson(WeatherModelRes
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['datetime'] = entity.datetime;
 	if (entity.value != null) {
-		data['value'] = entity.value.toJson();
+		data['value'] = entity.value!.toJson();
 	}
 	return data;
 }
@@ -754,78 +754,78 @@ weatherModelResultDailyFromJson(WeatherModelResultDaily data, Map<String, dynami
 		data.status = json['status']?.toString();
 	}
 	if (json['astro'] != null) {
-		data.astro = new List<WeatherModelResultDailyAstro>();
+		data.astro = <WeatherModelResultDailyAstro>[];
 		(json['astro'] as List).forEach((v) {
-			data.astro.add(new WeatherModelResultDailyAstro().fromJson(v));
+			data.astro!.add(new WeatherModelResultDailyAstro().fromJson(v));
 		});
 	}
 	if (json['precipitation'] != null) {
-		data.precipitation = new List<WeatherModelResultDailyPrecipitation>();
+		data.precipitation = <WeatherModelResultDailyPrecipitation>[];
 		(json['precipitation'] as List).forEach((v) {
-			data.precipitation.add(new WeatherModelResultDailyPrecipitation().fromJson(v));
+			data.precipitation!.add(new WeatherModelResultDailyPrecipitation().fromJson(v));
 		});
 	}
 	if (json['temperature'] != null) {
-		data.temperature = new List<WeatherModelResultDailyTemperature>();
+		data.temperature = <WeatherModelResultDailyTemperature>[];
 		(json['temperature'] as List).forEach((v) {
-			data.temperature.add(new WeatherModelResultDailyTemperature().fromJson(v));
+			data.temperature!.add(new WeatherModelResultDailyTemperature().fromJson(v));
 		});
 	}
 	if (json['wind'] != null) {
-		data.wind = new List<WeatherModelResultDailyWind>();
+		data.wind = <WeatherModelResultDailyWind>[];
 		(json['wind'] as List).forEach((v) {
-			data.wind.add(new WeatherModelResultDailyWind().fromJson(v));
+			data.wind!.add(new WeatherModelResultDailyWind().fromJson(v));
 		});
 	}
 	if (json['humidity'] != null) {
-		data.humidity = new List<WeatherModelResultDailyHumidity>();
+		data.humidity = <WeatherModelResultDailyHumidity>[];
 		(json['humidity'] as List).forEach((v) {
-			data.humidity.add(new WeatherModelResultDailyHumidity().fromJson(v));
+			data.humidity!.add(new WeatherModelResultDailyHumidity().fromJson(v));
 		});
 	}
 	if (json['cloudrate'] != null) {
-		data.cloudrate = new List<WeatherModelResultDailyCloudrate>();
+		data.cloudrate = <WeatherModelResultDailyCloudrate>[];
 		(json['cloudrate'] as List).forEach((v) {
-			data.cloudrate.add(new WeatherModelResultDailyCloudrate().fromJson(v));
+			data.cloudrate!.add(new WeatherModelResultDailyCloudrate().fromJson(v));
 		});
 	}
 	if (json['pressure'] != null) {
-		data.pressure = new List<WeatherModelResultDailyPressure>();
+		data.pressure = <WeatherModelResultDailyPressure>[];
 		(json['pressure'] as List).forEach((v) {
-			data.pressure.add(new WeatherModelResultDailyPressure().fromJson(v));
+			data.pressure!.add(new WeatherModelResultDailyPressure().fromJson(v));
 		});
 	}
 	if (json['visibility'] != null) {
-		data.visibility = new List<WeatherModelResultDailyVisibility>();
+		data.visibility = <WeatherModelResultDailyVisibility>[];
 		(json['visibility'] as List).forEach((v) {
-			data.visibility.add(new WeatherModelResultDailyVisibility().fromJson(v));
+			data.visibility!.add(new WeatherModelResultDailyVisibility().fromJson(v));
 		});
 	}
 	if (json['dswrf'] != null) {
-		data.dswrf = new List<WeatherModelResultDailyDswrf>();
+		data.dswrf = <WeatherModelResultDailyDswrf>[];
 		(json['dswrf'] as List).forEach((v) {
-			data.dswrf.add(new WeatherModelResultDailyDswrf().fromJson(v));
+			data.dswrf!.add(new WeatherModelResultDailyDswrf().fromJson(v));
 		});
 	}
 	if (json['air_quality'] != null) {
 		data.airQuality = new WeatherModelResultDailyAirQuality().fromJson(json['air_quality']);
 	}
 	if (json['skycon'] != null) {
-		data.skycon = new List<WeatherModelResultDailySkycon>();
+		data.skycon = <WeatherModelResultDailySkycon>[];
 		(json['skycon'] as List).forEach((v) {
-			data.skycon.add(new WeatherModelResultDailySkycon().fromJson(v));
+			data.skycon!.add(new WeatherModelResultDailySkycon().fromJson(v));
 		});
 	}
 	if (json['skycon_08h_20h'] != null) {
-		data.skycon08h20h = new List<WeatherModelResultDailySkycon08h20h>();
+		data.skycon08h20h = <WeatherModelResultDailySkycon08h20h>[];
 		(json['skycon_08h_20h'] as List).forEach((v) {
-			data.skycon08h20h.add(new WeatherModelResultDailySkycon08h20h().fromJson(v));
+			data.skycon08h20h!.add(new WeatherModelResultDailySkycon08h20h().fromJson(v));
 		});
 	}
 	if (json['skycon_20h_32h'] != null) {
-		data.skycon20h32h = new List<WeatherModelResultDailySkycon20h32h>();
+		data.skycon20h32h = <WeatherModelResultDailySkycon20h32h>[];
 		(json['skycon_20h_32h'] as List).forEach((v) {
-			data.skycon20h32h.add(new WeatherModelResultDailySkycon20h32h().fromJson(v));
+			data.skycon20h32h!.add(new WeatherModelResultDailySkycon20h32h().fromJson(v));
 		});
 	}
 	if (json['life_index'] != null) {
@@ -838,46 +838,46 @@ Map<String, dynamic> weatherModelResultDailyToJson(WeatherModelResultDaily entit
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['status'] = entity.status;
 	if (entity.astro != null) {
-		data['astro'] =  entity.astro.map((v) => v.toJson()).toList();
+		data['astro'] =  entity.astro!.map((v) => v.toJson()).toList();
 	}
 	if (entity.precipitation != null) {
-		data['precipitation'] =  entity.precipitation.map((v) => v.toJson()).toList();
+		data['precipitation'] =  entity.precipitation!.map((v) => v.toJson()).toList();
 	}
 	if (entity.temperature != null) {
-		data['temperature'] =  entity.temperature.map((v) => v.toJson()).toList();
+		data['temperature'] =  entity.temperature!.map((v) => v.toJson()).toList();
 	}
 	if (entity.wind != null) {
-		data['wind'] =  entity.wind.map((v) => v.toJson()).toList();
+		data['wind'] =  entity.wind!.map((v) => v.toJson()).toList();
 	}
 	if (entity.humidity != null) {
-		data['humidity'] =  entity.humidity.map((v) => v.toJson()).toList();
+		data['humidity'] =  entity.humidity!.map((v) => v.toJson()).toList();
 	}
 	if (entity.cloudrate != null) {
-		data['cloudrate'] =  entity.cloudrate.map((v) => v.toJson()).toList();
+		data['cloudrate'] =  entity.cloudrate!.map((v) => v.toJson()).toList();
 	}
 	if (entity.pressure != null) {
-		data['pressure'] =  entity.pressure.map((v) => v.toJson()).toList();
+		data['pressure'] =  entity.pressure!.map((v) => v.toJson()).toList();
 	}
 	if (entity.visibility != null) {
-		data['visibility'] =  entity.visibility.map((v) => v.toJson()).toList();
+		data['visibility'] =  entity.visibility!.map((v) => v.toJson()).toList();
 	}
 	if (entity.dswrf != null) {
-		data['dswrf'] =  entity.dswrf.map((v) => v.toJson()).toList();
+		data['dswrf'] =  entity.dswrf!.map((v) => v.toJson()).toList();
 	}
 	if (entity.airQuality != null) {
-		data['air_quality'] = entity.airQuality.toJson();
+		data['air_quality'] = entity.airQuality!.toJson();
 	}
 	if (entity.skycon != null) {
-		data['skycon'] =  entity.skycon.map((v) => v.toJson()).toList();
+		data['skycon'] =  entity.skycon!.map((v) => v.toJson()).toList();
 	}
 	if (entity.skycon08h20h != null) {
-		data['skycon_08h_20h'] =  entity.skycon08h20h.map((v) => v.toJson()).toList();
+		data['skycon_08h_20h'] =  entity.skycon08h20h!.map((v) => v.toJson()).toList();
 	}
 	if (entity.skycon20h32h != null) {
-		data['skycon_20h_32h'] =  entity.skycon20h32h.map((v) => v.toJson()).toList();
+		data['skycon_20h_32h'] =  entity.skycon20h32h!.map((v) => v.toJson()).toList();
 	}
 	if (entity.lifeIndex != null) {
-		data['life_index'] = entity.lifeIndex.toJson();
+		data['life_index'] = entity.lifeIndex!.toJson();
 	}
 	return data;
 }
@@ -899,10 +899,10 @@ Map<String, dynamic> weatherModelResultDailyAstroToJson(WeatherModelResultDailyA
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['date'] = entity.date;
 	if (entity.sunrise != null) {
-		data['sunrise'] = entity.sunrise.toJson();
+		data['sunrise'] = entity.sunrise!.toJson();
 	}
 	if (entity.sunset != null) {
-		data['sunset'] = entity.sunset.toJson();
+		data['sunset'] = entity.sunset!.toJson();
 	}
 	return data;
 }
@@ -1003,13 +1003,13 @@ Map<String, dynamic> weatherModelResultDailyWindToJson(WeatherModelResultDailyWi
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['date'] = entity.date;
 	if (entity.max != null) {
-		data['max'] = entity.max.toJson();
+		data['max'] = entity.max!.toJson();
 	}
 	if (entity.min != null) {
-		data['min'] = entity.min.toJson();
+		data['min'] = entity.min!.toJson();
 	}
 	if (entity.avg != null) {
-		data['avg'] = entity.avg.toJson();
+		data['avg'] = entity.avg!.toJson();
 	}
 	return data;
 }
@@ -1192,15 +1192,15 @@ Map<String, dynamic> weatherModelResultDailyDswrfToJson(WeatherModelResultDailyD
 
 weatherModelResultDailyAirQualityFromJson(WeatherModelResultDailyAirQuality data, Map<String, dynamic> json) {
 	if (json['aqi'] != null) {
-		data.aqi = new List<WeatherModelResultDailyAirQualityAqi>();
+		data.aqi = <WeatherModelResultDailyAirQualityAqi>[];
 		(json['aqi'] as List).forEach((v) {
-			data.aqi.add(new WeatherModelResultDailyAirQualityAqi().fromJson(v));
+			data.aqi!.add(new WeatherModelResultDailyAirQualityAqi().fromJson(v));
 		});
 	}
 	if (json['pm25'] != null) {
-		data.pm25 = new List<WeatherModelResultDailyAirQualityPm25>();
+		data.pm25 = <WeatherModelResultDailyAirQualityPm25>[];
 		(json['pm25'] as List).forEach((v) {
-			data.pm25.add(new WeatherModelResultDailyAirQualityPm25().fromJson(v));
+			data.pm25!.add(new WeatherModelResultDailyAirQualityPm25().fromJson(v));
 		});
 	}
 	return data;
@@ -1209,10 +1209,10 @@ weatherModelResultDailyAirQualityFromJson(WeatherModelResultDailyAirQuality data
 Map<String, dynamic> weatherModelResultDailyAirQualityToJson(WeatherModelResultDailyAirQuality entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.aqi != null) {
-		data['aqi'] =  entity.aqi.map((v) => v.toJson()).toList();
+		data['aqi'] =  entity.aqi!.map((v) => v.toJson()).toList();
 	}
 	if (entity.pm25 != null) {
-		data['pm25'] =  entity.pm25.map((v) => v.toJson()).toList();
+		data['pm25'] =  entity.pm25!.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -1237,13 +1237,13 @@ Map<String, dynamic> weatherModelResultDailyAirQualityAqiToJson(WeatherModelResu
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['date'] = entity.date;
 	if (entity.max != null) {
-		data['max'] = entity.max.toJson();
+		data['max'] = entity.max!.toJson();
 	}
 	if (entity.avg != null) {
-		data['avg'] = entity.avg.toJson();
+		data['avg'] = entity.avg!.toJson();
 	}
 	if (entity.min != null) {
-		data['min'] = entity.min.toJson();
+		data['min'] = entity.min!.toJson();
 	}
 	return data;
 }
@@ -1377,33 +1377,33 @@ Map<String, dynamic> weatherModelResultDailySkycon20h32hToJson(WeatherModelResul
 
 weatherModelResultDailyLifeIndexFromJson(WeatherModelResultDailyLifeIndex data, Map<String, dynamic> json) {
 	if (json['ultraviolet'] != null) {
-		data.ultraviolet = new List<WeatherModelResultDailyLifeIndexUltraviolet>();
+		data.ultraviolet = <WeatherModelResultDailyLifeIndexUltraviolet>[];
 		(json['ultraviolet'] as List).forEach((v) {
-			data.ultraviolet.add(new WeatherModelResultDailyLifeIndexUltraviolet().fromJson(v));
+			data.ultraviolet!.add(new WeatherModelResultDailyLifeIndexUltraviolet().fromJson(v));
 		});
 	}
 	if (json['carWashing'] != null) {
-		data.carWashing = new List<WeatherModelResultDailyLifeIndexCarWashing>();
+		data.carWashing = <WeatherModelResultDailyLifeIndexCarWashing>[];
 		(json['carWashing'] as List).forEach((v) {
-			data.carWashing.add(new WeatherModelResultDailyLifeIndexCarWashing().fromJson(v));
+			data.carWashing!.add(new WeatherModelResultDailyLifeIndexCarWashing().fromJson(v));
 		});
 	}
 	if (json['dressing'] != null) {
-		data.dressing = new List<WeatherModelResultDailyLifeIndexDressing>();
+		data.dressing = <WeatherModelResultDailyLifeIndexDressing>[];
 		(json['dressing'] as List).forEach((v) {
-			data.dressing.add(new WeatherModelResultDailyLifeIndexDressing().fromJson(v));
+			data.dressing!.add(new WeatherModelResultDailyLifeIndexDressing().fromJson(v));
 		});
 	}
 	if (json['comfort'] != null) {
-		data.comfort = new List<WeatherModelResultDailyLifeIndexComfort>();
+		data.comfort = <WeatherModelResultDailyLifeIndexComfort>[];
 		(json['comfort'] as List).forEach((v) {
-			data.comfort.add(new WeatherModelResultDailyLifeIndexComfort().fromJson(v));
+			data.comfort!.add(new WeatherModelResultDailyLifeIndexComfort().fromJson(v));
 		});
 	}
 	if (json['coldRisk'] != null) {
-		data.coldRisk = new List<WeatherModelResultDailyLifeIndexColdRisk>();
+		data.coldRisk = <WeatherModelResultDailyLifeIndexColdRisk>[];
 		(json['coldRisk'] as List).forEach((v) {
-			data.coldRisk.add(new WeatherModelResultDailyLifeIndexColdRisk().fromJson(v));
+			data.coldRisk!.add(new WeatherModelResultDailyLifeIndexColdRisk().fromJson(v));
 		});
 	}
 	return data;
@@ -1412,19 +1412,19 @@ weatherModelResultDailyLifeIndexFromJson(WeatherModelResultDailyLifeIndex data, 
 Map<String, dynamic> weatherModelResultDailyLifeIndexToJson(WeatherModelResultDailyLifeIndex entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.ultraviolet != null) {
-		data['ultraviolet'] =  entity.ultraviolet.map((v) => v.toJson()).toList();
+		data['ultraviolet'] =  entity.ultraviolet!.map((v) => v.toJson()).toList();
 	}
 	if (entity.carWashing != null) {
-		data['carWashing'] =  entity.carWashing.map((v) => v.toJson()).toList();
+		data['carWashing'] =  entity.carWashing!.map((v) => v.toJson()).toList();
 	}
 	if (entity.dressing != null) {
-		data['dressing'] =  entity.dressing.map((v) => v.toJson()).toList();
+		data['dressing'] =  entity.dressing!.map((v) => v.toJson()).toList();
 	}
 	if (entity.comfort != null) {
-		data['comfort'] =  entity.comfort.map((v) => v.toJson()).toList();
+		data['comfort'] =  entity.comfort!.map((v) => v.toJson()).toList();
 	}
 	if (entity.coldRisk != null) {
-		data['coldRisk'] =  entity.coldRisk.map((v) => v.toJson()).toList();
+		data['coldRisk'] =  entity.coldRisk!.map((v) => v.toJson()).toList();
 	}
 	return data;
 }

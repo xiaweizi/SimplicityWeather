@@ -6,19 +6,13 @@ class CityData {
   String level;
   bool isLocated;
 
+  CityData(this.name, this.center,
+      {this.level = "", this.isLocated = false});
+
+  String get longitude => center.split(",")[0];
+  String get latitude => center.split(",")[1];
 
   @override
-  String toString() {
-    return 'CityData{name: $name, center: $center, level: $level, longitude: $longitude, latitude: $latitude}';
-  }
-
-  CityData(this.name, this.center, {this.level, this.isLocated});
-
-  get longitude {
-    return center.split(",")[0];
-  }
-
-  get latitude {
-    return center.split(",")[1];
-  }
+  String toString() =>
+      'CityData{name:$name, center:$center, level:$level, lng:$longitude, lat:$latitude}';
 }

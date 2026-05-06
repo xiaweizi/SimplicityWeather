@@ -5,18 +5,17 @@ abstract class CityEvent extends Equatable {
 }
 
 class FetchCityDataEvent extends CityEvent {
+  const FetchCityDataEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-
 class RequestLocationEvent extends CityEvent {
-
   const RequestLocationEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InsertCityData extends CityEvent {
@@ -25,7 +24,7 @@ class InsertCityData extends CityEvent {
   const InsertCityData(this.cityModel);
 
   @override
-  List<Object> get props => [cityModel];
+  List<Object?> get props => [cityModel];
 }
 
 class DeleteCityData extends CityEvent {
@@ -34,6 +33,5 @@ class DeleteCityData extends CityEvent {
   const DeleteCityData(this.cityFlag);
 
   @override
-  List<Object> get props => [cityFlag];
+  List<Object?> get props => [cityFlag];
 }
-

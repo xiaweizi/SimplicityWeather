@@ -5,7 +5,7 @@ class ScaleRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  ScaleRouter({this.child, this.durationMs = 500,this.curve=Curves.fastOutSlowIn})
+  ScaleRouter({required this.child, this.durationMs = 500,this.curve=Curves.fastOutSlowIn})
       : super(
     pageBuilder: (context, animation, secondaryAnimation) => child,
     transitionDuration: Duration(milliseconds: durationMs),
@@ -22,18 +22,21 @@ class FadeRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  final RouteSettings settings;
-  FadeRouter({this.child, this.durationMs = 500,this.curve=Curves.fastOutSlowIn, this.settings})
-      : super(
-      pageBuilder: (context, animation, secondaryAnimation) => child,
-      settings : settings,
-      transitionDuration: Duration(milliseconds: durationMs),
-      transitionsBuilder: (context, a1, a2, child) =>
-          FadeTransition(
+  FadeRouter({
+    required this.child,
+    this.durationMs = 500,
+    this.curve = Curves.fastOutSlowIn,
+    RouteSettings? settings,
+  }) : super(
+          settings: settings,
+          pageBuilder: (context, animation, secondaryAnimation) => child,
+          transitionDuration: Duration(milliseconds: durationMs),
+          transitionsBuilder: (context, a1, a2, child) => FadeTransition(
             opacity: Tween(begin: 0.1, end: 1.0).animate(
-                CurvedAnimation(parent: a1, curve:curve,)),
+                CurvedAnimation(parent: a1, curve: curve)),
             child: child,
-          ));
+          ),
+        );
 }
 
 //旋转路由动画
@@ -41,7 +44,7 @@ class RotateRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  RotateRouter({this.child, this.durationMs = 500,this.curve=Curves.fastOutSlowIn})
+  RotateRouter({required this.child, this.durationMs = 500,this.curve=Curves.fastOutSlowIn})
       : super(
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionDuration: Duration(milliseconds: durationMs),
@@ -58,7 +61,7 @@ class Right2LeftRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  Right2LeftRouter({this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
+  Right2LeftRouter({required this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
       :super(
       transitionDuration:Duration(milliseconds: durationMs),
       pageBuilder:(ctx,a1,a2)=>child,
@@ -76,8 +79,8 @@ class Left2RightRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  List<int> mapper;
-  Left2RightRouter({this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
+  List<int>? mapper;
+  Left2RightRouter({required this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
       :assert(true),super(
       transitionDuration:Duration(milliseconds: durationMs),
       pageBuilder:(ctx,a1,a2){return child;},
@@ -96,7 +99,7 @@ class Top2BottomRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  Top2BottomRouter({this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
+  Top2BottomRouter({required this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
       :super(
       transitionDuration:Duration(milliseconds: durationMs),
       pageBuilder:(ctx,a1,a2){return child;},
@@ -115,7 +118,7 @@ class Bottom2TopRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  Bottom2TopRouter({this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
+  Bottom2TopRouter({required this.child,this.durationMs=500,this.curve=Curves.fastOutSlowIn})
       :super(
       transitionDuration:Duration(milliseconds: durationMs),
       pageBuilder:(ctx,a1,a2)=> child,
@@ -134,7 +137,7 @@ class ScaleFadeRotateRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int durationMs;
   final Curve curve;
-  ScaleFadeRotateRouter({this.child, this.durationMs = 1000,this.curve=Curves.fastOutSlowIn}) : super(
+  ScaleFadeRotateRouter({required this.child, this.durationMs = 1000,this.curve=Curves.fastOutSlowIn}) : super(
       transitionDuration: Duration(milliseconds: durationMs),
       pageBuilder: (ctx, a1, a2)=>child,//页面
       transitionsBuilder: (ctx, a1, a2, Widget child,) =>
@@ -155,7 +158,7 @@ class ScaleFadeRotateRouter<T> extends PageRouteBuilder<T> {
 //无动画
 class NoAnimRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
-  NoAnimRouter({this.child})
+  NoAnimRouter({required this.child})
       : super(
       opaque: false,
       pageBuilder: (context, animation, secondaryAnimation) => child,

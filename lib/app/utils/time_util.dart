@@ -38,16 +38,18 @@ class TimeUtil {
   }
 
   static String _getDateStr(DateTime date) {
-    if (date == null || date.toString() == null) {
-      return "";
-    } else if (date.toString().length < 10) {
-      return date.toString();
-    }
+    if (date.toString().length < 10) return date.toString();
     return date.toString().substring(0, 10);
   }
-  
-  static String getWeatherDayDesc(String time) {
-    DateTime targetTime = time.dateTime;
+
+  static String getWeatherDayDesc(String? time) {
+    if (time == null || time.isEmpty) return "";
+    DateTime targetTime;
+    try {
+      targetTime = time.dateTime;
+    } catch (_) {
+      return "";
+    }
     DateTime nowTime = DateTime.now();
     if (targetTime.day == nowTime.day) {
       return "今天";

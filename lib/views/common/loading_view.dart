@@ -6,9 +6,7 @@ enum ViewState { loading, error, empty }
 class StateView extends StatelessWidget {
   final ViewState weatherState;
 
-  StateView(
-      {Key key, this.weatherState = ViewState.loading})
-      : super(key: key);
+  const StateView({super.key, this.weatherState = ViewState.loading});
 
   String _getDesc() {
     if (weatherState == ViewState.empty) {

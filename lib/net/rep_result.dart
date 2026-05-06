@@ -1,11 +1,10 @@
-
 class RepResult {
-  var data;
+  dynamic data;
   bool status;
   int code;
   String msg;
 
-  RepResult(this.data, this.status, this.code, {this.msg=""});
+  RepResult(this.data, this.status, this.code, {this.msg = ""});
 
   @override
   String toString() {

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_weather/app/res/analytics_constant.dart';
+import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
-import 'package:flutter_weather_bg/utils/print_utils.dart';
-import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
-
 /// 已宫格的形式展示多样的天气效果
 /// 同时，支持切换列数
 class GridViewWidget extends StatefulWidget {
@@ -38,8 +35,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 ];
               },
               onSelected: (count) {
-                UmengAnalyticsPlugin.event(AnalyticsConstant.exampleClick,
-                    label: "grid_click_$count");
                 setState(() {
                   _count = count;
                 });
@@ -68,7 +63,7 @@ class GridItemWidget extends StatelessWidget {
   final WeatherType weatherType;
   final int count;
 
-  GridItemWidget({Key key, this.weatherType, this.count}) : super(key: key);
+  const GridItemWidget({super.key, required this.weatherType, required this.count});
 
   @override
   Widget build(BuildContext context) {

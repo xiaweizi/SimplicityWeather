@@ -6,31 +6,26 @@ abstract class CityState extends Equatable {
 
 @immutable
 class CitySuccess extends CityState {
-  
   final List<CityModel> cityModels;
 
-  CitySuccess(this.cityModels);
+  const CitySuccess(this.cityModels);
 
   @override
-  List<Object> get props => [cityModels];
+  List<Object?> get props => [cityModels];
 }
-
 
 @immutable
 class CityInit extends CityState {
-
-  CityInit();
+  const CityInit();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 @immutable
 class LocationSuccessState extends CityState {
-
-  LocationSuccessState();
+  const LocationSuccessState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
-

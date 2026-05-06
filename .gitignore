@@ -32,7 +32,6 @@
 /build/
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
@@ -42,3 +41,6 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Library 约定：不跟踪 pubspec.lock；app 约定：保留。此项目为 app，保留。
+# (如果只做 app 请勿忽略 pubspec.lock)

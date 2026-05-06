@@ -10,50 +10,42 @@ import 'package:path_drawing/path_drawing.dart';
 import 'dart:ui' as ui;
 
 class SunSetRiseView extends StatelessWidget {
-  final WeatherModelResultDailyAstro model;
+  final WeatherModelResultDailyAstro? model;
 
-  const SunSetRiseView({
-    Key key,
-    this.model,
-  }) : super(key: key);
+  const SunSetRiseView({super.key, this.model});
 
   Widget _buildWidget() {
-    if (model != null && model.sunrise != null && model.sunset != null) {
-      return Column(
-        children: [
-          Container(
-            height: 140,
-            width: 1.sw - DimenConstant.mainMarginStartEnd * 2,
-            child: CustomPaint(
-              painter: SunSetRisePainter(model.sunrise.time, model.sunset.time),
+    final m = model;
+    final sunriseTime = m?.sunrise?.time;
+    final sunsetTime = m?.sunset?.time;
+    if (sunriseTime == null || sunsetTime == null) return const SizedBox.shrink();
+    return Column(
+      children: [
+        SizedBox(
+          height: 140,
+          width: 1.sw - DimenConstant.mainMarginStartEnd * 2,
+          child: CustomPaint(
+            painter: SunSetRisePainter(sunriseTime, sunsetTime),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              child: Text("日出 $sunriseTime",
+                  style: const TextStyle(color: Colors.white)),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Text(
-                  "日出 ${model.sunrise.time}",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 20),
-                child: Text(
-                  "日落 ${model.sunset.time}",
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-        ],
-      );
-    }
-    return Container();
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: Text("日落 $sunsetTime",
+                  style: const TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
   }
 
   @override
@@ -65,18 +57,20 @@ class SunSetRiseView extends StatelessWidget {
 class SunSetRisePainter extends CustomPainter {
   final String sunriseTime;
   final String sunsetTime;
-  double ratio;
+  double ratio = 0;
   double marginTop = -40;
   double marginBottom = 20;
   double marginLeftRight = 20;
 
-  Paint _paint = Paint();
-  Path _path = Path();
+  final Paint _paint = Paint();
+  final Path _path = Path();
 
   int getMinute(String time) {
-    if (time != null && time.isNotEmpty) {
-      int hour = int.parse(time.split(":")[0]);
-      int minute = int.parse(time.split(":")[1]);
+    if (time.isNotEmpty) {
+      final parts = time.split(":");
+      if (parts.length < 2) return 0;
+      final hour = int.tryParse(parts[0]) ?? 0;
+      final minute = int.tryParse(parts[1]) ?? 0;
       return hour * 60 + minute;
     }
     return 0;
@@ -113,7 +107,8 @@ class SunSetRisePainter extends CustomPainter {
 
     var metrics = _path.computeMetrics();
     var pm = metrics.elementAt(0);
-    Offset sunOffset = pm.getTangentForOffset(pm.length * ratio).position;
+    final tangent = pm.getTangentForOffset(pm.length * ratio);
+    final sunOffset = tangent?.position ?? Offset.zero;
     canvas.save();
     canvas.clipRect(Rect.fromLTWH(0, 0, sunOffset.dx, height));
     canvas.drawPath(_path, _paint);

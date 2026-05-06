@@ -11,9 +11,9 @@ districtModelEntityFromJson(DistrictModelEntity data, Map<String, dynamic> json)
 		data.count = json['count']?.toString();
 	}
 	if (json['districts'] != null) {
-		data.districts = new List<DistrictModelDistrict>();
+		data.districts = <DistrictModelDistrict>[];
 		(json['districts'] as List).forEach((v) {
-			data.districts.add(new DistrictModelDistrict().fromJson(v));
+			data.districts!.add(new DistrictModelDistrict().fromJson(v));
 		});
 	}
 	return data;
@@ -25,7 +25,7 @@ Map<String, dynamic> districtModelEntityToJson(DistrictModelEntity entity) {
 	data['info'] = entity.info;
 	data['count'] = entity.count;
 	if (entity.districts != null) {
-		data['districts'] =  entity.districts.map((v) => v.toJson()).toList();
+		data['districts'] =  entity.districts!.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -44,9 +44,9 @@ districtModelDistrictFromJson(DistrictModelDistrict data, Map<String, dynamic> j
 		data.level = json['level']?.toString();
 	}
 	if (json['districts'] != null) {
-		data.districts = new List<DistrictModelDistrictsDistrict>();
+		data.districts = <DistrictModelDistrictsDistrict>[];
 		(json['districts'] as List).forEach((v) {
-			data.districts.add(new DistrictModelDistrictsDistrict().fromJson(v));
+			data.districts!.add(new DistrictModelDistrictsDistrict().fromJson(v));
 		});
 	}
 	return data;
@@ -59,7 +59,7 @@ Map<String, dynamic> districtModelDistrictToJson(DistrictModelDistrict entity) {
 	data['center'] = entity.center;
 	data['level'] = entity.level;
 	if (entity.districts != null) {
-		data['districts'] =  entity.districts.map((v) => v.toJson()).toList();
+		data['districts'] =  entity.districts!.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -78,8 +78,8 @@ districtModelDistrictsDistrictFromJson(DistrictModelDistrictsDistrict data, Map<
 		data.level = json['level']?.toString();
 	}
 	if (json['districts'] != null) {
-		data.districts = new List<dynamic>();
-		data.districts.addAll(json['districts']);
+		data.districts = <dynamic>[];
+		data.districts!.addAll(json['districts']);
 	}
 	return data;
 }

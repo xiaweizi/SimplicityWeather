@@ -2,74 +2,71 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dynamic_weather/net/code.dart';
 import 'package:flutter_dynamic_weather/net/rep_result.dart';
 import 'package:flutter_dynamic_weather/net/response_interceptor.dart';
-const String weatherBaseUrl = "https://api.caiyunapp.com/v2.5/sas9gfwyRX2NVehl/";
-const String cityBaseUrl = "https://restapi.amap.com/v3/config/district?subdistrict=1&key=请使用自己的key&keywords=";
-const String geoBaseUrl = "https://restapi.amap.com/v3/geocode/regeo?key=请使用自己的key&location=";
+
+const String weatherBaseUrl =
+    "https://api.caiyunapp.com/v2.5/sas9gfwyRX2NVehl/";
+const String cityBaseUrl =
+    "https://restapi.amap.com/v3/config/district?subdistrict=1&key=请使用自己的key&keywords=";
+const String geoBaseUrl =
+    "https://restapi.amap.com/v3/geocode/regeo?key=请使用自己的key&location=";
 const String otaBaseUrl = "http://xiaweizi.online/config/ota/";
-const int _kReceiveTimeout = 15000;
-const int _kSendTimeout = 15000;
-const int _kConnectTimeout = 15000;
+const Duration _kReceiveTimeout = Duration(seconds: 15);
+const Duration _kSendTimeout = Duration(seconds: 15);
+const Duration _kConnectTimeout = Duration(seconds: 15);
 
-///http请求
+/// http 请求
 class NetManager {
+  static final NetManager _instance = NetManager._internal();
 
-  static NetManager _instance = NetManager._internal();
+  late Dio _dio;
 
-  Dio _dio;
-
-  ///通用全局单例，第一次使用时初始化
-  NetManager._internal({String token}) {
-    if (null == _dio) {
-      _dio = Dio(BaseOptions(
-        baseUrl: weatherBaseUrl,
-        connectTimeout: _kReceiveTimeout,
-        receiveTimeout: _kConnectTimeout,
-        sendTimeout: _kSendTimeout,
-      ));
-    }
+  NetManager._internal() {
+    _dio = Dio(BaseOptions(
+      baseUrl: weatherBaseUrl,
+      connectTimeout: _kConnectTimeout,
+      receiveTimeout: _kReceiveTimeout,
+      sendTimeout: _kSendTimeout,
+    ));
     _dio.interceptors.add(LogInterceptor());
     _dio.interceptors.add(ResponseInterceptors());
   }
 
-  static NetManager getInstance() {
-    return _instance;
-  }
+  static NetManager getInstance() => _instance;
 
-  baseUrl(String baseUrl) {
+  NetManager baseUrl(String baseUrl) {
     _dio.options.baseUrl = baseUrl;
     return _instance;
   }
 
-  Future<RepResult> get(String url,
-      {Map<String, dynamic> header, Map<String, dynamic> param}) async {
+  Future<RepResult> get(
+    String url, {
+    Map<String, dynamic>? header,
+    Map<String, dynamic>? param,
+  }) async {
     Response response;
     try {
       response = await _dio.get(url, queryParameters: param);
-    } on DioError catch (e) {
-      return resultError(e);
+    } on DioException catch (e) {
+      return _resultError(e);
     }
-    if (response.data is DioError) {
-      return resultError(response.data);
+    final data = response.data;
+    if (data is RepResult) {
+      return data;
     }
-    return response.data;
+    return RepResult(data, true, Code.SUCCESS);
   }
 
-  resultError(DioError e) {
-    Response errorResponse;
-    if (e.response != null) {
-      errorResponse = e.response;
-    } else {
-      errorResponse = Response(statusCode: 666);
-    }
-    if (e.type == DioErrorType.CONNECT_TIMEOUT ||
-        e.type == DioErrorType.RECEIVE_TIMEOUT) {
-      errorResponse.statusCode = Code.NETWORK_TIMEOUT;
+  RepResult _resultError(DioException e) {
+    int code = e.response?.statusCode ?? 666;
+    if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout ||
+        e.type == DioExceptionType.sendTimeout) {
+      code = Code.NETWORK_TIMEOUT;
     }
     return RepResult(
-        Code.errorHandleFunction(errorResponse.statusCode, e.message, false),
-        false,
-        errorResponse.statusCode);
+      Code.errorHandleFunction(code, e.message ?? "", false),
+      false,
+      code,
+    );
   }
-
-
 }

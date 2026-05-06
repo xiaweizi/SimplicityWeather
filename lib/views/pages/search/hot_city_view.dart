@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_weather/app/res/weather_type.dart';
-import 'package:flutter_dynamic_weather/app/utils/Toast.dart';
 import 'package:flutter_dynamic_weather/app/utils/color_utils.dart';
-import 'package:flutter_dynamic_weather/app/utils/print_utils.dart';
 import 'package:flutter_dynamic_weather/app/utils/shared_preference_util.dart';
 import 'package:flutter_dynamic_weather/event/change_index_envent.dart';
 import 'package:flutter_dynamic_weather/model/city_data.dart';
 import 'package:flutter_dynamic_weather/model/city_model_entity.dart';
 import 'package:flutter_dynamic_weather/views/app/flutter_app.dart';
 import 'package:flutter_dynamic_weather/views/pages/search/search_app_bar.dart';
-import 'package:flutter_dynamic_weather/views/pages/search/search_page.dart';
 
 class HotCityView extends StatefulWidget {
-  final CityItemClickCallback itemClickCallback;
+  final CityItemClickCallback? itemClickCallback;
 
-  HotCityView({Key key, this.itemClickCallback}) : super(key: key);
+  const HotCityView({super.key, this.itemClickCallback});
 
   @override
-  _HotCityViewState createState() => _HotCityViewState();
+  State<HotCityView> createState() => _HotCityViewState();
 }
 
 class _HotCityViewState extends State<HotCityView> {
-  List<CityData> _cityData;
-  List<CityModel> cityModels;
+  List<CityData>? _cityData;
+  List<CityModel>? cityModels;
 
   Widget _buildHotItem(BuildContext context, CityData cityData) {
+    final added = isAdd(cityData);
     return Container(
-      margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+      margin: const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
       child: ActionChip(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-        label: Text(
-          "${cityData.name}",
-          style: TextStyle(color: isAdd(cityData) ? Colors.blue : Colors.black),
-        ),
+        padding:
+            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        label: Text(cityData.name,
+            style: TextStyle(color: added ? Colors.blue : Colors.black)),
         backgroundColor: ColorUtils.parse("#11000000"),
-        onPressed: () async {
-          if (isAdd(cityData)) {
+        onPressed: () {
+          if (added) {
             eventBus.fire(ChangeCityEvent(cityData.center));
             Navigator.of(context).pop();
-          } else if (widget.itemClickCallback != null) {
-            widget.itemClickCallback(cityData);
+          } else {
+            widget.itemClickCallback?.call(cityData);
           }
         },
       ),
@@ -47,41 +43,34 @@ class _HotCityViewState extends State<HotCityView> {
   }
 
   bool isAdd(CityData cityData) {
-    bool isAdd = false;
-    if (cityModels != null && cityModels.isNotEmpty && cityData != null) {
-      cityModels.forEach((element) {
-        if (element.cityFlag == cityData.center) {
-          isAdd = true;
-        }
-      });
+    final models = cityModels;
+    if (models == null || models.isEmpty) return false;
+    for (final element in models) {
+      if (element.cityFlag == cityData.center) return true;
     }
-    return isAdd;
+    return false;
   }
 
   Widget _buildHotView() {
-    if (_cityData != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 12),
-            child: Text(
-              "热门城市",
-              style: TextStyle(color: ColorUtils.parse("#bb000000")),
-            ),
+    final data = _cityData;
+    if (data == null) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 12),
+          child: Text(
+            "热门城市",
+            style: TextStyle(color: ColorUtils.parse("#bb000000")),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Wrap(
-            alignment: WrapAlignment.start,
-            children: _cityData.map((e) => _buildHotItem(context, e)).toList(),
-          )
-        ],
-      );
-    } else {
-      return null;
-    }
+        ),
+        const SizedBox(height: 10),
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: data.map((e) => _buildHotItem(context, e)).toList(),
+        ),
+      ],
+    );
   }
 
   Future<void> fetchHotData() async {
@@ -108,19 +97,18 @@ class _HotCityViewState extends State<HotCityView> {
       CityData("天津市", "117.190182,39.125596"),
     ];
     cityModels = await SPUtil.getCityModels();
+    if (!mounted) return;
     setState(() {});
   }
 
   @override
   void initState() {
-    fetchHotData();
     super.initState();
+    fetchHotData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: _buildHotView(),
-    );
+    return _buildHotView();
   }
 }

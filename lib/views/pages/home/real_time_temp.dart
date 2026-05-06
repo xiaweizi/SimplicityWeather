@@ -10,40 +10,39 @@ import 'package:flutter_dynamic_weather/views/pages/home/speak_anim.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class RealTimeTempView extends StatefulWidget {
-  final String temp;
-  final String content;
+  final String? temp;
+  final String? content;
 
-  RealTimeTempView({Key key, this.temp, this.content}) : super(key: key);
+  const RealTimeTempView({super.key, this.temp, this.content});
 
   @override
-  _RealTimeTempViewState createState() => _RealTimeTempViewState();
+  State<RealTimeTempView> createState() => _RealTimeTempViewState();
 }
 
 enum TtsState { playing, stopped, paused, continued }
 
 class _RealTimeTempViewState extends State<RealTimeTempView> {
-  FlutterTts _flutterTts;
+  late FlutterTts _flutterTts;
   TtsState ttsState = TtsState.stopped;
-  StreamSubscription _subscription;
+  StreamSubscription? _subscription;
 
   @override
   void initState() {
+    super.initState();
     initTts();
     _subscription = eventBus.on<TtsStatusEvent>().listen((event) {
+      if (!mounted) return;
       setState(() {
         ttsState = event.ttsState;
       });
     });
-    super.initState();
   }
 
-  initTts() {
+  void initTts() {
     _flutterTts = FlutterTts();
     _flutterTts.setLanguage("zh");
-    if (!kIsWeb) {
-      if (Platform.isAndroid) {
-        _getEngines();
-      }
+    if (!kIsWeb && Platform.isAndroid) {
+      _getEngines();
     }
     _flutterTts.setStartHandler(() {
       weatherPrint("Playing");
@@ -69,83 +68,45 @@ class _RealTimeTempViewState extends State<RealTimeTempView> {
     }
   }
 
-  Future _getEngines() async {
-    var engines = await _flutterTts.getEngines;
-    if (engines != null) {
-      for (dynamic engine in engines) {
-        weatherPrint(engine);
+  Future<void> _getEngines() async {
+    final engines = await _flutterTts.getEngines;
+    if (engines is List) {
+      for (final engine in engines) {
+        weatherPrint("$engine");
       }
     }
   }
 
   void updateStatus(TtsState status) {
-    setState(() => ttsState = status);
+    if (mounted) setState(() => ttsState = status);
     eventBus.fire(TtsStatusEvent(status));
   }
 
-  Future _speak() async {
-    if (widget.content != null) {
-      if (widget.content.isNotEmpty) {
-        weatherPrint("content: ${widget.content}");
-        var result = await _flutterTts.speak(widget.content);
-        if (result == 1) updateStatus(TtsState.playing);
-      }
+  Future<void> _speak() async {
+    final content = widget.content;
+    if (content != null && content.isNotEmpty) {
+      weatherPrint("content: $content");
+      final result = await _flutterTts.speak(content);
+      if (result == 1) updateStatus(TtsState.playing);
     }
   }
 
-  Future _stop() async {
-    var result = await _flutterTts.stop();
+  Future<void> _stop() async {
+    final result = await _flutterTts.stop();
     if (result == 1) updateStatus(TtsState.stopped);
   }
 
   @override
   void dispose() {
     _flutterTts.stop();
-    _subscription.cancel();
+    _subscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var color = Colors.white;
+    const color = Colors.white;
     return GestureDetector(
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              "${widget.temp}",
-              style: TextStyle(
-                  fontSize: 150, fontWeight: FontWeight.w400, color: color),
-            ),
-            Text(
-              "°",
-              style: TextStyle(
-                  fontSize: 50, fontWeight: FontWeight.w500, color: color),
-            ),
-            Container(
-              alignment: Alignment(1, 0.9),
-              width: 30,
-              height: 150,
-              child: AnimatedCrossFade(
-                firstChild: Image.asset(
-                  "assets/images/play.png",
-                  color: color,
-                ),
-                secondChild: SpeakAnim(),
-                crossFadeState: ttsState == TtsState.playing
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                duration: Duration(milliseconds: 150),
-              ),
-            ),
-          ],
-        ),
-      ),
       onTap: () {
         if (ttsState != TtsState.playing) {
           _speak();
@@ -153,6 +114,36 @@ class _RealTimeTempViewState extends State<RealTimeTempView> {
           _stop();
         }
       },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 10),
+          Text(
+            "${widget.temp ?? ''}",
+            style: const TextStyle(
+                fontSize: 150, fontWeight: FontWeight.w400, color: color),
+          ),
+          const Text(
+            "°",
+            style: TextStyle(
+                fontSize: 50, fontWeight: FontWeight.w500, color: color),
+          ),
+          Container(
+            alignment: const Alignment(1, 0.9),
+            width: 30,
+            height: 150,
+            child: AnimatedCrossFade(
+              firstChild: Image.asset("assets/images/play.png", color: color),
+              secondChild: const SpeakAnim(),
+              crossFadeState: ttsState == TtsState.playing
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 150),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

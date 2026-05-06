@@ -10,13 +10,16 @@ typedef CancelSearchCallback = void Function(String keywords);
 typedef CityItemClickCallback = void Function(CityData cityData);
 
 class SearchAppBar extends StatefulWidget {
-  final CancelTapCallback cancelTapCallback;
-  final CancelSearchCallback searchTapCallback;
-  final ValueChanged<String> onChanged;
+  final CancelTapCallback? cancelTapCallback;
+  final CancelSearchCallback? searchTapCallback;
+  final ValueChanged<String>? onChanged;
 
-  SearchAppBar(this.onChanged,
-      {Key key, this.cancelTapCallback, this.searchTapCallback})
-      : super(key: key);
+  const SearchAppBar(
+    this.onChanged, {
+    super.key,
+    this.cancelTapCallback,
+    this.searchTapCallback,
+  });
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();
@@ -49,8 +52,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 TextField(
                     onChanged: (value) {
                       weatherPrint("value: $value");
-                      widget.onChanged(value);
-                      if (value != null && value.isNotEmpty) {
+                      widget.onChanged?.call(value);
+                      if (value.isNotEmpty) {
                         setState(() {
                           _buttonText = "搜索";
                           closeVisible = true;
@@ -90,9 +93,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       ),
                       onPressed: () {
                         _controller.text = "";
-                        if (widget.onChanged != null) {
-                          widget.onChanged("");
-                        }
+                        widget.onChanged?.call("");
                         setState(() {
                           closeVisible = false;
                           _buttonText = "取消";
@@ -116,14 +117,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   fontWeight: FontWeight.w500),
             ),
             onTap: () {
-              if (_controller.text == null || _controller.text.isEmpty) {
-                if (widget.cancelTapCallback != null) {
-                  widget.cancelTapCallback();
-                }
+              if (_controller.text.isEmpty) {
+                widget.cancelTapCallback?.call();
               } else {
-                if (widget.searchTapCallback != null) {
-                  widget.searchTapCallback(_controller.text);
-                }
+                widget.searchTapCallback?.call(_controller.text);
               }
             },
           )

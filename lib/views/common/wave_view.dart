@@ -7,16 +7,16 @@ class WaveProgress extends StatefulWidget {
   final Color fillColor;
   final double progress;
 
-  WaveProgress(this.size, this.fillColor, this.progress);
+  const WaveProgress(this.size, this.fillColor, this.progress, {super.key});
 
   @override
-  WaveProgressState createState() => new WaveProgressState();
+  State<WaveProgress> createState() => WaveProgressState();
 }
 
 class WaveProgressState extends State<WaveProgress>
     with TickerProviderStateMixin {
-  AnimationController waveController;
-  AnimationController progressController;
+  late AnimationController waveController;
+  late AnimationController progressController;
 
   @override
   void initState() {
@@ -24,12 +24,12 @@ class WaveProgressState extends State<WaveProgress>
 
     progressController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 3000),
     );
 
     waveController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
     );
     progressController.animateTo(widget.progress);
     waveController.repeat();
@@ -52,25 +52,28 @@ class WaveProgressState extends State<WaveProgress>
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-        width: widget.size.width,
-        height: widget.size.height,
-        child: new AnimatedBuilder(
-            animation: waveController,
-            builder: (BuildContext context, Widget child) {
-              return new CustomPaint(
-                  painter: WaveProgressPainter(
-                      waveController, progressController, widget.fillColor));
-            }));
+    return SizedBox(
+      width: widget.size.width,
+      height: widget.size.height,
+      child: AnimatedBuilder(
+        animation: waveController,
+        builder: (context, _) {
+          return CustomPaint(
+            painter: WaveProgressPainter(
+                waveController, progressController, widget.fillColor),
+          );
+        },
+      ),
+    );
   }
 }
 
 class WaveProgressPainter extends CustomPainter {
-  Animation<double> _waveAnimation;
-  Animation<double> _progressAnimation;
-  Color fillColor;
-  Paint topPaint = new Paint();
-  Paint bottomPaint = new Paint();
+  final Animation<double> _waveAnimation;
+  final Animation<double> _progressAnimation;
+  final Color fillColor;
+  final Paint topPaint = Paint();
+  final Paint bottomPaint = Paint();
 
   WaveProgressPainter(
       this._waveAnimation, this._progressAnimation, this.fillColor)
@@ -79,12 +82,12 @@ class WaveProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     bottomPaint.color = fillColor.withOpacity(0.45);
-    double progress = _progressAnimation.value;
+    final double progress = _progressAnimation.value;
     double frequency = 3.2;
     double waveHeight = 4.0;
-    double currentHeight = (1 - progress) * size.height;
+    final currentHeight = (1 - progress) * size.height;
 
-    Path path = Path();
+    final path = Path();
     path.moveTo(0.0, currentHeight);
     for (double i = 0.0; i < size.width; i++) {
       path.lineTo(
@@ -95,7 +98,6 @@ class WaveProgressPainter extends CustomPainter {
                       pi * 1) *
                   waveHeight);
     }
-
     path.lineTo(size.width, size.height);
     path.lineTo(0.0, size.height);
     path.close();
@@ -115,7 +117,6 @@ class WaveProgressPainter extends CustomPainter {
                       (_waveAnimation.value * 2 * pi)) *
                   waveHeight);
     }
-
     path.lineTo(size.width, size.height);
     path.lineTo(0.0, size.height);
     path.close();

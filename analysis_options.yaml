@@ -1,0 +1,19 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # 老项目 generated 代码大量 var / 类型宽松，先放行
+    deprecated_member_use: ignore
+    avoid_print: ignore
+    unnecessary_null_comparison: ignore
+    unused_element: ignore
+    unused_field: ignore
+  exclude:
+    - lib/generated/**
+
+linter:
+  rules:
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    use_build_context_synchronously: false
+    library_private_types_in_public_api: false

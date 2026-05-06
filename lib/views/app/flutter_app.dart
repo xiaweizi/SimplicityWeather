@@ -1,4 +1,5 @@
-import 'package:amap_location_fluttify/amap_location_fluttify.dart';
+import 'dart:ui' as ui;
+
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +9,6 @@ import 'package:flutter_dynamic_weather/app/utils/image_utils.dart';
 import 'package:flutter_dynamic_weather/views/common/loading_dialog.dart';
 import 'package:flutter_dynamic_weather/views/common/ota_dialog.dart';
 import 'package:flutter_dynamic_weather/views/pages/home/home_page.dart';
-import 'dart:ui' as ui;
-
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 
 EventBus eventBus = EventBus();
@@ -18,36 +17,38 @@ ValueNotifier<double> offsetNotifier = ValueNotifier<double>(0);
 Map<WeatherType, ui.Image> weatherImages = {};
 
 void showAppDialog({String loadingMsg = "正在加载中..."}) {
+  final ctx = globalKey.currentContext;
+  if (ctx == null) return;
   showDialog<LoadingDialog>(
-      context: globalKey.currentContext,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return new LoadingDialog(
-          text: loadingMsg,
-        );
-      });
+    context: ctx,
+    barrierDismissible: false,
+    builder: (_) => LoadingDialog(text: loadingMsg),
+  );
 }
 
 void showOTADialog(String apkUrl, String desc, String versionName) {
+  final ctx = globalKey.currentContext;
+  if (ctx == null) return;
   showDialog<LoadingDialog>(
-      context: globalKey.currentContext,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return new OTADialog(desc, versionName, apkUrl);
-      });
+    context: ctx,
+    barrierDismissible: false,
+    builder: (_) => OTADialog(desc, versionName, apkUrl),
+  );
 }
 
-void fetchWeatherImages() async {
-  WeatherType.values.forEach((element) async {
-    weatherImages[element] = await ImageUtils.getImage(WeatherUtils.getWeatherIcon(element));
-  });
+Future<void> fetchWeatherImages() async {
+  for (final element in WeatherType.values) {
+    weatherImages[element] =
+        await ImageUtils.getImage(WeatherUtils.getWeatherIcon(element));
+  }
 }
 
 class FlutterApp extends StatelessWidget {
+  const FlutterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     fetchWeatherImages();
-    AmapLocation.instance.init(iosKey: "1acd2fca2d9361152f3e77d0d7807043");
     return MaterialApp(
       title: "动态天气",
       debugShowCheckedModeBanner: false,
