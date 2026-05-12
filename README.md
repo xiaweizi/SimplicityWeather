@@ -2,6 +2,9 @@
 
 # 简悦天气
 
+[![GitHub stars](https://img.shields.io/github/stars/xiaweizi/SimplicityWeather?style=plastic)](https://github.com/xiaweizi/SimplicityWeather/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/xiaweizi/SimplicityWeather?style=plastic)](https://github.com/xiaweizi/SimplicityWeather/commits)
+
 *简约不简单，丰富不复杂*
 
 一款简约风格的 Flutter 天气项目，提供实时、多日、24 小时、台风路径以及生活指数等服务，支持定位、删除、搜索、语音播报等操作。
@@ -168,3 +171,7 @@ flutter run -d chrome      # Web 版（无需定位权限）
 #### 1.6.0
 
 - 第一次提交
+
+## Star 趋势
+
+[![Star History Chart](https://api.star-history.com/svg?repos=xiaweizi/SimplicityWeather&type=Date)](https://star-history.com/#xiaweizi/SimplicityWeather&Date)
